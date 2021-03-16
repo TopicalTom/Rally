@@ -1,6 +1,9 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
-import { View, Text } from 'react-native';
+import { StyleSheet, View } from "react-native";
+import MapboxGL from "@react-native-mapbox-gl/maps";
+
+MapboxGL.setAccessToken("pk.eyJ1Ijoic2hhbWFsMWFtYSIsImEiOiJja21ibHUyN2MyMzQ1Mm9xbDhpZTFtazJkIn0._G4tdcfVUBt0YNpGAt2kug");
 
 // Contexts
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -9,18 +12,18 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 //import configureStore from './src/store';
 
 // Router
-//import RootRouter from './src/routers/RootRouter';
+import RootRouter from './src/routers/RootRouter';
 
 const App = () => {
     //const { persistor, store } = configureStore();
     return (
         <SafeAreaProvider>
-            <View>
-                <Text>Rally</Text>
-            </View>
+            <RootRouter />
         </SafeAreaProvider>
     );
 };
+
+const styles = StyleSheet.create({});
 
 export default App;
 
