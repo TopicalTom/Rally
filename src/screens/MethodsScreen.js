@@ -1,19 +1,21 @@
 import React, { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
-import { Button, Icon, Text } from 'react-native-elements';
+import { Text } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
-//import { GoogleSignin } from '@react-native-google-signin/google-signin';
-//import { WEB_CLIENT_ID } from '@env';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { WEB_CLIENT_ID } from '@env';
+import { useNavigation } from '@react-navigation/native';
 
 // Store
-//import { connect } from 'react-redux';
-//import { googleSignIn } from '../actions';
+import { connect } from 'react-redux';
+import { googleSignIn } from '../actions';
 
 // Components 
 import AuthButton from '../components/AuthButton';
 
-const AuthScreen = () => {
-    /*
+const MethodsScreen = () => {
+    const navigation = useNavigation();
+    
     const configureGoogleSign = (clientId) => {
         GoogleSignin.configure({
             webClientId: `${clientId}`,
@@ -24,7 +26,6 @@ const AuthScreen = () => {
     useEffect(() => {
         configureGoogleSign(WEB_CLIENT_ID);
     }, []);
-    */
   
     return (
         <SafeAreaView style={styles.container}>
@@ -52,7 +53,7 @@ const AuthScreen = () => {
                 icon="google"
                 iconType="antdesign"
                 iconColor="white"
-                action={() => {}}
+                action={() => googleSignIn()}
             />
             <AuthButton 
                 text="Continue with email"
@@ -61,7 +62,7 @@ const AuthScreen = () => {
                 icon="email"
                 iconType="materialcommunity"
                 iconColor="#B6B6B6"
-                action={() => {}}
+                action={() => navigation.navigate('Email')}
             />
             <AuthButton 
                 text="Use mobile number"
@@ -70,7 +71,7 @@ const AuthScreen = () => {
                 icon="smartphone"
                 iconType="materialicons"
                 iconColor="#B6B6B6"
-                action={() => {}}
+                action={() => navigation.navigate('Phone')}
             />
             <AuthButton 
                 text="Log in to existing account"
@@ -80,7 +81,7 @@ const AuthScreen = () => {
                 icon="chevron-small-right"
                 iconType="entypo"
                 iconColor="#B6B6B6"
-                action={() => {}}
+                action={() => navigation.navigate('Login')}
             />
         </SafeAreaView>
     );
@@ -179,6 +180,4 @@ const mapStateToProps = ({ authentication }) => {
 }
 */
 
-export default AuthScreen;
-
-//export default connect(mapStateToProps, { googleSignIn })(AuthScreen);
+export default connect(null, { googleSignIn })(MethodsScreen);

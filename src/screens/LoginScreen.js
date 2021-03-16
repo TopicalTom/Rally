@@ -5,12 +5,17 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 const LoginScreen = () => {
     return (
-        <SafeAreaView>
+        <SafeAreaView style={styles.screen}>
             <Text>Login</Text>
         </SafeAreaView>
     );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+    screen: {
+        flex: 1,
+        backgroundColor: '#fff'
+    }
+});
 
 export default LoginScreen;
