@@ -34,14 +34,59 @@ export const googleSignIn = async () => {
 };
 
 // Firebase Email Auth Handler
+export const emailSignUp = async (email, password) => {
+    try {
+        return await auth().createUserWithEmailAndPassword(email, password);
+    } catch (error) {
+        if (error.code === 'auth/email-already-in-use') {
+            console.log('That email address is already in use!');
+        }
+        if (error.code === 'auth/invalid-email') {
+            console.log('That email address is invalid!');
+        }
+        console.error(error);
+    };
+
+};
 
 // Firebase Phone Auth Handler
-
-// Global Auth Sign Out Handler
-export const signOut = async () => {
+export const phoneSignUp = async (phoneNumber) => {
     try {
-        await auth().signOut();
+        const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+        return confirmation;
+    } catch (error) {
+        console.error(error);
+    };
+};
+
+export const confirmOTP = async (code) => {
+    try {
+        return await confirm.confirm(code);
+    } catch (error) {
+        console.log('Invalid code.');
+    }
+};
+
+// Global Auth Sign In Handler
+export const signIn = async (email, password) => {
+    try {
+        await auth.signInWithEmailAndPassword(email, password);
     } catch (error) {
         Alert.alert('Something else went wrong... ', error.toString());
     };
+};
+
+// Global Auth Sign Out Handler
+export const signOut = () => {
+    auth().signOut()
+};
+
+// Creates New User Account
+export const createAccount = async () => {
+    try {
+        // await 
+    } catch (error) {
+        //
+    };
+
 };

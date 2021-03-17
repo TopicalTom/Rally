@@ -1,16 +1,16 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { Text, Button } from 'react-native-elements';
+import { Text } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-const PlacesScreen = () => {
+const SearchModal = () => {
     return (
         <SafeAreaView>
-            <Text>Places</Text>
+            <Text>Search</Text>
         </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({});
 
-export default PlacesScreen;
+export default SearchModal;

@@ -4,7 +4,7 @@ import { Text } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { WEB_CLIENT_ID } from '@env';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useTheme } from '@react-navigation/native';
 
 // Store
 import { connect } from 'react-redux';
@@ -15,6 +15,7 @@ import AuthButton from '../components/AuthButton';
 
 const MethodsScreen = () => {
     const navigation = useNavigation();
+    const { colors } = useTheme();
     
     const configureGoogleSign = (clientId) => {
         GoogleSignin.configure({
@@ -28,13 +29,20 @@ const MethodsScreen = () => {
     }, []);
   
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView 
+            style={[
+                styles.container, 
+                {backgroundColor: colors.background}
+            ]}>
             <Text 
                 style={styles.subtitleStyle}>
                 Let's get started
             </Text>
             <Text h3 
-                style={styles.titleStyle}>
+                style={[
+                    styles.titleStyle, 
+                    {color: colors.text}
+                ]}>
                 Select your sign up method
             </Text>
             <AuthButton 
@@ -57,8 +65,17 @@ const MethodsScreen = () => {
             />
             <AuthButton 
                 text="Continue with email"
-                textStyle={styles.defaultTextStyle}
-                buttonStyle={styles.defaultButtonStyle}
+                textStyle={[
+                    styles.defaultTextStyle, 
+                    {color: colors.text}
+                ]}
+                buttonStyle={[
+                    styles.defaultButtonStyle, 
+                    {
+                        backgroundColor: colors.card, 
+                        borderColor: colors.card
+                    }
+                ]}
                 icon="email"
                 iconType="materialcommunity"
                 iconColor="#B6B6B6"
@@ -66,8 +83,15 @@ const MethodsScreen = () => {
             />
             <AuthButton 
                 text="Use mobile number"
-                textStyle={styles.defaultTextStyle}
-                buttonStyle={styles.defaultButtonStyle}
+                textStyle={[
+                    styles.defaultTextStyle, {color: colors.text}]}
+                buttonStyle={[
+                    styles.defaultButtonStyle, 
+                    {
+                        backgroundColor: colors.card, 
+                        borderColor: colors.card
+                    }
+                ]}
                 icon="smartphone"
                 iconType="materialicons"
                 iconColor="#B6B6B6"
@@ -75,8 +99,17 @@ const MethodsScreen = () => {
             />
             <AuthButton 
                 text="Log in to existing account"
-                textStyle={styles.altTextStyle}
-                buttonStyle={styles.altButtonStyle}
+                textStyle={[
+                    styles.altTextStyle, 
+                    {color: colors.text}
+                ]}
+                buttonStyle={[
+                    styles.altButtonStyle, 
+                    {
+                        backgroundColor: colors.background, 
+                        borderColor: colors.background
+                    }
+                ]}
                 iconRight
                 icon="chevron-small-right"
                 iconType="entypo"
@@ -91,20 +124,19 @@ const styles = StyleSheet.create({
     subtitleStyle: {
         textAlign: 'left',
         color: "#B6B6B6",
-        width: 295,
+        alignSelf: 'stretch',
         marginBottom: 8
     },
     titleStyle: {
         textAlign: 'left',
         fontWeight: 'bold',
         marginBottom: 40,
-        width: 295
+        alignSelf: 'stretch',
     },
     container: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: "#fff"
+        paddingHorizontal: 40
     },
     defaultTextStyle: {
         fontSize: 14,
@@ -128,7 +160,7 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         borderWidth: 1,
         borderColor: 'rgba(0,0,0,1)',
-        width: 295,
+        alignSelf: 'stretch',
         marginBottom: 8,
         height: 48,
         justifyContent: 'flex-start'
@@ -139,27 +171,23 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'rgba(76,139,245,1)',
         marginBottom: 8,
-        width: 295,
+        alignSelf: 'stretch',
         height: 48,
         justifyContent: 'flex-start'
     },
     defaultButtonStyle: {
-        backgroundColor: '#F2F2F2',
         borderRadius: 12,
         borderWidth: 1,
-        borderColor: '#F2F2F2',
         marginBottom: 8,
-        width: 295,
+        alignSelf: 'stretch',
         height: 48,
         justifyContent: 'flex-start'
     },
     altButtonStyle: {
-        backgroundColor: '#fff',
         borderRadius: 12,
         borderWidth: 1,
-        borderColor: '#fff',
         marginBottom: 8,
-        width: 295,
+        alignSelf: 'stretch',
         height: 48,
         justifyContent: 'flex-start'
     },

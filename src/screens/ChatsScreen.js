@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { Text } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-const ChatScreen = () => {
+const ChatsScreen = () => {
     return (
         <SafeAreaView>
             <Text>Chat</Text>
@@ -13,4 +13,4 @@ const ChatScreen = () => {
 
 const styles = StyleSheet.create({});
 
-export default ChatScreen;
+export default ChatsScreen;

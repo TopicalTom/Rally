@@ -25,6 +25,10 @@ const AuthRouter = () => {
                 component={LoginScreen} 
                 options={() => ({ 
                     headerShown: true,
+                    headerTintColor: '#FD2D55',
+                    headerTitle: null,
+                    headerTransparent: true,
+                    headerBackTitleVisible: false
                 })}
             />
         </Stack.Navigator>

@@ -11,7 +11,15 @@ const Stack = createStackNavigator();
 const SignupRouter = () => {
     return (
         <Stack.Navigator 
-            initialRouteName="Methods">
+            initialRouteName="Methods"
+            screenOptions={() => {
+                return {
+                    headerTintColor: '#FD2D55',
+                    headerTitle: null,
+                    headerTransparent: true,
+                    headerBackTitleVisible: false
+                }
+            }}>
             <Stack.Screen 
                 name="Methods" 
                 component={MethodsScreen} 

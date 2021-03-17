@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useColorScheme } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
+//import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import auth from '@react-native-firebase/auth';
+
+// Themes
+import { DarkTheme, LightTheme } from '../themes';
 
 // Router
 import MainRouter from './MainRouter';
@@ -11,15 +16,19 @@ import AuthRouter from './AuthRouter';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import SplashScreen from '../screens/SplashScreen';
 
-const Root = createBottomTabNavigator();
+const Root = createStackNavigator();
+//const Root = createBottomTabNavigator();
 
 const RootRouter = () => {
+    const scheme = useColorScheme();
+
     const [ initializing, setInitializing ] = useState(true);
     const [ currentUser, setCurrentUser ] = useState(null);
   
     // Handle user state changes
     const onAuthStateChanged = userDetails => {
         setCurrentUser(userDetails);
+        console.log(userDetails)
         if (initializing) setInitializing(false);
     };
   
@@ -31,8 +40,17 @@ const RootRouter = () => {
     if (initializing) return <SplashScreen />;
 
     return (
-        <NavigationContainer>
-            <Root.Navigator>
+        <NavigationContainer theme={scheme === 'dark' ? DarkTheme : LightTheme}>
+            <Root.Navigator
+                mode='modal'
+                screenOptions={() => {
+                    return {
+                        gestureEnabled: true,
+                        cardOverlayEnabled: true,
+                        ...TransitionPresets.ModalPresentationIOS
+                    }
+                }}
+            >
                 {!currentUser ? (
                     <>
                         <Root.Screen 
