@@ -3,7 +3,11 @@ import { StyleSheet, View, SectionList } from 'react-native';
 import { Text } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 
-const PreferencesScreen = () => {
+// Import
+import ActionButton from '../components/ActionButton';
+
+const PreferencesScreen = ({ route }) => {
+    const { color } = route.params;
     const { colors } = useTheme();
 
     return (
@@ -16,6 +20,11 @@ const PreferencesScreen = () => {
                 style={styles.subtitleStyle}>
                 Make changes to how and who you is able to discover your rally.
             </Text>
+            <ActionButton 
+                text="Continue"
+                color={color}
+                action={() => {}}
+            />
         </View>
     );
 };

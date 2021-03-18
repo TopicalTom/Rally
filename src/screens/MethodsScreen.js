@@ -46,9 +46,9 @@ const MethodsScreen = () => {
                 Select your sign up method
             </Text>
             <AuthButton 
-                text="Sign in with Apple"
-                textStyle={styles.platformTextStyle}
-                buttonStyle={styles.appleButtonStyle}
+                text="Continue with Apple"
+                textColor={{ color: '#FFF'}}
+                buttonColor={{ backgroundColor: 'black'}}
                 icon="apple1"
                 iconType="antdesign"
                 iconColor="white"
@@ -56,8 +56,8 @@ const MethodsScreen = () => {
             />
             <AuthButton 
                 text="Continue with Google"
-                textStyle={styles.platformTextStyle}
-                buttonStyle={styles.googleButtonStyle}
+                textColor={{ color: '#FFF'}}
+                buttonColor={{ backgroundColor: 'rgba(76,139,245,1)'}}
                 icon="google"
                 iconType="antdesign"
                 iconColor="white"
@@ -65,17 +65,11 @@ const MethodsScreen = () => {
             />
             <AuthButton 
                 text="Continue with email"
-                textStyle={[
-                    styles.defaultTextStyle, 
-                    {color: colors.text}
-                ]}
-                buttonStyle={[
-                    styles.defaultButtonStyle, 
-                    {
-                        backgroundColor: colors.card, 
-                        borderColor: colors.card
-                    }
-                ]}
+                textColor={{color: colors.text}}
+                buttonColor={{
+                    backgroundColor: colors.card, 
+                    borderColor: colors.card
+                }}
                 icon="email"
                 iconType="materialcommunity"
                 iconColor="#B6B6B6"
@@ -83,15 +77,11 @@ const MethodsScreen = () => {
             />
             <AuthButton 
                 text="Use mobile number"
-                textStyle={[
-                    styles.defaultTextStyle, {color: colors.text}]}
-                buttonStyle={[
-                    styles.defaultButtonStyle, 
-                    {
-                        backgroundColor: colors.card, 
-                        borderColor: colors.card
-                    }
-                ]}
+                textColor={{color: colors.text}}
+                buttonColor={{
+                    backgroundColor: colors.card, 
+                    borderColor: colors.card
+                }}
                 icon="smartphone"
                 iconType="materialicons"
                 iconColor="#B6B6B6"
@@ -99,20 +89,11 @@ const MethodsScreen = () => {
             />
             <AuthButton 
                 text="Log in to existing account"
-                textStyle={[
-                    styles.altTextStyle, 
-                    {color: colors.text}
-                ]}
-                buttonStyle={[
-                    styles.altButtonStyle, 
-                    {
-                        backgroundColor: colors.background, 
-                        borderColor: colors.background
-                    }
-                ]}
-                iconRight
-                icon="chevron-small-right"
-                iconType="entypo"
+                textColor={{color: colors.text}}
+                buttonColor={{
+                    backgroundColor: colors.background, 
+                    borderColor: colors.background
+                }}
                 iconColor="#B6B6B6"
                 action={() => navigation.navigate('Login')}
             />

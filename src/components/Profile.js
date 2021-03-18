@@ -29,6 +29,7 @@ const Profile = ({ profile, rally, onPress }) => {
                 diameter={70} 
                 speed={90} 
                 duration={1000} 
+                pulseStyle={{borderColor: '#8B6FF6'}}
             />
         </TouchableOpacity>
 

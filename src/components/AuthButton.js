@@ -1,4 +1,64 @@
 import React from 'react';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import { Icon, Text } from 'react-native-elements';
+
+const AuthButton = ({ text, buttonColor, textColor, icon, iconType, iconColor, action }) => {
+    const toggleStyle = !text.includes("Log") ? 'space-between' : 'flex-start';
+    return (
+        <TouchableOpacity 
+            style={[ styles.buttonStyle, buttonColor, {justifyContent: toggleStyle }]} 
+                onPress={action}>
+            <View style={styles.typeStyle}>
+                <Icon
+                    name={icon}
+                    type={iconType}
+                    size={18}
+                    color={iconColor}
+                />
+                <Text 
+                    style={[styles.titleStyle, textColor]}>
+                    {text}
+                </Text>
+            </View>
+            <Icon
+                name="chevron-right"
+                type="entypo"
+                size={18}
+                color={iconColor}
+            />
+        </TouchableOpacity>
+    );
+};
+
+const styles = StyleSheet.create({
+    titleStyle: {
+        fontSize: 15,
+        fontWeight: '500',
+        paddingLeft: 8,
+    },
+    subtitleStyle: {
+        fontSize: 15,
+        fontWeight: '500',
+        paddingLeft: 8,
+    },
+    typeStyle: {
+        flexDirection: 'row'
+    },
+    buttonStyle: {
+        borderRadius: 12,
+        borderWidth: 1,
+        marginBottom: 10,
+        alignItems: 'center',
+        height: 52,
+        flexDirection: 'row',
+        paddingHorizontal: 8
+    }
+});
+
+export default AuthButton;
+
+/*
+import React from 'react';
 import { Icon, Button } from 'react-native-elements';
 
 const AuthButton = ({ text, textStyle, buttonStyle, icon, iconRight, iconType, iconColor, action  }) => {
@@ -25,3 +85,4 @@ const AuthButton = ({ text, textStyle, buttonStyle, icon, iconRight, iconType, i
 };
 
 export default AuthButton;
+*/
