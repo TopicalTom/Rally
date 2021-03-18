@@ -26,17 +26,27 @@ const SocialScreen = () => {
                     name: "Natalie",
                     prompt: "Anyone else thinking Outcast tn?",
                     rally: "Nightlife",
-                    profile: "",
+                    profile: "https://images.unsplash.com/photo-1558507652-2d9626c4e67a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80",
                     coords: {
                         latitude: -47,
                         longitude: 23
                     }
                 },
                 {
-                    name: "Shoshanna",
+                    name: "Shawn",
+                    prompt: "Long week, I need to go out...",
+                    rally: "Nightlife",
+                    profile: "https://images.unsplash.com/photo-1601582589907-f92af5ed9db8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=80",
+                    coords: {
+                        latitude: -47,
+                        longitude: 23
+                    }
+                },
+                {
+                    name: "Calista",
                     prompt: "Feeling a chill night",
                     rally: "Hangout",
-                    profile: "",
+                    profile: "https://images.unsplash.com/photo-1614514161228-9f1543003961?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80",
                     coords: {
                         latitude: -47,
                         longitude: 23
@@ -46,7 +56,7 @@ const SocialScreen = () => {
                     name: "Andre",
                     prompt: "Hit me up if anything is going on tn",
                     rally: "Hangout",
-                    profile: "",
+                    profile: "https://images.unsplash.com/photo-1484517186945-df8151a1a871?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=687&q=80",
                     coords: {
                         latitude: -47,
                         longitude: 23
@@ -56,17 +66,7 @@ const SocialScreen = () => {
                     name: "Shawn",
                     prompt: "Anyone else thinking Outcast tn?",
                     rally: "Nightlife",
-                    profile: "",
-                    coords: {
-                        latitude: -47,
-                        longitude: 23
-                    }
-                },
-                {
-                    name: "Shawn",
-                    prompt: "Anyone else thinking Outcast tn?",
-                    rally: "Nightlife",
-                    profile: "",
+                    profile: "https://images.unsplash.com/photo-1527047614336-194da60dacd9?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80",
                     coords: {
                         latitude: -47,
                         longitude: 23
@@ -84,6 +84,7 @@ const SocialScreen = () => {
             </Text>
             <RallyButton 
                 text="Current Interest"
+                rally="Nightlife"
                 secondaryText={USER_DATA.rally}
                 action={() => navigation.navigate('Rally')}
             />
@@ -110,7 +111,7 @@ const SocialScreen = () => {
                                     {title} 
                                 </Text>
                                 <Text 
-                                    style={[styles.filterStyle, {color: colors.card}]}>
+                                    style={[styles.filterStyle, {color: '#6D6D6D'}]}>
                                     ({filter})
                                 </Text>
                             </View>
@@ -118,7 +119,7 @@ const SocialScreen = () => {
                                 name="sort"
                                 type="materialicons"
                                 size={24}
-                                color="#B6B6B6"
+                                color="#6D6D6D"
                                 paddingLeft={8}
                             />
                         </View>

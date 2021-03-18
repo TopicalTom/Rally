@@ -16,7 +16,7 @@ const SocialCard = ({ profile, name, prompt, rally, onPress }) => {
         >
             <View style={styles.profileContainerStyle}>
                 <Image 
-                    source={{ uri: 'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png'}}
+                    source={{ uri: profile}}
                     style={styles.profileStyle}
                 />
             </View>
@@ -32,10 +32,10 @@ const SocialCard = ({ profile, name, prompt, rally, onPress }) => {
                         name="arrowright"
                         type="antdesign"
                         size={10}
-                        color="#717273"
+                        color={"Nightlife" === rally ? "#8B6FF6" : "#6D6D6D"}
                         paddingRight={4}
                     />
-                    <Text style={[styles.rallyStyle]}>
+                    <Text style={[styles.rallyStyle, {color: "Nightlife" === rally ? "#8B6FF6" : "#6D6D6D"}]}>
                         {rally}
                     </Text>
                 </View>

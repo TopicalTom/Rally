@@ -12,13 +12,13 @@ const InterestIndicator = ({ activity }) => {
         <View style={styles.activityStyle}>
             <View style={[styles.imageContainerStyle, {zIndex: 20}]}>
                 <Image 
-                    source={{ uri: 'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png'}}
+                    source={{ uri: 'https://images.unsplash.com/photo-1525718637816-f28758beafb8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80'}}
                     style={[styles.profileStyle, {borderColor: colors.card, backgroundColor: colors.card }]} 
                 />
             </View>
             <View style={[styles.imageContainerStyle, {right: 8}]}>
                 <Image 
-                    source={{ uri: 'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png'}}
+                    source={{ uri: 'https://images.unsplash.com/photo-1515971193510-ae36a1b2c09b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80'}}
                     style={[styles.profileStyle, {borderColor: colors.card, backgroundColor: colors.card }]}  />
             </View>
             <Text style={styles.friendsStyle}>

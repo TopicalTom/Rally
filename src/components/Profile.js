@@ -1,7 +1,11 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Image } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
+import Pulse from 'react-native-pulse';
+
+// Components
+//import Pulse from '../components/Pulse';
 
 const Profile = ({ profile, rally, onPress }) => {
     const { colors } = useTheme();
@@ -12,9 +16,19 @@ const Profile = ({ profile, rally, onPress }) => {
             style={
                 styles.profileContainerStyle}
         >
-            <Image 
-                source={{ uri: 'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png'}}
-                style={[styles.profileStyle, { borderColor: colors.card}]}
+            <View style={[styles.topLayer, { borderColor: '#8B6FF6' }]}>
+                <Image 
+                    source={{ uri: 'https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80'}}
+                    style={styles.profileStyle}
+                />
+            </View>
+            <Pulse 
+                style={styles.pulseStyle}
+                color='#8B6FF6' 
+                numPulses={3} 
+                diameter={70} 
+                speed={90} 
+                duration={1000} 
             />
         </TouchableOpacity>
 
@@ -22,16 +36,26 @@ const Profile = ({ profile, rally, onPress }) => {
 };
 
 const styles = StyleSheet.create({
+    topLayer: {
+        zIndex: 20,
+        borderWidth: 1,
+        borderRadius: 40,
+    },
     profileStyle: {
         borderRadius: 40,
         width: 36,
         height: 36,
-        borderWidth: 1,
     },
     profileContainerStyle: {
         borderRadius: 40,
         marginRight: 16,
-        marginLeft: 8
+        marginLeft: 8,
+        position: 'relative',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    pulseStyle: {
+        position: 'absolute'
     }
 });
 
