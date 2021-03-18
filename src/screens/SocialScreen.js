@@ -1,107 +1,187 @@
-import React, { useRef } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import { Icon, Button } from 'react-native-elements';
-//import Animated from 'react-native-reanimated';
-//import BottomSheet from 'reanimated-bottom-sheet';
+import React, { useState} from 'react';
+import { StyleSheet, SectionList, View, TouchableOpacity } from 'react-native';
+import { Text, Icon } from 'react-native-elements';
+import { useNavigation, useTheme } from '@react-navigation/native';
 
 // Components
-import Map from '../components/Map';
+import SocialCard from '../components/SocialCard';
+import RallyButton from '../components/RallyButton';
 
-const RallyScreen = () => {
+const SocialScreen = () => {
+    const [ filter, setFilter ] = useState("Active");
+    const { colors } = useTheme();
+    const navigation = useNavigation();
+
+    const USER_DATA = {
+        rally: "Nightlife",
+        visibility: "All Friends",
+        prompt: "None"
+    };
+
+    const SOCIAL_CIRCLE = [
+        {
+            title: "Social Circle",
+            data: [
+                {
+                    name: "Natalie",
+                    prompt: "Anyone else thinking Outcast tn?",
+                    rally: "Nightlife",
+                    profile: "",
+                    coords: {
+                        latitude: -47,
+                        longitude: 23
+                    }
+                },
+                {
+                    name: "Shoshanna",
+                    prompt: "Feeling a chill night",
+                    rally: "Hangout",
+                    profile: "",
+                    coords: {
+                        latitude: -47,
+                        longitude: 23
+                    }
+                },
+                {
+                    name: "Andre",
+                    prompt: "Hit me up if anything is going on tn",
+                    rally: "Hangout",
+                    profile: "",
+                    coords: {
+                        latitude: -47,
+                        longitude: 23
+                    }
+                },
+                {
+                    name: "Shawn",
+                    prompt: "Anyone else thinking Outcast tn?",
+                    rally: "Nightlife",
+                    profile: "",
+                    coords: {
+                        latitude: -47,
+                        longitude: 23
+                    }
+                },
+                {
+                    name: "Shawn",
+                    prompt: "Anyone else thinking Outcast tn?",
+                    rally: "Nightlife",
+                    profile: "",
+                    coords: {
+                        latitude: -47,
+                        longitude: 23
+                    }
+                }
+            ]
+        }
+    ];
 
     return (
-        <View style={styles.container}>
-            <Map />
+        <View style={[styles.container, {backgroundColor: colors.background}]}>
+            <Text 
+                h2 style={[styles.titleStyle, {color: colors.text}]}>
+                Rallying
+            </Text>
+            <RallyButton 
+                text="Current Interest"
+                secondaryText={USER_DATA.rally}
+                action={() => navigation.navigate('Rally')}
+            />
+            <RallyButton 
+                text="Discoverable"
+                secondaryText={USER_DATA.visibility}
+                action={() => navigation.navigate('Rally', { screen: 'Preferences', params: { rally: USER_DATA.rally}})}
+            />
+            <RallyButton 
+                text="Prompt"
+                secondaryText={USER_DATA.prompt}
+                action={() => navigation.navigate('Rally', { screen: 'Preferences', params: { rally: USER_DATA.rally}})}
+            />
+            <SectionList  
+                sections={SOCIAL_CIRCLE}
+                keyExtractor={(item, index) => item + index}
+                extraData={filter}
+                renderSectionHeader={({ section: { title }}) => {
+                    return (
+                        <View style={styles.filterContainerStyle}>
+                            <View style={styles.filterLabelStyle}>
+                                <Text 
+                                    style={[styles.subtitleStyle, {color: colors.text}]}>
+                                    {title} 
+                                </Text>
+                                <Text 
+                                    style={[styles.filterStyle, {color: colors.card}]}>
+                                    ({filter})
+                                </Text>
+                            </View>
+                            <Icon 
+                                name="sort"
+                                type="materialicons"
+                                size={24}
+                                color="#B6B6B6"
+                                paddingLeft={8}
+                            />
+                        </View>
+                    )
+                }}
+                renderItem={({ item }) => {
+                    return (
+                        <SocialCard 
+                            {...item} 
+                            onPress={() => navigation.navigate('Tab', { name: item.name })} 
+                        />
+                    )
+                }}
+            />
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        justifyContent: 'flex-start',
+        backgroundColor: "#fff",
+        paddingHorizontal: 16,
+        paddingTop: 120,
     },
-    header: {
-        paddingLeft: 20,
-        paddingRight: 20,
-        paddingTop: 10,
-        paddingBottom: 10,
-        backgroundColor: "white",
-        borderTopLeftRadius: 8,
-        borderTopRightRadius: 8,
-        shadowOffset:{ width: 0,  height: -5 },
-        shadowColor: 'black',
-        shadowOpacity: 0.05,
+    filterContainerStyle: {
+        marginTop: 25,
+        flexDirection: 'row',
+        alignItems: 'stretch',
+        justifyContent: 'space-between',
+        marginBottom: 8,
     },
-    scrollBar: {
-        backgroundColor: "#DBDCDB",
-        width: 36,
-        height: 5,
-        borderRadius: 2,
-        alignSelf: "center"
+    filterLabelStyle: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
     },
-    text: {
-        fontSize: 26,
-        fontWeight: "800",
-        color: "#2e2e2e",
-        paddingBottom: 10,
-        paddingTop: 10,
+    sectionStyle: {
+        marginVertical: 20,
+        color: "#B6B6B6",
+        fontWeight: '500'
     },
-    rally: {
-        borderRadius: 200,
-        width: 100,
-        height: 45, 
-        top: 55,
-        position: "absolute",
-        zIndex: 20,
-        alignSelf: "center",
-        alignItems: "center",
-        paddingTop: 5,
+    titleStyle: {
+        textAlign: 'left',
+        fontWeight: 'bold',
+        marginBottom: 10,
+        alignSelf: 'stretch',
     },
-    logo: {
-        color: "white",
+    subtitleStyle: {
+        textAlign: 'left',
+        alignSelf: 'stretch',
+        fontSize: 18,
+        lineHeight: 21,
+        fontWeight: 'bold',
     },
-    block: {
-        width: 375,
-        height: 95,
-        backgroundColor: "white",
-        position: "absolute",
-        zIndex: 21,
-        opacity: 0
-    }
+    filterStyle: {
+        textAlign: 'left',
+        alignSelf: 'stretch',
+        fontSize: 18,
+        lineHeight: 21,
+        fontWeight: 'bold',
+        paddingLeft: 4
+    },
 });
 
-export default RallyScreen;
-
-/*
-    const sheetRef = useRef(null);
-    const fall = new Animated.Value(1);
-
-    // Header for Bottom Drawer
-    const renderHeader = () => (
-        <View style={styles.header}>
-            <View style={styles.scrollBar}/>
-            <Text 
-                style={styles.text}>
-                Rallying
-            </Text>
-        </View>
-    );
-
-    // Scrollable Content for Bottom Drawer
-    const renderContent = () => (
-        <Text 
-            style={styles.text}>
-            Rallying
-        </Text>
-    );
-            <BottomSheet
-                ref={sheetRef}
-                snapPoints={[220, 740]}
-                initialSnap={1}
-                renderHeader={renderHeader}
-                renderContent={renderContent}
-                enabledBottomClamp={true}
-                callbackNode={fall}
-                enabledGestureInteraction={true}
-            />
-*/
+export default SocialScreen;

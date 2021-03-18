@@ -17,6 +17,16 @@ const SignupRouter = () => {
                     headerTintColor: '#FD2D55',
                     headerTitle: null,
                     headerTransparent: true,
+                    headerStyle: {
+                        height: 50,
+                    },
+                    headerLeftContainerStyle: {
+                        top: -40
+                    },
+                    headerRightContainerStyle: {
+                        top: -40,
+                        paddingRight: 16
+                    },
                     headerBackTitleVisible: false
                 }
             }}>

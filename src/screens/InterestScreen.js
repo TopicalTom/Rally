@@ -1,80 +1,16 @@
-import * as React from 'react';
-import { Button } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
-
-// Screens
-import InterestScreen from '../screens/InterestScreen';
-import PreferencesScreen from '../screens/PreferencesScreen';
-
-const Stack = createStackNavigator();
-
-const RallyModal = () => {
-    const navigation = useNavigation();
-    
-    return (
-        <Stack.Navigator 
-            initialRouteName="Interest"
-            headerMode='screen'
-            screenOptions={() => {
-                return {
-                    headerTitle: null,
-                    headerTransparent: true,
-                    headerStyle: {
-                        height: 50,
-                    },
-                    headerLeftContainerStyle: {
-                        top: -40
-                    },
-                    headerRightContainerStyle: {
-                        top: -40,
-                        paddingRight: 16
-                    },
-                    headerRight: () => (
-                        <Button
-                            title="Cancel"
-                            color="#717273"
-                            onPress={() => navigation.goBack('Tab')}
-                        />
-                    )
-                }
-            }}>
-            <Stack.Screen 
-                name="Interest" 
-                component={InterestScreen} 
-                options={() => ({ 
-                    headerShown: true,
-                    headerLeft: null,
-                    headerBackTitleVisible: false,
-                })}
-            />
-            <Stack.Screen 
-                name="Preferences" 
-                component={PreferencesScreen} 
-                options={({ route }) => ({ 
-                    headerShown: true,
-                    headerBackTitle: route.params.rally,
-                    headerTintColor: route.params.color
-                })}
-            />
-        </Stack.Navigator>
-    );
-};
-
-export default RallyModal;
-
-/*
 import React, { useState } from 'react';
 import { StyleSheet, View, SectionList } from 'react-native';
 import { Text } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 // Components
 import RallyCard from '../components/RallyCard';
 
-const RallyModal = () => {
+const InterestScreen = () => {
     const [ selected, setSelected ] = useState(null);
     const { colors } = useTheme();
+    const navigation = useNavigation();
 
     const RALLY_TYPES = [
         {
@@ -168,7 +104,7 @@ const RallyModal = () => {
                     return (
                         <RallyCard 
                             {...item} 
-                            onPress={() => navigation.navigate('Preferences', { rally: item.title })} 
+                            onPress={() => navigation.navigate('Preferences', { rally: item.title, color: item.color })} 
                         />
                     )
                 }}
@@ -183,7 +119,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         backgroundColor: "#fff",
         paddingHorizontal: 16,
-        paddingTop: 70,
+        paddingTop: 80,
     },
     sectionStyle: {
         marginVertical: 20,
@@ -206,5 +142,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default RallyModal;
-*/
+export default InterestScreen;

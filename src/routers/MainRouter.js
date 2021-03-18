@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
-import { Text, Button, Icon } from 'react-native-elements';
+import { Button, Icon } from 'react-native-elements';
 import { useNavigation, useTheme } from '@react-navigation/native';
 
 // Router
@@ -11,6 +11,9 @@ import TabRouter from './TabRouter';
 import ProfileModal from '../modals/ProfileModal';
 import SearchModal from '../modals/SearchModal';
 import RallyModal from '../modals/RallyModal';
+
+// Components
+import Profile from '../components/Profile';
 
 const Stack = createStackNavigator();
 
@@ -51,19 +54,9 @@ const MainRouter = () => {
                                     />
                                 )} 
                             />
-                            <Button
+                            <Profile 
                                 onPress={() => navigation.navigate('Profile')}
-                                buttonStyle={styles.searchButtonStyle}
-                                icon={() => (
-                                    <Icon 
-                                        name="user" 
-                                        type="feather"
-                                        color={colors.text}
-                                        size={24} 
-                                    />
-                                )} 
                             />
-
                         </View>
                     ),
                 })}
@@ -84,7 +77,7 @@ const MainRouter = () => {
             />
             <Stack.Screen 
                 name="Search" 
-                component={RallyModal} 
+                component={SearchModal} 
                 options={() => ({ 
                     headerShown: false,
                 })}
@@ -103,3 +96,19 @@ const styles = StyleSheet.create({
 });
 
 export default MainRouter;
+
+/*
+                            <Button
+                                onPress={() => navigation.navigate('Profile')}
+                                buttonStyle={styles.searchButtonStyle}
+                                icon={() => (
+                                    <Icon 
+                                        name="user" 
+                                        type="feather"
+                                        color={colors.text}
+                                        size={24} 
+                                    />
+                                )} 
+                            />
+
+*/

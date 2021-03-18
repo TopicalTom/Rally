@@ -16,15 +16,16 @@ const TabRouter = () => {
         <Tab.Navigator 
             initialRouteName="Social"
             tabBarOptions={{
+                showLabel: false,
                 style: {
-                    backgroundColor: colors.background
+                    backgroundColor: colors.background,
+                    borderTopColor: colors.border
                 }
               }}>
             <Tab.Screen 
                 name="Social" 
                 component={SocialScreen} 
                 options={() => ({ 
-                    tabBarLabel: '',
                     tabBarIcon: () => (
                         <Icon 
                             name="home" 

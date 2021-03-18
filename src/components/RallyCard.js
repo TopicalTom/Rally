@@ -3,12 +3,15 @@ import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Text, Icon } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 
+// Components
+import Interest from './InterestIndicator';
+
 const RallyCard = ({ title, selected, caption, activity, onPress }) => {
     const { colors } = useTheme();
 
     return (
         <TouchableOpacity
-            onPress={() => onPress(title)}
+            onPress={onPress}
             selected={selected === title}
             style={[
                 styles.cardStyle, { 
@@ -23,21 +26,14 @@ const RallyCard = ({ title, selected, caption, activity, onPress }) => {
                 <Text style={[styles.captionStyle, { color: colors.text}]}>
                     {caption}
                 </Text>
-                {activity > 0 
-                    ?   <View style={styles.activityStyle}>
-                            <Text>
-                                Be the first
-                            </Text>
-                        </View>
-                    :   null
-                }
+                <Interest activity={activity} />
             </View>
             <View style={styles.chevronStyle}>
                 <Icon 
-                    name="chevron-small-right"
+                    name="chevron-right"
                     type="entypo"
                     size={16}
-                    color="#fff"
+                    color="#717273"
                 />
             </View>
         </TouchableOpacity>
@@ -73,12 +69,12 @@ const styles = StyleSheet.create({
         marginTop: 8,
     },
     contentStyle: {
-        paddingLeft: 16
+        paddingLeft: 16,
+        maxWidth: '80%'
     },
     chevronStyle: {
         alignItems: 'center',
         width: 40,
-        backgroundColor: 'red',
         justifyContent: 'center',
     }
 });

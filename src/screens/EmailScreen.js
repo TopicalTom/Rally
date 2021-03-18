@@ -11,7 +11,7 @@ import ActionButton from '../components/ActionButton';
 const EmailScreen = () => {
     const { colors } = useTheme();
     return (
-        <SafeAreaView style={[styles.screen, {backgroundColor: colors.background}]}>
+        <View style={[styles.screen, {backgroundColor: colors.background}]}>
             <View style={styles.container}>
                 <Text 
                     h4 style={[styles.titleStyle, {color: colors.text}]}>
@@ -58,7 +58,7 @@ const EmailScreen = () => {
                     )}
                 </Formik>
             </View>
-        </SafeAreaView>
+        </View>
     );
 };
 
