@@ -7,16 +7,13 @@ import { useNavigation, useTheme } from '@react-navigation/native';
 import SocialCard from '../components/SocialCard';
 import RallyButton from '../components/RallyButton';
 
-const SocialScreen = () => {
+// Store
+import { connect } from 'react-redux';
+
+const SocialScreen = ({ status, interest, accent }) => {
     const [ filter, setFilter ] = useState("Active");
     const { colors } = useTheme();
     const navigation = useNavigation();
-
-    const USER_DATA = {
-        rally: "Nightlife",
-        visibility: "All Friends",
-        prompt: "None"
-    };
 
     const SOCIAL_CIRCLE = [
         {
@@ -80,23 +77,22 @@ const SocialScreen = () => {
         <View style={[styles.container, {backgroundColor: colors.background}]}>
             <Text 
                 h2 style={[styles.titleStyle, {color: colors.text}]}>
-                Rallying
+                {status}
             </Text>
             <RallyButton 
                 text="Current Interest"
-                rally="Nightlife"
-                secondaryText={USER_DATA.rally}
+                secondaryText={interest || "None"}
                 action={() => navigation.navigate('Rally')}
             />
             <RallyButton 
                 text="Discoverable"
-                secondaryText={USER_DATA.visibility}
-                action={() => navigation.navigate('Rally', { screen: 'Preferences', params: { rally: USER_DATA.rally}})}
+                secondaryText="All friends"
+                action={() => navigation.navigate('Rally', { screen: 'Preferences', params: { interest, accent }})}
             />
             <RallyButton 
                 text="Prompt"
-                secondaryText={USER_DATA.prompt}
-                action={() => navigation.navigate('Rally', { screen: 'Preferences', params: { rally: USER_DATA.rally}})}
+                secondaryText="None"
+                action={() => navigation.navigate('Rally', { screen: 'Preferences', params: { interest, accent }})}
             />
             <SectionList  
                 sections={SOCIAL_CIRCLE}
@@ -185,4 +181,12 @@ const styles = StyleSheet.create({
     },
 });
 
-export default SocialScreen;
+const mapStateToProps = ({ rally }) => {
+    return { 
+        status: rally.status,
+        interest: rally.interest,  
+        accent: rally.accent
+    };
+}
+
+export default connect(mapStateToProps)(SocialScreen);

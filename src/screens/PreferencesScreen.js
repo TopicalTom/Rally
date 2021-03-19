@@ -2,13 +2,24 @@ import React, { useState } from 'react';
 import { StyleSheet, View, SectionList } from 'react-native';
 import { Text } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
-// Import
+// Components
 import ActionButton from '../components/ActionButton';
 
-const PreferencesScreen = ({ route }) => {
-    const { color } = route.params;
+// Store
+import { connect } from 'react-redux';
+import { startRallying } from '../actions';
+
+const PreferencesScreen = ({ route, startRallying }) => {
+    const { accent, accentBorder, accentTint, interest } = route.params;
     const { colors } = useTheme();
+    const navigation = useNavigation();
+
+    const handleRally = () => {
+        startRallying({accent, accentBorder, accentTint, interest});
+        navigation.navigate('Tab');
+    };
 
     return (
         <View style={[styles.container, {backgroundColor: colors.background}]}>
@@ -21,9 +32,9 @@ const PreferencesScreen = ({ route }) => {
                 Make changes to how and who you is able to discover your rally.
             </Text>
             <ActionButton 
-                text="Continue"
-                color={color}
-                action={() => {}}
+                text={`Start ${interest} Rally`}
+                color={accent}
+                action={handleRally}
             />
         </View>
     );
@@ -58,4 +69,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default PreferencesScreen;
+export default connect(null, { startRallying })(PreferencesScreen);

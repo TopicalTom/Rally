@@ -3,7 +3,10 @@ import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Icon, Text } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 
-const RallyButton = ({ text, secondaryText, action, rally }) => {
+// Store
+import { connect } from 'react-redux';
+
+const RallyButton = ({ text, secondaryText, action, interest, accent }) => {
     const { colors } = useTheme();
     return (
         <TouchableOpacity 
@@ -18,7 +21,7 @@ const RallyButton = ({ text, secondaryText, action, rally }) => {
             </Text>
             <View style={styles.contextStyle}>
                 <Text 
-                    style={[styles.titleStyle, { color: secondaryText === rally ? "#8B6FF6" : "#6D6D6D"}]}>
+                    style={[styles.titleStyle, { color: secondaryText === interest ? accent : "#6D6D6D"}]}>
                     {secondaryText}
                 </Text>
                 <Icon
@@ -58,56 +61,11 @@ const styles = StyleSheet.create({
     }
 });
 
-export default RallyButton;
+const mapStateToProps = ({ rally }) => {
+    return { 
+        interest: rally.interest,
+        accent: rally.accent  
+    };
+}
 
-/*
-import React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
-import { Icon, Button } from 'react-native-elements';
-import { useTheme } from '@react-navigation/native';
-
-const RallyButton = ({ text, action }) => {
-    const { colors } = useTheme();
-    return (
-        <>
-            <Button 
-                title={text}
-                titleStyle={styles.titleStyle}
-                buttonStyle={[styles.buttonStyle, {
-                    backgroundColor: colors.card, 
-                    borderColor: colors.card
-                }]}
-                iconRight
-                icon={
-                    <Icon
-                        name="chevron-right"
-                        type="entypo"
-                        size={18}
-                        color="#6D6D6D"
-                    />
-                } 
-                onPress={action}
-            />
-        </>
-    );
-};
-
-const styles = StyleSheet.create({
-    titleStyle: {
-        fontSize: 15,
-        fontWeight: '500',
-        paddingLeft: 8,
-    },
-    buttonStyle: {
-        borderRadius: 12,
-        borderWidth: 1,
-        marginBottom: 10,
-        alignSelf: 'stretch',
-        height: 52,
-        justifyContent: 'space-between'
-    }
-});
-
-export default RallyButton;
-
-*/
+export default connect(mapStateToProps)(RallyButton);

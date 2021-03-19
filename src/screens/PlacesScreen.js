@@ -3,11 +3,15 @@ import { StyleSheet, ScrollView, SectionList, FlatList, TouchableOpacity, View }
 import { Text, Button, Icon } from 'react-native-elements';
 import { useNavigation, useTheme } from '@react-navigation/native';
 
+// Store
+import { connect } from 'react-redux';
+
 // Components
 import Map from '../components/Map';
 import VenueCard from '../components/VenueCard';
+import { colorsDark } from 'react-native-elements/dist/config';
 
-const PlacesScreen = () => {
+const PlacesScreen = ({ interest, accent, accentBorder, accentTint}) => {
     const { colors } = useTheme();
     const navigation = useNavigation();
 
@@ -73,7 +77,7 @@ const PlacesScreen = () => {
         <ScrollView contentContainerStyle={[styles.container, {backgroundColor: colors.background}]}>
             <Text 
                 h2 style={[styles.titleStyle, {color: colors.text}]}>
-                Nightlife
+                {interest || "Places"}
             </Text>
             <Text 
                 style={styles.subtitleStyle}>
@@ -81,10 +85,11 @@ const PlacesScreen = () => {
             </Text>
             <FlatList
                 data={VENUE_TYPES}
+                extraData={accent, accentBorder, accentTint}
                 renderItem={({item}) => {
                     return (
-                        <TouchableOpacity style={{ borderRadius: 10, borderColor: 'rgba(139, 111, 246, 0.5)', borderWidth: 1, paddingHorizontal: 12, paddingVertical: 8, marginRight: 8, backgroundColor: 'rgba(139, 111, 246, 0.05)'}}>
-                            <Text style={{color: "#8B6FF6"}}>
+                        <TouchableOpacity style={{ borderRadius: 10, borderColor: accentBorder || colors.border, borderWidth: 1, paddingHorizontal: 12, paddingVertical: 8, marginRight: 8, backgroundColor: accentTint || colors.border}}>
+                            <Text style={{color: accent || colors.border}}>
                                 {item.type}
                             </Text>
                         </TouchableOpacity>
@@ -205,7 +210,16 @@ const styles = StyleSheet.create({
     },
 });
 
-export default PlacesScreen;
+const mapStateToProps = ({ rally }) => {
+    return { 
+        interest: rally.interest,
+        accent: rally.accent,
+        accentBorder: rally.accentBorder,
+        accentTint: rally.accentTint      
+    };
+}
+
+export default connect(mapStateToProps)(PlacesScreen);
 
 /*
 

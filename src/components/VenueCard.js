@@ -3,10 +3,13 @@ import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Text, Image, Icon } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 
+// Store
+import { connect } from 'react-redux';
+
 // Components
 import InterestIndicator from './InterestIndicator';
 
-const VenueCard = ({ preview, name, description, location, onPress }) => {
+const VenueCard = ({ preview, name, description, location, interest, accent, onPress }) => {
     const { colors } = useTheme();
 
     return (
@@ -21,9 +24,9 @@ const VenueCard = ({ preview, name, description, location, onPress }) => {
                     borderWidth: 1}]}
             />
             <View>
-                <Text style={[styles.typeStyle, { color: "#8B6FF6"}]}>Nightclub</Text>
+                <Text style={[styles.typeStyle, { color: accent}]}>Nightclub</Text>
                 <Text style={[styles.nameStyle, { color: colors.text}]}>{name}</Text>
-                <Text style={{color: colors.text}}>3km away</Text>
+                <Text style={{color: colors.text}}>3m walk</Text>
             </View>
         </TouchableOpacity>
 
@@ -84,7 +87,14 @@ const styles = StyleSheet.create({
     }
 });
 
-export default VenueCard;
+const mapStateToProps = ({ rally }) => {
+    return { 
+        interest: rally.interest,
+        accent: rally.accent  
+    };
+}
+
+export default connect(mapStateToProps)(VenueCard);
 
 /*
             <View style={[styles.contentStyle, {borderBottomColor: colors.border }]}>

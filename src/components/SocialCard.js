@@ -3,7 +3,10 @@ import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Text, Image, Icon } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 
-const SocialCard = ({ profile, name, prompt, rally, onPress }) => {
+// Store
+import { connect } from 'react-redux';
+
+const SocialCard = ({ profile, name, prompt, rally, onPress, interest, accent }) => {
     const { colors } = useTheme();
 
     return (
@@ -32,10 +35,10 @@ const SocialCard = ({ profile, name, prompt, rally, onPress }) => {
                         name="arrowright"
                         type="antdesign"
                         size={10}
-                        color={"Nightlife" === rally ? "#8B6FF6" : "#6D6D6D"}
+                        color={interest === rally ? accent : "#6D6D6D"}
                         paddingRight={4}
                     />
-                    <Text style={[styles.rallyStyle, {color: "Nightlife" === rally ? "#8B6FF6" : "#6D6D6D"}]}>
+                    <Text style={[styles.rallyStyle, {color: interest === rally ? accent : "#6D6D6D"}]}>
                         {rally}
                     </Text>
                 </View>
@@ -96,4 +99,11 @@ const styles = StyleSheet.create({
     }
 });
 
-export default SocialCard;
+const mapStateToProps = ({ rally }) => {
+    return { 
+        interest: rally.interest,
+        accent: rally.accent  
+    };
+}
+
+export default connect(mapStateToProps)(SocialCard);

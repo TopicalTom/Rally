@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Icon, Button } from 'react-native-elements';
 
-const ActionButton = ({ text, color, action  }) => {
+const ActionButton = ({ text, color, action }) => {
     return (
         <>
             <Button 
@@ -39,7 +39,8 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         borderWidth: 1,
         marginBottom: 8,
-        width: 295,
+        //width: 295,
+        alignSelf: 'stretch',
         height: 48,
         justifyContent: 'flex-start'
     }

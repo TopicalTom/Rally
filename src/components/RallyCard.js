@@ -3,10 +3,13 @@ import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Text, Icon } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 
+// Store
+import { connect } from 'react-redux';
+
 // Components
 import Interest from './InterestIndicator';
 
-const RallyCard = ({ title, selected, caption, activity, onPress }) => {
+const RallyCard = ({ title, selected, caption, activity, interest, accent, onPress }) => {
     const { colors } = useTheme();
 
     return (
@@ -15,7 +18,7 @@ const RallyCard = ({ title, selected, caption, activity, onPress }) => {
             selected={selected === title}
             style={[
                 styles.cardStyle, { 
-                backgroundColor: colors.card,
+                backgroundColor: title === interest ? accent : colors.card,
                 borderColor: colors.card
             }]}
         >
@@ -79,4 +82,11 @@ const styles = StyleSheet.create({
     }
 });
 
-export default RallyCard;
+const mapStateToProps = ({ rally }) => {
+    return { 
+        interest: rally.interest,
+        accent: rally.accent  
+    };
+}
+
+export default connect(mapStateToProps)(RallyCard);

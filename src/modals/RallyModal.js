@@ -53,8 +53,8 @@ const RallyModal = () => {
                 component={PreferencesScreen} 
                 options={({ route }) => ({ 
                     headerShown: true,
-                    headerBackTitle: route.params.rally,
-                    headerTintColor: route.params.color
+                    headerBackTitle: route.params.interest,
+                    headerTintColor: route.params.accent
                 })}
             />
         </Stack.Navigator>
