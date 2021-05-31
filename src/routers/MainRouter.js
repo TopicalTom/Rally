@@ -5,12 +5,14 @@ import { Button, Icon } from 'react-native-elements';
 import { useNavigation, useTheme } from '@react-navigation/native';
 
 // Router
-import TabRouter from './TabRouter';
+import ScreenRouter from './ScreenRouter';
 
 // Modals
 import ProfileModal from '../modals/ProfileModal';
+import CreateModal from '../modals/CreateModal';
+import ModeModal from '../modals/RallyModal';
+import LocationModal from '../modals/LocationModal';
 import SearchModal from '../modals/SearchModal';
-import RallyModal from '../modals/RallyModal';
 
 // Components
 import Profile from '../components/Profile';
@@ -23,49 +25,29 @@ const MainRouter = () => {
 
     return (
         <Stack.Navigator 
-            initialRouteName="Tab"
+            initialRouteName="Screen"
             mode='modal'
             screenOptions={() => {
                 return {
-                    gestureEnabled: true,
+                    //gestureEnabled: true,
                     cardOverlayEnabled: true,
-                    ...TransitionPresets.ModalPresentationIOS
+                    //...TransitionPresets.ModalPresentationIOS
                 }
             }}
         >
             <Stack.Screen 
-                name="Tab" 
-                component={TabRouter}
+                name="Screen" 
+                component={ScreenRouter}
                 options={() => ({ 
-                    headerShown: true,
-                    headerTransparent: true,
-                    headerTitle: false,
-                    headerRight: () => (
-                        <View style={styles.headerContainer}>
-                            <Button
-                                onPress={() => navigation.navigate('Search')}
-                                buttonStyle={styles.searchButtonStyle}
-                                icon={() => (
-                                    <Icon 
-                                        name="search" 
-                                        type="feather"
-                                        color={colors.text}
-                                        size={24} 
-                                    />
-                                )} 
-                            />
-                            <Profile 
-                                onPress={() => navigation.navigate('Profile')}
-                            />
-                        </View>
-                    ),
+                    headerShown: false,
                 })}
             />
             <Stack.Screen 
-                name="Rally" 
-                component={RallyModal} 
+                name="Mode" 
+                component={ModeModal} 
                 options={() => ({ 
                     headerShown: false,
+                    ...TransitionPresets.ModalPresentationIOS
                 })}
             />
             <Stack.Screen 
@@ -73,13 +55,31 @@ const MainRouter = () => {
                 component={ProfileModal} 
                 options={() => ({ 
                     headerShown: false,
+                    ...TransitionPresets.ModalPresentationIOS
                 })}
             />
             <Stack.Screen 
-                name="Search" 
+                name="Create" 
+                component={CreateModal} 
+                options={() => ({ 
+                    headerShown: false,
+                    ...TransitionPresets.ModalPresentationIOS
+                })}
+            />
+            <Stack.Screen 
+                name="Find" 
                 component={SearchModal} 
                 options={() => ({ 
                     headerShown: false,
+                    gestureEnabled: false,
+                })}
+            />
+            <Stack.Screen 
+                name="Location" 
+                component={LocationModal} 
+                options={() => ({ 
+                    headerShown: false,
+                    ...TransitionPresets.ModalPresentationIOS
                 })}
             />
         </Stack.Navigator>

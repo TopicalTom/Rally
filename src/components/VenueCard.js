@@ -17,16 +17,23 @@ const VenueCard = ({ preview, name, description, location, interest, accent, onP
             onPress={onPress}
             style={styles.cardStyle}
         >
-            <Image 
-                source={{ uri: preview}}
-                style={[styles.previewStyle, {                
-                    borderColor: colors.border,
-                    borderWidth: 1}]}
-            />
+            <View style={styles.previewContainerStyle}>
+                <View style={[styles.floatingLabelStyle, {display: 'flex', flexDirection: 'row'}]}>
+                    <Icon 
+                        name="heart"
+                        type="feather"
+                        size={18}
+                        color="#FFF"
+                        paddingRight={4}
+                    />
+                </View>
+                <Image 
+                    source={{ uri: preview}}
+                    style={styles.previewStyle}
+                />
+            </View>
             <View>
-                <Text style={[styles.typeStyle, { color: accent}]}>Nightclub</Text>
-                <Text style={[styles.nameStyle, { color: colors.text}]}>{name}</Text>
-                <Text style={{color: colors.text}}>3m walk</Text>
+                <Text h5 style={[styles.nameStyle, { color: colors.text}]}>{name}</Text>                
             </View>
         </TouchableOpacity>
 
@@ -40,21 +47,23 @@ const styles = StyleSheet.create({
         marginVertical: 8,
         //height: 160
         width: '48%',
+        //width: 240,
         borderRadius: 10,
+        marginRight: 14,
+        marginBottom: 16,
+    },
+    floatingLabelStyle: {
+        position: 'absolute',
+        top: 8,
+        right: 8,
+        zIndex: 90,
     },
     nameStyle: {
         textAlign: 'left',
-        fontWeight: 'bold',
-        marginBottom: 1,
+        fontWeight: '700',
         alignSelf: 'stretch',
-        marginTop: 6
-    },
-    promptStyle: {
-        textAlign: 'left',
-        color: "#717273",
-        alignSelf: 'stretch',
-        lineHeight: 21,
-        fontSize: 15,
+        fontSize: 13,
+        marginTop: 10,
     },
     rallyContainerStyle: {
         marginTop: 3,
@@ -62,10 +71,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     typeStyle: {
-        fontSize: 12,
+        fontSize: 14,        
+        marginTop: 4,
         //color: "#717273",
         alignSelf: 'stretch',
-        marginTop: 10
     },
     contentStyle: {
         alignItems: 'stretch',
@@ -76,6 +85,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         //alignItems: 'center',
         height: 210,
+        //height: 160,
         //justifyContent: 'center',
     },
     previewContainerStyle: {
@@ -83,6 +93,7 @@ const styles = StyleSheet.create({
         //width: 150,
         //width: '50%',
         height: 210,
+        position: 'relative'
         //justifyContent: 'center',
     }
 });

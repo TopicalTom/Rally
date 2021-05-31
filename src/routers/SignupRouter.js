@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
+import { Button } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 // Screens
 import MethodsScreen from '../screens/MethodsScreen';
@@ -9,6 +11,8 @@ import PhoneScreen from '../screens/PhoneScreen';
 const Stack = createStackNavigator();
 
 const SignupRouter = () => {
+    const navigation = useNavigation();
+
     return (
         <Stack.Navigator 
             initialRouteName="Methods"
@@ -17,17 +21,7 @@ const SignupRouter = () => {
                     headerTintColor: '#FD2D55',
                     headerTitle: null,
                     headerTransparent: true,
-                    headerStyle: {
-                        height: 50,
-                    },
-                    headerLeftContainerStyle: {
-                        top: -40
-                    },
-                    headerRightContainerStyle: {
-                        top: -40,
-                        paddingRight: 16
-                    },
-                    headerBackTitleVisible: false
+                    headerBackTitleVisible: false,
                 }
             }}>
             <Stack.Screen 

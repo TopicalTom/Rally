@@ -39,7 +39,6 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         borderWidth: 1,
         marginBottom: 8,
-        //width: 295,
         alignSelf: 'stretch',
         height: 48,
         justifyContent: 'flex-start'

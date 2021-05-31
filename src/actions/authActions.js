@@ -1,4 +1,5 @@
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import { 
     LOGIN_SUCCESS,
     LOGIN_FAIL
@@ -7,6 +8,23 @@ import {
     GoogleSignin,
     statusCodes,
 } from '@react-native-google-signin/google-signin';
+
+// Login Successful
+export const loginSuccess = (userID) => async dispatch => {
+    const userRef = firestore().collection('users').doc(userID);
+    const snapShot = await userRef.get();
+    dispatch({
+        type: LOGIN_SUCCESS,
+        payload: snapShot._data
+    })
+};
+
+// Login Successful
+export const loginFailed = () => dispatch => {
+    dispatch({
+        type: LOGIN_FAIL
+    })
+};
 
 // Firebase Apple Auth Handler
 
@@ -30,7 +48,6 @@ export const googleSignIn = async () => {
             Alert.alert('Something else went wrong... ', error.toString());
         };
     };
-
 };
 
 // Firebase Email Auth Handler
@@ -82,11 +99,36 @@ export const signOut = () => {
 };
 
 // Creates New User Account
-export const createAccount = async () => {
-    try {
-        // await 
-    } catch (error) {
-        //
-    };
+export const createAccount = async (currentUser, userRef) => {
+    const { uid, displayName, email, emailVerified, phoneNumber, photoURL } = currentUser;
+    const createdOn = new Date();
 
+    try {
+        await userRef.set({
+            uid,
+            displayName,
+            email,
+            emailVerified, 
+            phoneNumber, 
+            profile: photoURL,
+            createdOn
+        });
+    } catch (error) {
+        console.log('error creating user', error.message)
+    }
+};
+
+// Checks for Pre-exisiting User Account
+export const checkForAccount = async (currentUser) => {
+    const userID = currentUser.uid;
+    try {
+        const userRef = firestore().collection('users').doc(userID);
+        const snapShot = await userRef.get();
+        if (!snapShot.exists) { 
+            createAccount(currentUser, userRef);
+        } 
+    } catch(error) {
+        console.log('error creating user', error.message)
+        loginFailed();
+    }
 };

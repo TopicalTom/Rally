@@ -3,15 +3,18 @@ import { StyleSheet, View } from 'react-native';
 import { Text, Input } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Formik } from 'formik';
-import { useTheme } from '@react-navigation/native';
+import { useNavigation, useTheme } from '@react-navigation/native';
 
 // Components
 import ActionButton from '../components/ActionButton';
+import AuthButton from '../components/AuthButton';
 
 const LoginScreen = () => {
     const { colors } = useTheme();
+    const navigation = useNavigation();
+    
     return (
-        <SafeAreaView 
+        <View 
             style={[
                 styles.screen, 
                 {backgroundColor: colors.background}
@@ -51,11 +54,21 @@ const LoginScreen = () => {
                             color="#FD2D55"
                             action={handleSubmit}
                         />
+                        <AuthButton 
+                            text="Sign up for an account"
+                            textColor={{color: colors.text}}
+                            buttonColor={{
+                                backgroundColor: 'transparent', 
+                                borderColor: 'transparent'
+                            }}
+                            iconColor="#FFF"
+                            action={() => navigation.navigate('Auth', {screen: 'Signup'})}
+                        />
                     </View>
                     )}
                 </Formik>
             </View>
-        </SafeAreaView>
+        </View>
     );
 };
 

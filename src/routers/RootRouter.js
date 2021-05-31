@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
-//import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import auth from '@react-native-firebase/auth';
 
 // Themes
 import { DarkTheme, LightTheme } from '../themes';
+
+// Store
+import { connect } from 'react-redux';
+import { checkForAccount, loginFailed, loginSuccess } from '../actions';
 
 // Router
 import MainRouter from './MainRouter';
@@ -17,18 +20,24 @@ import WelcomeScreen from '../screens/WelcomeScreen';
 import SplashScreen from '../screens/SplashScreen';
 
 const Root = createStackNavigator();
-//const Root = createBottomTabNavigator();
 
-const RootRouter = () => {
+const RootRouter = ({ loginFailed, loginSuccess}) => {
     const scheme = useColorScheme();
 
     const [ initializing, setInitializing ] = useState(true);
     const [ currentUser, setCurrentUser ] = useState(null);
+
+    //console.log(currentUser)
   
     // Handle user state changes
-    const onAuthStateChanged = userDetails => {
-        setCurrentUser(userDetails);
-        console.log(userDetails)
+    const onAuthStateChanged = async userDetails => {
+
+        if (userDetails) {
+            checkForAccount(userDetails);
+            loginSuccess(userDetails.uid)
+        }
+
+        setCurrentUser(userDetails)
         if (initializing) setInitializing(false);
     };
   
@@ -85,4 +94,10 @@ const RootRouter = () => {
     );
 };
 
-export default RootRouter;
+const mapStateToProps = ({ authentication }) => {
+    return { 
+        user: authentication.user
+    };
+}
+
+export default connect(mapStateToProps, { checkForAccount, loginFailed, loginSuccess })(RootRouter);

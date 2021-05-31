@@ -24,7 +24,8 @@ const RallyModal = () => {
                         height: 50,
                     },
                     headerLeftContainerStyle: {
-                        top: -40
+                        top: -40,
+                        paddingLeft: 8
                     },
                     headerRightContainerStyle: {
                         top: -40,
@@ -53,7 +54,7 @@ const RallyModal = () => {
                 component={PreferencesScreen} 
                 options={({ route }) => ({ 
                     headerShown: true,
-                    headerBackTitle: route.params.interest,
+                    headerBackTitleVisible: false,
                     headerTintColor: route.params.accent
                 })}
             />

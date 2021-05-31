@@ -1,12 +1,11 @@
-import React, { useRef} from 'react';
+import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Text, SearchBar } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation, useTheme } from '@react-navigation/native';
+import { useTheme } from '@react-navigation/native';
 
-const SearchModal = () => {
+const CreateModal = () => {
     const { colors } = useTheme();
-    const navigation = useNavigation();
 
     return (
         <SafeAreaView>
@@ -15,7 +14,6 @@ const SearchModal = () => {
                 platform="ios"
                 containerStyle={[styles.searchbarStyle, {backgroundColor: colors.background}]}
                 inputContainerStyle={[{backgroundColor: colors.card}]}
-                onCancel={() => navigation.navigate('Search')}
             />
         </SafeAreaView>
     );
@@ -27,4 +25,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default SearchModal;
+export default CreateModal;

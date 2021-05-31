@@ -9,15 +9,17 @@ import ActionButton from '../components/ActionButton';
 
 // Store
 import { connect } from 'react-redux';
-import { startRallying } from '../actions';
+import { broadcastRally, startRallying } from '../actions';
 
-const PreferencesScreen = ({ route, startRallying }) => {
+const PreferencesScreen = ({ route, user, startRallying }) => {
     const { accent, accentBorder, accentTint, interest } = route.params;
     const { colors } = useTheme();
     const navigation = useNavigation();
 
     const handleRally = () => {
-        startRallying({accent, accentBorder, accentTint, interest});
+        const { uid, profile, displayName } = user;
+        startRallying(interest, accent, accentBorder, accentTint);
+        broadcastRally(profile, displayName, interest)
         navigation.navigate('Tab');
     };
 
@@ -25,14 +27,14 @@ const PreferencesScreen = ({ route, startRallying }) => {
         <View style={[styles.container, {backgroundColor: colors.background}]}>
             <Text 
                 h3 style={[styles.titleStyle, {color: colors.text}]}>
-                Preferences
+                {interest}
             </Text>
             <Text 
                 style={styles.subtitleStyle}>
                 Make changes to how and who you is able to discover your rally.
             </Text>
             <ActionButton 
-                text={`Start ${interest} Rally`}
+                text={`Start rallying`}
                 color={accent}
                 action={handleRally}
             />
@@ -69,4 +71,10 @@ const styles = StyleSheet.create({
     },
 });
 
-export default connect(null, { startRallying })(PreferencesScreen);
+const mapStateToProps = ({ authentication }) => {
+    return { 
+        user: authentication.user   
+    };
+;}
+
+export default connect(mapStateToProps, { startRallying, broadcastRally })(PreferencesScreen);

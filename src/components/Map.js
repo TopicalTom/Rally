@@ -40,8 +40,6 @@ const Map = () => {
                     renderMode={"normal"}
                     animated={true}
                 />
-                    <Text>Latitude: {position.latitude}</Text>
-                    <Text>Longitude: {position.longitude}</Text>
                 <MapboxGL.Camera 
                     followUserLocation={true}
                     animationMode={"flyTo"}
@@ -55,7 +53,9 @@ const Map = () => {
 
 const styles = StyleSheet.create({
     map: {
-        flex: 1
+        flex: 1,
+        //height: 240,
+        alignSelf: 'stretch'
     }
 });
 

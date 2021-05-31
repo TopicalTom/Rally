@@ -3,18 +3,22 @@ import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Icon, Text } from 'react-native-elements';
 
 const AuthButton = ({ text, buttonColor, textColor, icon, iconType, iconColor, action }) => {
-    const toggleStyle = !text.includes("Log") ? 'space-between' : 'flex-start';
+    const toggleStyle = text.includes("Log") || text.includes("Sign") ? 'flex-start': 'space-between';
     return (
         <TouchableOpacity 
             style={[ styles.buttonStyle, buttonColor, {justifyContent: toggleStyle }]} 
                 onPress={action}>
             <View style={styles.typeStyle}>
-                <Icon
-                    name={icon}
-                    type={iconType}
-                    size={18}
-                    color={iconColor}
-                />
+                {icon 
+                    ?   <Icon
+                            name={icon}
+                            type={iconType}
+                            size={18}
+                            color={iconColor}
+                            iconStyle={{ paddingHorizontal: 4}}
+                        />
+                    :   null
+                }
                 <Text 
                     style={[styles.titleStyle, textColor]}>
                     {text}

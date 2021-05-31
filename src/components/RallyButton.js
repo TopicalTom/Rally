@@ -16,12 +16,12 @@ const RallyButton = ({ text, secondaryText, action, interest, accent }) => {
                 borderColor: colors.card }]} 
                 onPress={action}>
             <Text 
-                style={[styles.titleStyle, { color: colors.text}]}>
+                style={styles.titleStyle}>
                 {text}
             </Text>
             <View style={styles.contextStyle}>
                 <Text 
-                    style={[styles.titleStyle, { color: secondaryText === interest ? accent : "#6D6D6D"}]}>
+                    style={[styles.subtitleStyle, { color: secondaryText === interest ? accent : colors.text}]}>
                     {secondaryText}
                 </Text>
                 <Icon
@@ -37,27 +37,27 @@ const RallyButton = ({ text, secondaryText, action, interest, accent }) => {
 
 const styles = StyleSheet.create({
     titleStyle: {
-        fontSize: 15,
-        fontWeight: '500',
-        paddingLeft: 8,
+        fontSize: 17,
+        fontWeight: '400',
+        color: "#6D6D6D"
     },
     subtitleStyle: {
-        fontSize: 15,
+        fontSize: 17,
         fontWeight: '500',
-        paddingLeft: 8,
+        paddingRight: 4,
     },
     contextStyle: {
         flexDirection: 'row'
     },
     buttonStyle: {
-        borderRadius: 12,
+        borderRadius: 8,
         borderWidth: 1,
         marginBottom: 10,
         alignItems: 'center',
-        height: 52,
+        height: 48,
         justifyContent: 'space-between',
         flexDirection: 'row',
-        paddingHorizontal: 8
+        paddingHorizontal: 12
     }
 });
 

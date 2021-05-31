@@ -4,7 +4,14 @@ import {
     STOP_RALLYING
 } from '../actions/types';
 
-export default rallyReducer = createReducer(initialState = { status: "Browsing", interest: null, accent: "", accentBorder: "", accentTint: "" }, {
+export default rallyReducer = createReducer(
+    initialState = { 
+        status: "Browsing", 
+        interest: null, 
+        accent: "rgba(46,46,46,1)", 
+        accentBorder: "rgba(46,46,46,.5)", 
+        accentTint: "rgba(46,46,46,.1)" 
+    }, {
     [START_RALLYING]: (state, action) => {
         return { 
             status: "Rallying",
@@ -18,9 +25,9 @@ export default rallyReducer = createReducer(initialState = { status: "Browsing",
         return { 
             status: "Browsing",
             interest: null,
-            accent: "",
-            accentBorder: "",
-            accentTint: ""
+            accent: "rgba(46,46,46,1)",
+            accentBorder: "rgba(46,46,46,.5)",
+            accentTint: "rgba(46,46,46,.1)"
         };
-    }
-});
+    }}
+);

@@ -9,13 +9,12 @@ import { connect } from 'react-redux';
 // Components
 import Interest from './InterestIndicator';
 
-const RallyCard = ({ title, selected, caption, activity, interest, accent, onPress }) => {
+const RallyCard = ({ title, caption, activity, interest, accent, onPress }) => {
     const { colors } = useTheme();
 
     return (
         <TouchableOpacity
             onPress={onPress}
-            selected={selected === title}
             style={[
                 styles.cardStyle, { 
                 backgroundColor: title === interest ? accent : colors.card,
