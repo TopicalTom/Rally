@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Button } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useTheme } from '@react-navigation/native';
 
 // Router
 import SignupRouter from './SignupRouter';
@@ -13,28 +13,21 @@ const Stack = createStackNavigator();
 
 const AuthRouter = () => {
     const navigation = useNavigation();
+    const { colors } = useTheme();
 
     return (
         <Stack.Navigator 
             initialRouteName="Signup"
             screenOptions={() => {
                 return {
-                    headerTintColor: '#FD2D55',
                     headerTitle: null,
-                    headerTransparent: true,
-                    headerLeft: null,
                     headerStyle: {
                         height: 50,
-                    },
-                    headerLeftContainerStyle: {
-                        top: -40
-                    },
-                    headerRightContainerStyle: {
-                        top: -40,
-                        paddingRight: 16
+                        backgroundColor: colors.background,
+                        shadowColor: 'transparent'
                     },
                     headerBackTitleVisible: false,
-                    headerRight: () => (
+                    headerLeft: () => (
                         <Button
                             title="Cancel"
                             color="#717273"

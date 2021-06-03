@@ -27,7 +27,7 @@ const SocialCard = ({ profile, name, prompt, rally, onPress, interest, accent })
                 <Text style={[styles.nameStyle, { color: colors.text}]}>
                     {name}
                 </Text>
-                <Text style={[styles.promptStyle, { color: colors.text}]}>
+                <Text style={[styles.promptStyle, { color: colors.text, opacity: 0.8}]}>
                     {prompt}
                 </Text>
                 <View style={styles.rallyContainerStyle}>

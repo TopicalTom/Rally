@@ -5,6 +5,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Formik } from 'formik';
 import { useNavigation, useTheme } from '@react-navigation/native';
 
+// Store
+import { connect } from 'react-redux';
+import { googleSignIn } from '../actions';
+
 // Components
 import ActionButton from '../components/ActionButton';
 import AuthButton from '../components/AuthButton';
@@ -21,7 +25,7 @@ const LoginScreen = () => {
             ]}>
             <View style={styles.container}>
                 <Text 
-                    h4 style={[styles.titleStyle, {color: colors.text}]}>
+                    h3 style={[styles.titleStyle, {color: colors.text}]}>
                     Log in
                 </Text>
                 <Formik
@@ -54,16 +58,6 @@ const LoginScreen = () => {
                             color="#FD2D55"
                             action={handleSubmit}
                         />
-                        <AuthButton 
-                            text="Sign up for an account"
-                            textColor={{color: colors.text}}
-                            buttonColor={{
-                                backgroundColor: 'transparent', 
-                                borderColor: 'transparent'
-                            }}
-                            iconColor="#FFF"
-                            action={() => navigation.navigate('Auth', {screen: 'Signup'})}
-                        />
                     </View>
                     )}
                 </Formik>
@@ -91,4 +85,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default LoginScreen;
+export default connect(null, { googleSignIn })(LoginScreen);

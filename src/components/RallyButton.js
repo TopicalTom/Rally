@@ -28,7 +28,7 @@ const RallyButton = ({ text, secondaryText, action, interest, accent }) => {
                     name="chevron-right"
                     type="entypo"
                     size={18}
-                    color="#6D6D6D"
+                    color={"#6D6D6D"}
                 />
             </View>
         </TouchableOpacity>

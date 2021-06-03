@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
@@ -29,7 +29,7 @@ const MethodsScreen = () => {
     }, []);
   
     return (
-        <SafeAreaView 
+        <View 
             style={[
                 styles.container, 
                 {backgroundColor: colors.background}
@@ -97,7 +97,7 @@ const MethodsScreen = () => {
                 iconColor="#B6B6B6"
                 action={() => navigation.navigate('Login')}
             />
-        </SafeAreaView>
+        </View>
     );
 };
 
@@ -117,7 +117,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        paddingHorizontal: 40
+        paddingHorizontal: 32,
+        marginBottom: 60
     },
     defaultTextStyle: {
         fontSize: 14,
@@ -170,7 +171,7 @@ const styles = StyleSheet.create({
         marginBottom: 8,
         alignSelf: 'stretch',
         height: 48,
-        justifyContent: 'flex-start'
+        justifyContent: 'flex-start',
     },
     status: {
         marginVertical: 20

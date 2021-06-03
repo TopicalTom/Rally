@@ -9,8 +9,9 @@ import { connect } from 'react-redux';
 // Components
 import Interest from './InterestIndicator';
 
-const RallyCard = ({ title, caption, activity, interest, accent, onPress }) => {
+const RallyCard = ({ title, caption, interest, accent, onPress, socialCircle }) => {
     const { colors } = useTheme();
+    const activity = socialCircle.filter(item => item.rally === title);
 
     return (
         <TouchableOpacity
@@ -18,24 +19,24 @@ const RallyCard = ({ title, caption, activity, interest, accent, onPress }) => {
             style={[
                 styles.cardStyle, { 
                 backgroundColor: title === interest ? accent : colors.card,
-                borderColor: colors.card
+                borderColor: title === interest ? accent : colors.card
             }]}
         >
             <View style={styles.contentStyle}>
-                <Text style={[styles.titleStyle, { color: colors.text}]}>
+                <Text h4 style={[styles.titleStyle, { color: colors.text}]}>
                     {title}
                 </Text>
-                <Text style={[styles.captionStyle, { color: colors.text}]}>
+                <Text h5 style={[styles.captionStyle, { color: colors.text, opacity: 0.8}]}>
                     {caption}
                 </Text>
-                <Interest activity={activity} />
+                <Interest activity={activity} selected={interest === title ? true : false} accent={accent} />
             </View>
             <View style={styles.chevronStyle}>
                 <Icon 
                     name="chevron-right"
                     type="entypo"
-                    size={16}
-                    color="#717273"
+                    size={24}
+                    color={`#FFF`}
                 />
             </View>
         </TouchableOpacity>
@@ -56,8 +57,8 @@ const styles = StyleSheet.create({
     titleStyle: {
         textAlign: 'left',
         fontWeight: 'bold',
-        fontSize: 18,
-        marginBottom: 3,
+        //fontSize: 18,
+        marginBottom: 4,
         alignSelf: 'stretch',
     },
     captionStyle: {
@@ -65,7 +66,8 @@ const styles = StyleSheet.create({
         color: "#717273",
         alignSelf: 'stretch',
         lineHeight: 21,
-        fontSize: 15,
+        //fontSize: 15,
+        marginBottom: 16
     },
     activityStyle: {
         marginTop: 8,
@@ -81,10 +83,11 @@ const styles = StyleSheet.create({
     }
 });
 
-const mapStateToProps = ({ rally }) => {
+const mapStateToProps = ({ rally, social }) => {
     return { 
         interest: rally.interest,
-        accent: rally.accent  
+        accent: rally.accent,
+        socialCircle: social.socialCircle 
     };
 }
 

@@ -54,7 +54,23 @@ const MainRouter = () => {
                 name="Profile" 
                 component={ProfileModal} 
                 options={() => ({ 
-                    headerShown: false,
+                    headerShown: true,
+                    headerTitle: null,
+                    headerLeft: null,
+                    headerStyle: {
+                        height: 60,
+                        backgroundColor: colors.background,
+                        shadowColor: 'transparent',
+                    },
+                    headerTitleStyle: {
+                        height: 60,
+                        color: '#FFF'
+                    },
+                    headerLeftContainerStyle: {
+                        top: -42,
+                        paddingLeft: 8,
+                        height: 60,
+                    },
                     ...TransitionPresets.ModalPresentationIOS
                 })}
             />

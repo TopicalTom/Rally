@@ -11,16 +11,13 @@ import AuthButton from '../components/AuthButton';
 // Assets
 import Logo from '../assets/Logo';
 
-// Store
-import { connect } from 'react-redux';
-
 const WelcomeScreen = ({accent, accentBorder}) => {
     const navigation = useNavigation();
     const { colors } = useTheme();
     
     return (
         <LinearGradient 
-            colors={[accent || '#FD2D55', accentBorder || '#ED506F']} 
+            colors={['#FD2D55', '#ED506F']} 
             style={styles.screen}>
             <View style={styles.logoStyle}>
                 <Logo />
@@ -35,16 +32,6 @@ const WelcomeScreen = ({accent, accentBorder}) => {
                     }}
                     iconColor="#B6B6B6"
                     action={() => navigation.navigate('Auth')}
-                />
-                <AuthButton 
-                    text="Log in to existing account"
-                    textColor={{color: colors.text}}
-                    buttonColor={{
-                        backgroundColor: 'transparent', 
-                        borderColor: 'transparent'
-                    }}
-                    iconColor="#FFF"
-                    action={() => navigation.navigate('Auth', {screen: 'Login'})}
                 />
             </View>
             <View style={styles.legalStyle}>
@@ -71,7 +58,8 @@ const styles = StyleSheet.create({
     screen: {
         flex: 1,
         justifyContent: 'flex-end',
-        padding: 40,
+        paddingHorizontal: 32,
+        paddingVertical: 48
     },
     authContainerStyle: {
         marginBottom: 30
@@ -108,14 +96,7 @@ const styles = StyleSheet.create({
     }
 });
 
-const mapStateToProps = ({ rally }) => {
-    return { 
-        accent: rally.accent,
-        accentBorder: rally.accentBorder,    
-    };
-}
-
-export default connect(mapStateToProps)(WelcomeScreen);
+export default WelcomeScreen;
 
 /*
 

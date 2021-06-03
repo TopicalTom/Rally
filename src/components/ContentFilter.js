@@ -4,7 +4,7 @@ import { Text, Icon } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 
 const ContentFilter = ({ label }) => {
-    const [ filter, setFilter ] = useState("Active");
+    const [ filter, setFilter ] = useState("Within 2km");
     const { colors } = useTheme();
 
     return (
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         fontSize: 16,
         lineHeight: 21,
-        fontWeight: 'bold',
+        fontWeight: '400',
         paddingLeft: 4
     },
 });

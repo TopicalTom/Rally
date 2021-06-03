@@ -12,36 +12,39 @@ const ActionButton = ({ text, color, action }) => {
                     backgroundColor: color, 
                     borderColor: color
                 }]}
-                iconRight
-                icon={
-                    <Icon
-                        name="chevron-small-right"
-                        type="entypo"
-                        size={16}
-                        color="#fff"
-                        paddingLeft={2}
-                    />
-                } 
                 onPress={action}
             />
         </>
     );
 };
 
+/*
+                iconRight
+                icon={
+                    <Icon
+                        name="chevron-small-right"
+                        type="entypo"
+                        size={24}
+                        color="#fff"
+                        paddingLeft={2}
+                    />
+                } 
+*/
+
 const styles = StyleSheet.create({
     titleStyle: {
         color: '#fff',
-        fontSize: 14,
+        fontSize: 17,
         fontWeight: '600',
-        paddingLeft: 12,
+        //paddingLeft: 8,
     },
     buttonStyle: {
-        borderRadius: 12,
+        borderRadius: 8,
         borderWidth: 1,
-        marginBottom: 8,
+        //marginBottom: 8,
         alignSelf: 'stretch',
-        height: 48,
-        justifyContent: 'flex-start'
+        height: 52,
+        justifyContent: 'center'
     }
 });
 

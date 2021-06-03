@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import firestore from '@react-native-firebase/firestore';
 import { Animated, StyleSheet, ScrollView, SectionList, FlatList, TouchableOpacity, View } from 'react-native';
 import { Text, ButtonGroup, Divider, Icon } from 'react-native-elements';
 import { useNavigation, useTheme } from '@react-navigation/native';
@@ -16,126 +17,42 @@ const ChatsScreen = () => {
     const navigation = useNavigation();
     const [ currentIndex, setCurrentIndex] = useState(0);
     const offset = useRef(new Animated.Value(0)).current;
+    const [chats, setChats] = useState([]);
+
+    useEffect(async () => {
+        const chatsRef = firestore().collection("chats");
+        const unsubscribe = await chatsRef
+            .where("owners", "array-contains", 'iOEaqDpLSbelERq4rZdjVyWq8PV2')
+            .get()
+            .then((querySnapshot) => {
+                const data = querySnapshot.docs.map(doc => ({
+                    name: doc._data.users[1].name,
+                    profile: doc._data.users[1].profile,
+                    id: doc._data.users[1].id,
+                }));
+                setChats(data);
+            })
+            .catch((error) => {
+                console.log("Error getting documents: ", error);
+            });
+        return () => unsubscribe;
+    }, []);
 
     const updateIndex = (selected) => {
         setCurrentIndex(selected)
     };
 
-    const SOCIAL_CIRCLE = [
-        {
-            name: "Natalie",
-            prompt: "Anyone else thinking Outcast tn?",
-            rally: "Nightlife",
-            profile: "https://images.unsplash.com/photo-1558507652-2d9626c4e67a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80",
-            coords: {
-                latitude: -47,
-                longitude: 23
-            }
-        },
-        {
-            name: "Shawn",
-            prompt: "Long week, I need to go out...",
-            rally: "Nightlife",
-            profile: "https://images.unsplash.com/photo-1601582589907-f92af5ed9db8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=80",
-            coords: {
-                latitude: -47,
-                longitude: 23
-            }
-        },
-        {
-            name: "Calista",
-            prompt: "Feeling a chill night",
-            rally: "Hangout",
-            profile: "https://images.unsplash.com/photo-1614514161228-9f1543003961?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80",
-            coords: {
-                latitude: -47,
-                longitude: 23
-            }
-        },
-        {
-            name: "Andre",
-            prompt: "Hit me up if anything is going on tn",
-            rally: "Hangout",
-            profile: "https://images.unsplash.com/photo-1484517186945-df8151a1a871?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=687&q=80",
-            coords: {
-                latitude: -47,
-                longitude: 23
-            }
-        },
-        {
-            name: "Shawn",
-            prompt: "Anyone else thinking Outcast tn?",
-            rally: "Nightlife",
-            profile: "https://images.unsplash.com/photo-1527047614336-194da60dacd9?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80",
-            coords: {
-                latitude: -47,
-                longitude: 23
-            }
-        },
-        {
-            name: "Natalie",
-            prompt: "Anyone else thinking Outcast tn?",
-            rally: "Nightlife",
-            profile: "https://images.unsplash.com/photo-1558507652-2d9626c4e67a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80",
-            coords: {
-                latitude: -47,
-                longitude: 23
-            }
-        },
-        {
-            name: "Shawn",
-            prompt: "Long week, I need to go out...",
-            rally: "Nightlife",
-            profile: "https://images.unsplash.com/photo-1601582589907-f92af5ed9db8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=80",
-            coords: {
-                latitude: -47,
-                longitude: 23
-            }
-        },
-        {
-            name: "Calista",
-            prompt: "Feeling a chill night",
-            rally: "Hangout",
-            profile: "https://images.unsplash.com/photo-1614514161228-9f1543003961?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80",
-            coords: {
-                latitude: -47,
-                longitude: 23
-            }
-        },
-        {
-            name: "Andre",
-            prompt: "Hit me up if anything is going on tn",
-            rally: "Hangout",
-            profile: "https://images.unsplash.com/photo-1484517186945-df8151a1a871?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=687&q=80",
-            coords: {
-                latitude: -47,
-                longitude: 23
-            }
-        },
-        {
-            name: "Shawn",
-            prompt: "Anyone else thinking Outcast tn?",
-            rally: "Nightlife",
-            profile: "https://images.unsplash.com/photo-1527047614336-194da60dacd9?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80",
-            coords: {
-                latitude: -47,
-                longitude: 23
-            }
-        }
-    ];
-
     return (
-        <Screen title='Messages' offset={offset}>
+        <Screen title='Inbox' offset={offset}>
             <AnimatedHeader animatedValue={offset} headerHeight={180}>
                 <Text 
                     h2 style={[styles.titleStyle, {color: colors.text}]}>
-                    Messages
+                    Inbox
                 </Text>
             </AnimatedHeader>
             <StickyHeader offset={offset} scrollDistance={80} height={150}>
                 <ButtonGroup 
-                    buttons={['All', 'Unread']}
-                    underlayColor="red"
+                    buttons={['Messages', 'Requests']}
                     onPress={updateIndex}
                     selectedIndex={currentIndex}
                     selectedTextStyle={{color: colors.text}}
@@ -156,7 +73,7 @@ const ChatsScreen = () => {
                 <Divider style={[styles.dividerStyle, {backgroundColor: colors.border}]}/>
             </StickyHeader>
             <FlatList
-                data={SOCIAL_CIRCLE}
+                data={chats}
                 keyExtractor={(item, index) => item + index}
                 contentContainerStyle={{paddingTop: 240}}
                 scrollEnabled={true}
@@ -188,7 +105,7 @@ const styles = StyleSheet.create({
     },
     tabsStyle: {
         borderWidth: 0,
-        width: '35%',
+        width: '56%',
         left: -10,
         zIndex: 90,
     },

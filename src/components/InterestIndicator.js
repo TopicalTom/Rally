@@ -3,26 +3,40 @@ import { StyleSheet, View, Image } from 'react-native';
 import { Text } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 
-const InterestIndicator = ({ activity }) => {
+const InterestIndicator = ({ activity, selected, accent }) => {
     const { colors } = useTheme();
 
-    if (activity.length < 1) return null;
+    if (activity.length < 1) return <Text>Be the first</Text>;
+
+    console.log(activity);
 
     return (
         <View style={styles.activityStyle}>
             <View style={[styles.imageContainerStyle, {zIndex: 20}]}>
                 <Image 
-                    source={{ uri: 'https://images.unsplash.com/photo-1525718637816-f28758beafb8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80'}}
-                    style={[styles.profileStyle, {borderColor: colors.card, backgroundColor: colors.card }]} 
+                    source={{ uri: activity[0].profile}}
+                    style={[styles.profileStyle, {
+                        borderColor: selected ? accent : colors.card, 
+                        backgroundColor: selected ? accent : colors.card }
+                    ]} 
                 />
             </View>
-            <View style={[styles.imageContainerStyle, {right: 8}]}>
-                <Image 
-                    source={{ uri: 'https://images.unsplash.com/photo-1515971193510-ae36a1b2c09b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80'}}
-                    style={[styles.profileStyle, {borderColor: colors.card, backgroundColor: colors.card }]}  />
-            </View>
-            <Text style={styles.friendsStyle}>
-                {activity[0].name} and {activity.length} other{activity.length > 1 ? "s" : ""}
+            {activity.length > 1 &&
+                <View style={[styles.imageContainerStyle, {right: 8}]}>
+                    <Image 
+                        source={{ uri: activity[1].profile}}
+                        style={[styles.profileStyle, {
+                            borderColor: selected ? accent : colors.card, 
+                            backgroundColor: selected ? accent : colors.card }
+                        ]}  
+                    />
+                </View>
+            }
+            <Text style={{color: selected ? '#FFF' : '#717273'}}>
+                {activity.length > 1
+                    ?   `${activity[0].name} and ${activity.length} other${activity.length > 1 ? "s" : ""}`
+                    :   `${activity[0].name}`
+                }
             </Text>
         </View>
     )
@@ -30,15 +44,16 @@ const InterestIndicator = ({ activity }) => {
 
 const styles = StyleSheet.create({
     activityStyle: {
-        marginTop: 8,
+        //marginTop: 8,
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        right: 3
     },
     profileStyle: {
-        height: 20,
-        width: 20,
+        height: 28,
+        width: 28,
         borderRadius: 20,
-        borderWidth: 2,
+        borderWidth: 3,
         overflow: 'hidden'
     },
     friendsStyle: {

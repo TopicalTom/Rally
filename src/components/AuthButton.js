@@ -36,12 +36,7 @@ const AuthButton = ({ text, buttonColor, textColor, icon, iconType, iconColor, a
 
 const styles = StyleSheet.create({
     titleStyle: {
-        fontSize: 15,
-        fontWeight: '500',
-        paddingLeft: 8,
-    },
-    subtitleStyle: {
-        fontSize: 15,
+        fontSize: 16,
         fontWeight: '500',
         paddingLeft: 8,
     },

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useTheme } from '@react-navigation/native';
 
 // Screens
 import InterestScreen from '../screens/InterestScreen';
@@ -11,6 +11,7 @@ const Stack = createStackNavigator();
 
 const RallyModal = () => {
     const navigation = useNavigation();
+    const { colors } = useTheme();
     
     return (
         <Stack.Navigator 
@@ -18,33 +19,28 @@ const RallyModal = () => {
             headerMode='screen'
             screenOptions={() => {
                 return {
-                    headerTitle: null,
-                    headerTransparent: true,
+                    headerShown: true,
                     headerStyle: {
-                        height: 50,
+                        height: 60,
+                        backgroundColor: colors.background,
+                        shadowColor: 'transparent',
+                    },
+                    headerTitleStyle: {
+                        height: 60,
+                        color: '#FFF'
                     },
                     headerLeftContainerStyle: {
-                        top: -40,
-                        paddingLeft: 8
-                    },
-                    headerRightContainerStyle: {
-                        top: -40,
-                        paddingRight: 16
-                    },
-                    headerRight: () => (
-                        <Button
-                            title="Cancel"
-                            color="#717273"
-                            onPress={() => navigation.goBack('Tab')}
-                        />
-                    )
+                        top: -42,
+                        paddingLeft: 8,
+                        height: 60,
+                    }
                 }
             }}>
             <Stack.Screen 
                 name="Interest" 
                 component={InterestScreen} 
                 options={() => ({ 
-                    headerShown: true,
+                    headerTitle: null,
                     headerLeft: null,
                     headerBackTitleVisible: false,
                 })}
@@ -53,9 +49,10 @@ const RallyModal = () => {
                 name="Preferences" 
                 component={PreferencesScreen} 
                 options={({ route }) => ({ 
-                    headerShown: true,
+                    //headerBackTitleVisible: false,
                     headerBackTitleVisible: false,
-                    headerTintColor: route.params.accent
+                    headerTitle: route.params.interest,
+                    headerTintColor: route.params.accent,
                 })}
             />
         </Stack.Navigator>

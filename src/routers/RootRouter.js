@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
+import RNBootSplash from "react-native-bootsplash";
 import auth from '@react-native-firebase/auth';
 
 // Themes
@@ -21,13 +22,11 @@ import SplashScreen from '../screens/SplashScreen';
 
 const Root = createStackNavigator();
 
-const RootRouter = ({ loginFailed, loginSuccess}) => {
+const RootRouter = ({loginSuccess}) => {
     const scheme = useColorScheme();
 
-    const [ initializing, setInitializing ] = useState(true);
+    //const [ initializing, setInitializing ] = useState(true);
     const [ currentUser, setCurrentUser ] = useState(null);
-
-    //console.log(currentUser)
   
     // Handle user state changes
     const onAuthStateChanged = async userDetails => {
@@ -38,15 +37,20 @@ const RootRouter = ({ loginFailed, loginSuccess}) => {
         }
 
         setCurrentUser(userDetails)
-        if (initializing) setInitializing(false);
+        //if (initializing) setInitializing(false);
     };
+
+    useEffect(() => {
+        setTimeout(() => { RNBootSplash.hide({ fade: true })}, 1000);
+        //await RNBootSplash.hide({ fade: true });
+    }, [currentUser]);
   
     useEffect(() => {
         const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
         return subscriber; // unsubscribe on unmount
     }, []);
   
-    if (initializing) return <SplashScreen />;
+    //if (initializing) return <SplashScreen />;
 
     return (
         <NavigationContainer theme={scheme === 'dark' ? DarkTheme : LightTheme}>
