@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, ScrollView, SectionList, Switch } from 'react-native';
-import { Text, Input, Divider } from 'react-native-elements';
+import React, { useState, useEffect, useRef } from 'react';
+import { StyleSheet, View, ScrollView, SectionList, Switch, TouchableOpacity } from 'react-native';
+import { Text, Input, Divider, Icon } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -15,42 +15,71 @@ import { broadcastRally, startRallying } from '../actions';
 const PreferencesScreen = ({ route, user, friendsList, startRallying }) => {
     const { accent, accentBorder, accentTint, interest, squad } = route.params;
     const { colors } = useTheme();
+    const promptInput = useRef();
     const navigation = useNavigation();
     const [ selections, setSelections ] = useState({
+        interest,
         prompt: "",
+        type: 'All friends',
         discoverable: friendsList
-    }); 
+    });
+
+    const handleInput = (newValue) => {
+        setSelections({...selections, prompt: newValue});
+    };
+
+    const handleClear = () => {
+        promptInput.current.clear();
+        setSelections({...selections, prompt: ""});
+        promptInput.current.focus();
+    };
 
     const handleRally = () => {
-        const { uid, profile, displayName } = user;
-        startRallying(interest, accent, accentBorder, accentTint);
-        broadcastRally(profile, displayName, interest)
+        //const { uid, profile, displayName } = user;
+        startRallying(interest, selections.prompt);
+        //broadcastRally(profile, displayName, interest)
         navigation.navigate('Tab');
     };
 
     return (
         <ScrollView style={[styles.container, {backgroundColor: colors.background}]}>
-            <View style={{marginBottom: 48}}>
+            <View style={{marginBottom: 40}}>
                 <Text 
                     h4 style={[styles.titleStyle, {color: colors.text}]}>
                     Prompt
                 </Text>
-                <Divider style={{ backgroundColor: colors.card }} />
                 <Text 
-                    style={[styles.captionStyle, {color: colors.text, opacity: 0.8, paddingTop: 16}]}>
+                    style={[styles.captionStyle, {color: colors.text, opacity: 0.8}]}>
                     Give your friends a better idea of what you are looking to do.
                 </Text>
                 <Input 
-                    containerStyle={{paddingHorizontal: 0, height: 120, backgroundColor: colors.card, borderRadius: 8}}
-                    inputContainerStyle={{paddingHorizontal: 16, paddingVertical: 8, borderBottomWidth: 0}}
-                    multiline={true}
+                    ref={promptInput}
+                    containerStyle={{paddingHorizontal: 0, backgroundColor: colors.background}}
+                    inputContainerStyle={{borderBottomColor: colors.card , borderBottomWidth: 0.5}}
                     placeholder="Type here..."
-                    placeholderTextColor="#6D6D6D"
+                    placeholderTextColor={"#6D6D6D"}
                     inputStyle={{color: colors.text}}
                     selectionColor={accent}
+                    onChangeText={value => handleInput(value)}
+                    //rightIconContainerStyle={}
+                    rightIcon={() => {
+                        return (
+                            selections.prompt !== "" &&
+                            <TouchableOpacity 
+                                style={styles.closeButtonStyle}
+                                onPress={() => handleClear()}>
+                                <Icon
+                                    name="x"
+                                    type="feather"
+                                    size={13}
+                                    color={colors.background}
+                                />
+                            </TouchableOpacity>
+                        )      
+                    }}
                 />
             </View>
-            <View style={{marginBottom: 48}}>
+            <View style={{marginBottom: 40}}>
                 <Text 
                     h4 style={[styles.titleStyle, {color: colors.text}]}>
                     Discoverable
@@ -106,42 +135,33 @@ const PreferencesScreen = ({ route, user, friendsList, startRallying }) => {
                     <View style={{borderColor: colors.card, backgroundColor: colors.background, borderWidth: 0.5, height: 24, width: 24, borderRadius: 80}}/>
                 </View>
             </View>
-            <View style={{marginBottom: 48}}>
-                <Text 
-                    h4 style={[styles.titleStyle, {color: colors.text}]}>
-                    Audience
-                </Text>
-                <Divider style={{ backgroundColor: colors.card }} />
-                <Text 
-                    style={[styles.captionStyle, {color: colors.text, opacity: 0.8, paddingTop: 16}]}>
-                    Select who you would like to see your rally. This can be changed at any time.
-                </Text>
-                <Text 
-                    style={[styles.subStyle, {color: accent}]}>
-                    + Add friends
-                </Text>
-            </View>
+            {selections.type === "Custom" &&
+                <View style={{marginBottom: 40}}>
+                    <Text 
+                        h4 style={[styles.titleStyle, {color: colors.text}]}>
+                        Audience
+                    </Text>
+                    <Text 
+                        style={[styles.captionStyle, {color: colors.text, opacity: 0.8}]}>
+                        Select who you would like to see your rally. This can be changed at any time.
+                    </Text>
+                    <Text 
+                        style={[styles.subStyle, {color: accent}]}>
+                        + Add friends
+                    </Text>
+                </View>
+            }
             <View style={{marginBottom: 120}}>
                 <ActionButton 
                     text={`Start rallying`}
                     color={accent}
+                    disabled={selections.prompt === "" ? true : false}
                     action={handleRally}
                 />
             </View>
         </ScrollView>
     );
 };
-
-/*
-            <View style={[styles.floatingActionStyle, {borderTopColor: colors.border}]}>
-                <ActionButton 
-                    text={`Start rallying`}
-                    color={accent}
-                    action={handleRally}
-                />
-            </View>
-
-*/
 
 const styles = StyleSheet.create({
     container: {
@@ -151,6 +171,17 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         paddingTop: 36,
         //position: 'relative'
+    },
+    closeButtonStyle: {
+        display: 'flex', 
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 100,
+        width: 21,
+        height: 21,
+        backgroundColor: '#FFF', 
+        padding: 4, 
+        opacity: 0.3
     },
     sectionStyle: {
         marginVertical: 20,
@@ -182,7 +213,7 @@ const styles = StyleSheet.create({
     },
     subStyle: {
         textAlign: 'left',
-        //color: "#717273",
+        color: "#717273",
         alignSelf: 'stretch',
         lineHeight: 21,
         width: '75%'

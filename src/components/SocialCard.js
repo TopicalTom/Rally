@@ -31,13 +31,6 @@ const SocialCard = ({ profile, name, prompt, rally, onPress, interest, accent })
                     {prompt}
                 </Text>
                 <View style={styles.rallyContainerStyle}>
-                    <Icon 
-                        name="arrowright"
-                        type="antdesign"
-                        size={10}
-                        color={interest === rally ? accent : "#6D6D6D"}
-                        paddingRight={4}
-                    />
                     <Text style={[styles.rallyStyle, {color: interest === rally ? accent : "#6D6D6D"}]}>
                         {rally}
                     </Text>
@@ -47,6 +40,17 @@ const SocialCard = ({ profile, name, prompt, rally, onPress, interest, accent })
 
     );
 };
+
+/*
+                    <Icon 
+                        name="arrowright"
+                        type="antdesign"
+                        size={12}
+                        color={interest === rally ? accent : "#6D6D6D"}
+                        paddingRight={4}
+                    />
+
+*/
 
 const styles = StyleSheet.create({
     cardStyle: {
@@ -75,7 +79,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     rallyStyle: {
-        fontSize: 12,
+        fontSize: 13,
         color: "#717273",
         alignSelf: 'stretch',
     },

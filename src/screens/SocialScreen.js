@@ -1,4 +1,3 @@
-import firestore from '@react-native-firebase/firestore';
 import React, { useState, useEffect, useRef } from 'react';
 import { Animated, StyleSheet, FlatList, View } from 'react-native';
 import { Text, Icon } from 'react-native-elements';
@@ -7,6 +6,7 @@ import { useNavigation, useTheme } from '@react-navigation/native';
 // Store
 import { connect } from 'react-redux';
 import { 
+    retrieveCurrentRally,
     retrieveSocialCircle, 
     updateSocialCircle, 
     retrieveFriendsList, 
@@ -23,17 +23,11 @@ import StickyHeader from '../components/StickyHeader';
 import SocialCard from '../components/SocialCard';
 import RallyButton from '../components/RallyButton';
 
-const SocialScreen = ({ status, interest, accent, user, socialCircle, retrieveSocialCircle, updateSocialCircle, retrieveFriendsList, retrieveSquads }) => {
+const SocialScreen = ({ status, interest, accent, prompt, user, socialCircle, retrieveSocialCircle, updateSocialCircle, retrieveFriendsList, retrieveCurrentRally, retrieveSquads }) => {
     const { colors } = useTheme();
     const navigation = useNavigation();
     const offset = useRef(new Animated.Value(0)).current;
-    //const [ currentlySocial, setCurrentlySocial ] = useState([]);
-
-    /*
-    useEffect(() => {
-        setCurrentlySocial(socialCircle);
-    }, [socialCircle]);
-    */
+    //socialCircle.sort(item => item.rally === interest).reverse()
 
     // Grabs updated Social Details
     useEffect(() => {
@@ -43,6 +37,7 @@ const SocialScreen = ({ status, interest, accent, user, socialCircle, retrieveSo
 
     // Grabs Social Circle details onLoad
     useEffect(() => {
+        retrieveCurrentRally();
         retrieveSocialCircle();
         retrieveFriendsList();
         retrieveSquads();
@@ -65,7 +60,7 @@ const SocialScreen = ({ status, interest, accent, user, socialCircle, retrieveSo
                 />
                 <RallyButton 
                     text="Prompt"
-                    secondaryText="None"
+                    secondaryText={prompt || "None"}
                     action={() => navigation.navigate('Mode', { screen: 'Preferences', params: { interest, accent }})}
                 />
                 <RallyButton 
@@ -82,7 +77,7 @@ const SocialScreen = ({ status, interest, accent, user, socialCircle, retrieveSo
                 />
             </StickyHeader>
             <FlatList
-                data={status === "Browsing" ? socialCircle : socialCircle.sort(item => item.rally === interest).reverse()}
+                data={socialCircle}
                 keyExtractor={(item, index) => item + index}
                 contentContainerStyle={{paddingTop: 430}}
                 scrollEnabled={true}
@@ -202,16 +197,17 @@ const styles = StyleSheet.create({
 const mapStateToProps = ({ rally, authentication, social }) => {
     return { 
         status: rally.status,
-        interest: rally.interest,  
+        interest: rally.interest, 
+        prompt: rally.prompt,  
         accent: rally.accent,
         accentBorder: rally.accentBorder,
         accentTint: rally.accentTint  ,
         user: authentication.user,
-        socialCircle: social.socialCircle
+        socialCircle: social.socialCircle,
     };
 }
 
-export default connect(mapStateToProps, { retrieveSocialCircle, updateSocialCircle, retrieveFriendsList, retrieveSquads })(SocialScreen);
+export default connect(mapStateToProps, { retrieveSocialCircle, updateSocialCircle, retrieveFriendsList, retrieveSquads, retrieveCurrentRally })(SocialScreen);
 
     /*
     useEffect(() => {

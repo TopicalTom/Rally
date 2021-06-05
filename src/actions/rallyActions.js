@@ -4,6 +4,72 @@ import {
     STOP_RALLYING
 } from './types';
 
+export const retrieveCurrentRally = () => async (dispatch) => {
+    try {
+        const currentRallyRef = firestore().collection("social").doc('iOEaqDpLSbelERq4rZdjVyWq8PV2');
+        const querySnapshot = await currentRallyRef.get();
+        let data = querySnapshot._data;
+        dispatch({
+            type: START_RALLYING,
+            payload: {
+                rally: data.rally,
+                prompt: data.prompt
+            }
+        })
+    } catch (err) {
+        console.error(err)
+    }
+};
+
+export const startRallying = (interest, prompt) => async (dispatch) => {
+    try {
+        const socialRef = firestore().collection('social').doc('iOEaqDpLSbelERq4rZdjVyWq8PV2');
+        await socialRef.set({
+            name: "Thomas",
+            profile: "https://lh3.googleusercontent.com/a-/AOh14GhSdOYlIHj2HeYabqR2RSB15dkWmocjRLAusWJq=s96-c",
+            status: "Rallying",
+            rally: interest, 
+            prompt: prompt,
+            coord: {
+                lat: -47,
+                long: 23
+            },
+            discoverable: ["Yx6JoIWFBoGY82GoDwVm", 'iOEaqDpLSbelERq4rZdjVyWq8PV2']
+        });
+        dispatch({
+            type: START_RALLYING,
+            payload: {
+                rally: interest,
+                prompt: prompt
+            }
+        })
+    } catch (error) {
+        console.log('error broadcasting ', error.message)
+    }
+};
+
+export const stopRallying = () => async (dispatch) => {
+    try {
+        const socialRef = firestore().collection('social').doc('iOEaqDpLSbelERq4rZdjVyWq8PV2');
+        await socialRef.set({
+            name: "Thomas",
+            profile: "https://lh3.googleusercontent.com/a-/AOh14GhSdOYlIHj2HeYabqR2RSB15dkWmocjRLAusWJq=s96-c",
+            status: "Browsing",
+            rally: "None", 
+            prompt: "",
+            coord: {
+                lat: -47,
+                long: 23
+            },
+            discoverable: ["Yx6JoIWFBoGY82GoDwVm", 'iOEaqDpLSbelERq4rZdjVyWq8PV2']
+        });
+        dispatch({ type: STOP_RALLYING })
+    } catch (error) {
+        console.log('error broadcasting ', error.message)
+    }
+};
+
+/*
 export const broadcastRally = async (profile, displayName, interest) => {
     const socialRef = firestore().collection('social').doc('iOEaqDpLSbelERq4rZdjVyWq8PV2');
     try {
@@ -44,18 +110,14 @@ export const endRally = async (profile, displayName) => {
     }
 };
 
-export const startRallying = (interest, accent, accentBorder, accentTint) => dispatch => {
+export const startRallying = (interest) => dispatch => {
     dispatch({
         type: START_RALLYING,
-        payload: {
-            interest,
-            accent,
-            accentBorder,
-            accentTint
-        }
+        payload: interest
     })
 };
 
 export const stopRallying = () => dispatch => {
     dispatch({ type: STOP_RALLYING })
 };
+*/

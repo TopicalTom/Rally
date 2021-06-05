@@ -15,9 +15,9 @@ const InterestScreen = ({ interest, user, squads, stopRallying }) => {
     const navigation = useNavigation();
 
     const handleRally = () => {
-        const { profile, displayName } = user;
+        //const { profile, displayName } = user;
         stopRallying();
-        endRally(profile, displayName);
+        //endRally(profile, displayName);
         navigation.navigate('Tab');
     };
 

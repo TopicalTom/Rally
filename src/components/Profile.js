@@ -2,18 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Image } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
-import Pulse from 'react-native-pulse';
+//import Pulse from 'react-native-pulse';
 
 // Store
 import { connect } from 'react-redux';
+import RallyPulse from './RallyPulse';
 
-const Profile = ({ profile, accent, onPress, onLongPress }) => {
-    const [ pulseColor, setPulseColor ] = useState(accent);
+const Profile = ({ profile, status, interest, accent, onPress, onLongPress }) => {
+    //const [ pulseColor, setPulseColor ] = useState(accent);
     const { colors } = useTheme();
-
-    useEffect(() => {
-        return () => setPulseColor(accent);
-    }, [accent])
 
     return (
         <TouchableOpacity
@@ -28,15 +25,7 @@ const Profile = ({ profile, accent, onPress, onLongPress }) => {
                     style={styles.profileStyle}
                 />
             </View>
-            <Pulse 
-                style={styles.pulseStyle}
-                color={pulseColor} 
-                numPulses={3} 
-                diameter={70} 
-                speed={90} 
-                duration={1000} 
-                pulseStyle={{borderColor: pulseColor}}
-            />
+            <RallyPulse interest={interest} />
         </TouchableOpacity>
 
     );
@@ -68,8 +57,24 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = ({ rally }) => {
     return { 
-        accent: rally.accent  
+        accent: rally.accent,
+        interest: rally.interest,
+        status: rally.status 
     };
 }
 
 export default connect(mapStateToProps)(Profile);
+
+/*
+            {status !== "Browsing" &&
+                <Pulse 
+                    style={styles.pulseStyle}
+                    color={pulseColor} 
+                    numPulses={3} 
+                    diameter={70} 
+                    speed={90} 
+                    duration={1000} 
+                    pulseStyle={{borderColor: pulseColor}}
+                />
+            }
+*/

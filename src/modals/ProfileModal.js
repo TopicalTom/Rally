@@ -22,43 +22,48 @@ const ProfileModal = ({user, status, interest, accent}) => {
                     style={styles.profileStyle}
                 />
                 <Text h4 style={{color: colors.text, fontfontWeight: '500'}}>{user.displayName.split(' ')[0]}</Text>
-                <Text h5 style={{color: accent, fontWeight: '500'}}>{status} - {interest}</Text>
+                <Text h5 style={{color: accent, fontWeight: '500'}}>{status} • {interest}</Text>
             </View>
             <View style={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-between'}}>
-                <View style={[styles.halfButttonStyle, {borderColor: colors.card, display: 'flex', flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16}]}>
-                    <Icon
+                <View style={[styles.halfButttonStyle, {borderColor: colors.card, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 16}]}>
+                    <View style={{height: 26, alignItems: 'center', justifyContent: 'center'}}>
+                        <Icon
                             name="users"
                             type="feather"
                             size={24}
                             color="#FFF"
-                            iconStyle={{ paddingRight: 12}}
                         />
-                    <View>
-                        <Text 
-                            style={[styles.titleStyle, { color: colors.text}]}>
-                            Friends
-                        </Text>
-                        <Text h5>23 rallying</Text>
                     </View>
+                    <Text 
+                        style={[styles.titleStyle, { color: colors.text, paddingTop: 4}]}>
+                        Friends
+                    </Text>
                 </View>
-                <View style={[styles.halfButttonStyle, {borderColor: colors.card, display: 'flex', flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16}]} >
-                    <Icon
+                <View style={[styles.halfButttonStyle, {borderColor: colors.card, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 16}]}>
+                    <View style={{height: 28, alignItems: 'center', justifyContent: 'center'}}>
+                        <Icon
                             name="zap"
                             type="feather"
                             size={24}
                             color="#FFF"
-                            iconStyle={{ paddingRight: 12}}
                         />
-                    <View>
-                        <Text 
-                            style={[styles.titleStyle, { color: colors.text}]}>
-                            Squads
-                        </Text>
-                        <Text h5>3 rallying</Text>
                     </View>
+                    <Text 
+                        style={[styles.titleStyle, { color: colors.text}]}>
+                        Squads
+                    </Text>
                 </View>
             </View>
             <View>
+                <View style={[styles.swipeCardStyle, {backgroundColor: interest ? accent : '#FD2D55', justifyContent: 'flex-end'}]}>
+                    <Text 
+                        h4 style={[styles.titleStyle, { color: '#FFF', paddingBottom: 4}]}>
+                        Add friends
+                    </Text>
+                    <Text h5 style={[styles.ctaStyle, { color: '#FFF', opacity: 0.8}]}>
+                        Invite friends and grow your social circle!
+                    </Text>
+                </View>
                 <TouchableOpacity 
                     style={{flexDirection: 'row', display: 'flex', height: 52, justifyContent: 'space-between', alignItems: 'center'}} 
                     onPress={() => {}}>
@@ -79,7 +84,7 @@ const ProfileModal = ({user, status, interest, accent}) => {
                         name="chevron-right"
                         type="entypo"
                         size={18}
-                        color={accent}
+                        color="#717273"
                     />
                 </TouchableOpacity>
                 <TouchableOpacity 
@@ -102,7 +107,7 @@ const ProfileModal = ({user, status, interest, accent}) => {
                         name="chevron-right"
                         type="entypo"
                         size={18}
-                        color={accent}
+                        color="#717273"
                     />
                 </TouchableOpacity>
                 <TouchableOpacity 
@@ -125,7 +130,7 @@ const ProfileModal = ({user, status, interest, accent}) => {
                         name="chevron-right"
                         type="entypo"
                         size={18}
-                        color={accent}
+                        color="#717273"
                     />
                 </TouchableOpacity>
             </View>
@@ -151,7 +156,7 @@ const ProfileModal = ({user, status, interest, accent}) => {
                         name="chevron-right"
                         type="entypo"
                         size={18}
-                        color={accent}
+                        color="#717273"
                     />
                 </TouchableOpacity>
                 <TouchableOpacity 
@@ -174,7 +179,7 @@ const ProfileModal = ({user, status, interest, accent}) => {
                         name="chevron-right"
                         type="entypo"
                         size={18}
-                        color={accent}
+                        color="#717273"
                     />
                 </TouchableOpacity>
                 <TouchableOpacity 
@@ -197,7 +202,7 @@ const ProfileModal = ({user, status, interest, accent}) => {
                         name="chevron-right"
                         type="entypo"
                         size={18}
-                        color={accent}
+                        color="#717273"
                     />
                 </TouchableOpacity>
             </View>
@@ -227,8 +232,8 @@ const styles = StyleSheet.create({
     },
     profileStyle: {
         borderRadius: 240,
-        width: 100,
-        height: 100,
+        width: 120,
+        height: 120,
     },
 });
 
