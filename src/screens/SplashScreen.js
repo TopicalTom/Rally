@@ -1,6 +1,7 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, Text } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import { useTheme } from '@react-navigation/native';
 
 // Assets
 import Logo from '../assets/Logo';
@@ -8,14 +9,19 @@ import Logo from '../assets/Logo';
 // Store
 import { connect } from 'react-redux';
 
-const SplashScreen = ({accent, accentBorder}) => {
+const SplashScreen = ({ accent, status }) => {
+    const { colors } = useTheme();
+    //const [ gradient, setGradient ] = useState(['#FD2D55', '#ED506F']);
+
+    const gradientColor = status !== "Browsing" ? accent : colors.background
     
     return (
         <LinearGradient 
-            colors={['#FD2D55', '#ED506F']} 
+            colors={[gradientColor, gradientColor]} 
             style={styles.screen}>
             <View style={styles.logoStyle}>
                 <Logo />
+                <Text style={{color: accent}}>{accent}</Text>
             </View>
         </LinearGradient>
     );

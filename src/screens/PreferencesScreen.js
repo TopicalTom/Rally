@@ -1,4 +1,150 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native';
+import { Text, Divider, Icon } from 'react-native-elements';
+import { useTheme } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+
+// Components
+import ActionButton from '../components/ActionButton';
+import Input from '../components/Input';
+
+// Store
+import { connect } from 'react-redux';
+import { broadcastRally, startRallying } from '../actions';
+import DiscoveryList from '../components/DiscoveryList';
+
+const PreferencesScreen = ({ route, friendsList, startRallying }) => {
+    const { accent, interest, squad } = route.params;
+    const { colors } = useTheme();
+    const promptInput = useRef();
+    const navigation = useNavigation();
+    const [ preferences, setPreferences ] = useState({
+        interest,
+        prompt: '',
+        type: 'All friends',
+        keys: []
+    });
+
+    const handlePromptInput = (newValue) => {
+        setPreferences({...preferences, prompt: newValue});
+    };
+
+    const handlePromptClear = () => {
+        promptInput.current.clear();
+        setPreferences({...preferences, prompt: ""});
+        promptInput.current.focus();
+    };
+
+    const handleDiscoverySelection = (selection) => {
+        setPreferences({...preferences, type: selection});
+    };
+
+    const handleRally = () => {
+        startRallying(interest, preferences.prompt, preferences.type);
+        navigation.navigate('Tab');
+    };
+
+    return (
+        <ScrollView style={[styles.container, {backgroundColor: colors.background}]}>
+            <View style={{marginBottom: 64, paddingHorizontal: 16}}>
+                <Text 
+                    h4 style={[styles.titleStyle, {color: colors.text}]}>
+                    Prompt
+                </Text>
+                <Text 
+                    style={[styles.captionStyle, {color: colors.altText}]}>
+                    Give your friends a better idea of what you are looking to do.
+                </Text>
+                <Input 
+                    ref={promptInput}
+                    placeholder="Type here..."
+                    accent={accent}
+                    onChange={value => handlePromptInput(value)}
+                    value={preferences.prompt}
+                    onClear={() => handlePromptClear()}
+                />
+            </View>
+            <View style={{marginBottom: 64}}>
+                <Text 
+                    h4 style={[styles.titleStyle, {color: colors.text, paddingHorizontal: 16}]}>
+                    Discoverable
+                </Text>
+                <DiscoveryList 
+                    interest={interest}
+                    accent={accent} 
+                    friendsList={friendsList} 
+                    squad={squad}
+                    value={preferences.type}
+                    callback={handleDiscoverySelection} 
+                />
+            </View>
+            {preferences.type === "Custom" &&
+                <View style={{marginBottom: 64, paddingHorizontal: 16}}>
+                    <Text 
+                        h4 style={[styles.titleStyle, {color: colors.text}]}>
+                        Audience
+                    </Text>
+                    <Text 
+                        style={[styles.captionStyle, {color: colors.altText}]}>
+                        Select who you would like to see your rally. This can be changed at any time.
+                    </Text>
+                </View>
+            }
+            <View style={{marginBottom: 120, paddingHorizontal: 16}}>
+                <ActionButton 
+                    text={`Start rallying`}
+                    color={accent}
+                    disabled={preferences.prompt === "" ? true : false}
+                    action={handleRally}
+                />
+            </View>
+        </ScrollView>
+    );
+};
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        //paddingHorizontal: 16,
+        paddingTop: 36,
+    },
+    sectionStyle: {
+        marginVertical: 20,
+        color: "#B6B6B6",
+        fontWeight: '500'
+    },
+    titleStyle: {
+        textAlign: 'left',
+        fontWeight: 'bold',
+        marginBottom: 16,
+        alignSelf: 'stretch',
+        color: '#fff',
+        fontSize: 16,
+    },
+    captionStyle: {
+        alignSelf: 'stretch',
+        marginBottom: 24,
+        lineHeight: 21,
+        width: '90%'
+    },
+});
+
+const mapStateToProps = ({ rally, authentication, friends }) => {
+    return { 
+        user: authentication.user,
+        interest: rally.interest,
+        accent: rally.accent,
+        accentBorder: rally.accentBorder,
+        accentTint: rally.accentTint,
+        friendsList: friends.currentFriends,
+    };
+;}
+
+export default connect(mapStateToProps, { startRallying, broadcastRally })(PreferencesScreen);
+
+
+/*
+import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, View, ScrollView, SectionList, Switch, TouchableOpacity } from 'react-native';
 import { Text, Input, Divider, Icon } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
@@ -7,43 +153,46 @@ import { useNavigation } from '@react-navigation/native';
 // Components
 import ActionButton from '../components/ActionButton';
 import AudienceIndicator from '../components/AudienceIndicator';
+import RadioButton from '../components/RadioButton';
 
 // Store
 import { connect } from 'react-redux';
 import { broadcastRally, startRallying } from '../actions';
 
-const PreferencesScreen = ({ route, user, friendsList, startRallying }) => {
-    const { accent, accentBorder, accentTint, interest, squad } = route.params;
+const PreferencesScreen = ({ route, friendsList, startRallying }) => {
+    const { accent, interest, squad } = route.params;
     const { colors } = useTheme();
     const promptInput = useRef();
     const navigation = useNavigation();
-    const [ selections, setSelections ] = useState({
+    const [ preferences, setPreferences ] = useState({
         interest,
-        prompt: "",
-        type: 'All friends',
-        discoverable: friendsList
+        prompt: '',
+        discoverable: 'All friends',
+        customList: []
     });
 
-    const handleInput = (newValue) => {
-        setSelections({...selections, prompt: newValue});
+    const handlePromptInput = (newValue) => {
+        setPreferences({...preferences, prompt: newValue});
     };
 
-    const handleClear = () => {
+    const handlePromptClear = () => {
         promptInput.current.clear();
-        setSelections({...selections, prompt: ""});
+        setPreferences({...preferences, prompt: ""});
         promptInput.current.focus();
     };
 
+    const handleDiscoverySelection = (selection) => {
+        setPreferences({...preferences, discoverable: selection});
+    };
+
     const handleRally = () => {
-        //const { uid, profile, displayName } = user;
-        startRallying(interest, selections.prompt);
-        //broadcastRally(profile, displayName, interest)
+        startRallying(interest, preferences.prompt);
         navigation.navigate('Tab');
     };
 
     return (
         <ScrollView style={[styles.container, {backgroundColor: colors.background}]}>
-            <View style={{marginBottom: 40}}>
+            <View style={{marginBottom: 56}}>
                 <Text 
                     h4 style={[styles.titleStyle, {color: colors.text}]}>
                     Prompt
@@ -54,20 +203,19 @@ const PreferencesScreen = ({ route, user, friendsList, startRallying }) => {
                 </Text>
                 <Input 
                     ref={promptInput}
-                    containerStyle={{paddingHorizontal: 0, backgroundColor: colors.background}}
-                    inputContainerStyle={{borderBottomColor: colors.card , borderBottomWidth: 0.5}}
+                    containerStyle={{paddingHorizontal: 0, height: 48}}
+                    inputContainerStyle={{backgroundColor: colors.background, borderBottomColor: colors.card , borderBottomWidth: 0.5}}
                     placeholder="Type here..."
-                    placeholderTextColor={"#6D6D6D"}
+                    placeholderTextColor={colors.grey}
                     inputStyle={{color: colors.text}}
                     selectionColor={accent}
-                    onChangeText={value => handleInput(value)}
-                    //rightIconContainerStyle={}
+                    onChangeText={value => handlePromptInput(value)}
                     rightIcon={() => {
                         return (
-                            selections.prompt !== "" &&
+                            preferences.prompt !== "" &&
                             <TouchableOpacity 
                                 style={styles.closeButtonStyle}
-                                onPress={() => handleClear()}>
+                                onPress={() => handlePromptClear()}>
                                 <Icon
                                     name="x"
                                     type="feather"
@@ -79,7 +227,7 @@ const PreferencesScreen = ({ route, user, friendsList, startRallying }) => {
                     }}
                 />
             </View>
-            <View style={{marginBottom: 40}}>
+            <View style={{marginBottom: preferences.discoverable === "Custom" ? 56 : 64}}>
                 <Text 
                     h4 style={[styles.titleStyle, {color: colors.text}]}>
                     Discoverable
@@ -92,14 +240,12 @@ const PreferencesScreen = ({ route, user, friendsList, startRallying }) => {
                             All friends (default)
                         </Text>
                         <Text 
-                            style={[styles.subStyle, {color: colors.text, opacity: 0.5}]}>
+                            style={[styles.subStyle, {color: colors.secondaryText}]}>
                             Anyone within your social circle will be able to see this.
                         </Text>
                         <AudienceIndicator audience={friendsList} />
                     </View>
-                    <View style={{borderColor: accent, backgroundColor: colors.background, borderWidth: 0.5, height: 24, width: 24, borderRadius: 80, justifyContent: 'center', alignItems: 'center'}}>
-                        <View style={{backgroundColor: accent, borderWidth: 1, height: 16, width: 16, borderRadius: 80}} />
-                    </View>
+                    <RadioButton selected={true} accent={accent} />
                 </View>
                 <Divider style={{ backgroundColor: colors.card }} />
                 {squad.length > 0 &&
@@ -111,12 +257,12 @@ const PreferencesScreen = ({ route, user, friendsList, startRallying }) => {
                                     Squad
                                 </Text>
                                 <Text 
-                                    style={[styles.subStyle, {color: colors.text, opacity: 0.5}]}>
+                                    style={[styles.subStyle, {color: colors.secondaryText}]}>
                                     Only those in your {interest} squad will be able to see this.
                                 </Text>
                                 <AudienceIndicator audience={squad} />
                             </View>
-                            <View style={{borderColor: colors.card, backgroundColor: colors.background, borderWidth: 0.5, height: 24, width: 24, borderRadius: 80}}/>
+                            <RadioButton selected={false} accent={accent} />
                         </View>
                         <Divider style={{ backgroundColor: colors.card }} />
                     </>
@@ -128,15 +274,20 @@ const PreferencesScreen = ({ route, user, friendsList, startRallying }) => {
                             Custom
                         </Text>
                         <Text 
-                            style={[styles.subStyle, {color: colors.text, opacity: 0.5}]}>
+                            style={[styles.subStyle, {color: colors.secondaryText}]}>
                             Limit your reach to only those you select (below).
                         </Text>
                     </View>
-                    <View style={{borderColor: colors.card, backgroundColor: colors.background, borderWidth: 0.5, height: 24, width: 24, borderRadius: 80}}/>
+                    <RadioButton selected={false} accent={accent} />
                 </View>
+                <Divider style={{ backgroundColor: colors.card }} />
+                <Text 
+                    style={{color: colors.text, fontWeight: '400', fontSize: 16, marginBottom: 8}}>
+                    Select friends
+                </Text>
             </View>
-            {selections.type === "Custom" &&
-                <View style={{marginBottom: 40}}>
+            {preferences.customList.length !== 0 && preferences.type === "Custom" &&
+                <View style={{marginBottom: 64}}>
                     <Text 
                         h4 style={[styles.titleStyle, {color: colors.text}]}>
                         Audience
@@ -145,17 +296,13 @@ const PreferencesScreen = ({ route, user, friendsList, startRallying }) => {
                         style={[styles.captionStyle, {color: colors.text, opacity: 0.8}]}>
                         Select who you would like to see your rally. This can be changed at any time.
                     </Text>
-                    <Text 
-                        style={[styles.subStyle, {color: accent}]}>
-                        + Add friends
-                    </Text>
                 </View>
             }
             <View style={{marginBottom: 120}}>
                 <ActionButton 
                     text={`Start rallying`}
                     color={accent}
-                    disabled={selections.prompt === "" ? true : false}
+                    disabled={preferences.prompt === "" ? true : false}
                     action={handleRally}
                 />
             </View>
@@ -244,3 +391,5 @@ const mapStateToProps = ({ rally, authentication, friends }) => {
 ;}
 
 export default connect(mapStateToProps, { startRallying, broadcastRally })(PreferencesScreen);
+
+*/

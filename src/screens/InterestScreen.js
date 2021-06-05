@@ -8,16 +8,14 @@ import RallyCard from '../components/RallyCard';
 
 // Store
 import { connect } from 'react-redux';
-import { endRally, stopRallying } from '../actions';
+import { stopRallying } from '../actions';
 
 const InterestScreen = ({ interest, user, squads, stopRallying }) => {
     const { colors } = useTheme();
     const navigation = useNavigation();
 
     const handleRally = () => {
-        //const { profile, displayName } = user;
         stopRallying();
-        //endRally(profile, displayName);
         navigation.navigate('Tab');
     };
 

@@ -19,7 +19,7 @@ import Profile from '../components/Profile';
 
 const Stack = createStackNavigator();
 
-const ScreenRouter = ({user}) => {
+const ScreenRouter = ({ user, interest, accent}) => {
     const navigation = useNavigation();
     const { colors } = useTheme();
 
@@ -82,8 +82,8 @@ const ScreenRouter = ({user}) => {
                                     {route.params.name}
                                 </Text>
                                 <Text 
-                                    h5 style={[styles.statusStyle, { color: colors.border}]}>
-                                    Rallying - {route.params.rally}
+                                    h5 style={[styles.statusStyle, { color: route.params.rally === interest ? accent : colors.grey}]}>
+                                    Rallying • {route.params.rally}
                                 </Text>
                             </View>
                         </View>
@@ -163,9 +163,11 @@ const styles = StyleSheet.create({
     }
 });
 
-const mapStateToProps = ({ authentication }) => {
+const mapStateToProps = ({ rally, authentication }) => {
     return { 
-        user: authentication.user
+        user: authentication.user,
+        interest: rally.interest,
+        accent: rally.accent
     };
 }
 

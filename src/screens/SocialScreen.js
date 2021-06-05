@@ -1,17 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Animated, StyleSheet, FlatList, View } from 'react-native';
-import { Text, Icon } from 'react-native-elements';
+import { Text, Icon, Button, } from 'react-native-elements';
 import { useNavigation, useTheme } from '@react-navigation/native';
 
 // Store
 import { connect } from 'react-redux';
-import { 
-    retrieveCurrentRally,
-    retrieveSocialCircle, 
-    updateSocialCircle, 
-    retrieveFriendsList, 
-    retrieveSquads 
-} from '../actions';
+import { updateSocialCircle } from '../actions';
 
 // Template
 import Screen from '../templates/Screen';
@@ -23,7 +17,7 @@ import StickyHeader from '../components/StickyHeader';
 import SocialCard from '../components/SocialCard';
 import RallyButton from '../components/RallyButton';
 
-const SocialScreen = ({ status, interest, accent, prompt, user, socialCircle, retrieveSocialCircle, updateSocialCircle, retrieveFriendsList, retrieveCurrentRally, retrieveSquads }) => {
+const SocialScreen = ({ status, interest, accent, prompt, type, socialCircle, updateSocialCircle }) => {
     const { colors } = useTheme();
     const navigation = useNavigation();
     const offset = useRef(new Animated.Value(0)).current;
@@ -33,14 +27,6 @@ const SocialScreen = ({ status, interest, accent, prompt, user, socialCircle, re
     useEffect(() => {
         const unsubscribe = updateSocialCircle();
         return () => unsubscribe;
-    }, []);
-
-    // Grabs Social Circle details onLoad
-    useEffect(() => {
-        retrieveCurrentRally();
-        retrieveSocialCircle();
-        retrieveFriendsList();
-        retrieveSquads();
     }, []);
     
     return (
@@ -53,21 +39,52 @@ const SocialScreen = ({ status, interest, accent, prompt, user, socialCircle, re
                     h2 style={[styles.titleStyle, {color: colors.text}]}>
                     {status}
                 </Text>
-                <RallyButton 
-                    text="My Interest"
-                    secondaryText={interest || "None"}
-                    action={() => navigation.navigate('Mode')}
-                />
-                <RallyButton 
-                    text="Prompt"
-                    secondaryText={prompt || "None"}
-                    action={() => navigation.navigate('Mode', { screen: 'Preferences', params: { interest, accent }})}
-                />
-                <RallyButton 
-                    text="Discoverable"
-                    secondaryText="All friends"
-                    action={() => navigation.navigate('Mode', { screen: 'Preferences', params: { interest, accent }})}
-                />
+                {status !== "Browsing"
+                    ?   <>
+                            <RallyButton 
+                                text="My Interest"
+                                secondaryText={interest || "None"}
+                                action={() => navigation.navigate('Mode')}
+                            />
+                            <RallyButton 
+                                text="Prompt"
+                                secondaryText={prompt || "None"}
+                                action={() => navigation.navigate('Mode', { 
+                                    screen: 'Preferences', 
+                                    params: { 
+                                        interest, 
+                                        accent, 
+                                        prompt, 
+                                        type 
+                                    }
+                                })}
+                            />
+                            <RallyButton 
+                                text="Discoverable"
+                                secondaryText={type || "All friends"}
+                                action={() => navigation.navigate('Mode', { 
+                                    screen: 'Preferences', 
+                                    params: { 
+                                        interest, 
+                                        accent, 
+                                        prompt, 
+                                        type 
+                                    }})}
+                            />
+                        </>
+                    :   <>
+                            <Text 
+                                h5 style={styles.subtitleStyle}>
+                                Find out what your social circle is doing
+                            </Text>
+                            <Button 
+                                title="Share my interest"
+                                onPress={() => navigation.navigate('Mode')}
+                                titleStyle={{ color: colors.text}}
+                                buttonStyle={[styles.buttonStyle, { borderColor: colors.border, backgroundColor: colors.background}]}
+                            /> 
+                        </>
+                }
             </AnimatedHeader>
             <StickyHeader 
                 offset={offset} 
@@ -106,6 +123,14 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         backgroundColor: "#fff",
         position: 'relative'
+    },
+    swipeCardStyle: {
+        height: 180,
+        borderRadius: 8,
+        width: '100%',
+        marginBottom: 16,
+        paddingHorizontal: 16,
+        paddingVertical: 24
     },
     headerContainerStyle: {
         textAlign: 'left',
@@ -199,6 +224,7 @@ const mapStateToProps = ({ rally, authentication, social }) => {
         status: rally.status,
         interest: rally.interest, 
         prompt: rally.prompt,  
+        type: rally.type,  
         accent: rally.accent,
         accentBorder: rally.accentBorder,
         accentTint: rally.accentTint  ,
@@ -207,44 +233,4 @@ const mapStateToProps = ({ rally, authentication, social }) => {
     };
 }
 
-export default connect(mapStateToProps, { retrieveSocialCircle, updateSocialCircle, retrieveFriendsList, retrieveSquads, retrieveCurrentRally })(SocialScreen);
-
-    /*
-    useEffect(() => {
-        const socialCircleRef = firestore().collection("social");
-        const unsubscribe = socialCircleRef
-            .where("status", "==", 'Rallying')
-            .where("discoverable", "array-contains", 'iOEaqDpLSbelERq4rZdjVyWq8PV2')
-            .onSnapshot((querySnapshot) => {
-                const data = querySnapshot.docs.map(doc => ({
-                    name: doc._data.name,
-                    profile: doc._data.profile,
-                    prompt: doc._data.prompt,
-                    rally: doc._data.rally
-                }));
-                setCurrentlySocial(data);
-            })
-
-        return () => unsubscribe;
-    }, []);
-
-    useEffect(async () => {
-        const socialCircleRef = firestore().collection("social");
-        await socialCircleRef
-            .where("status", "==", 'Rallying')
-            .where("discoverable", "array-contains", 'iOEaqDpLSbelERq4rZdjVyWq8PV2')
-            .get()
-            .then((querySnapshot) => {
-                const data = querySnapshot.docs.map(doc => ({
-                    name: doc._data.name,
-                    profile: doc._data.profile,
-                    prompt: doc._data.prompt,
-                    rally: doc._data.rally
-                }));
-                setCurrentlySocial(data);
-            })
-            .catch((error) => {
-                console.log("Error getting documents: ", error);
-            });
-    }, []);
-    */
+export default connect(mapStateToProps, { updateSocialCircle })(SocialScreen);

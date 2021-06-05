@@ -13,7 +13,8 @@ export const retrieveCurrentRally = () => async (dispatch) => {
             type: START_RALLYING,
             payload: {
                 rally: data.rally,
-                prompt: data.prompt
+                prompt: data.prompt,
+                type: data.type
             }
         })
     } catch (err) {
@@ -21,7 +22,7 @@ export const retrieveCurrentRally = () => async (dispatch) => {
     }
 };
 
-export const startRallying = (interest, prompt) => async (dispatch) => {
+export const startRallying = (interest, prompt, type) => async (dispatch) => {
     try {
         const socialRef = firestore().collection('social').doc('iOEaqDpLSbelERq4rZdjVyWq8PV2');
         await socialRef.set({
@@ -30,6 +31,7 @@ export const startRallying = (interest, prompt) => async (dispatch) => {
             status: "Rallying",
             rally: interest, 
             prompt: prompt,
+            type: type,
             coord: {
                 lat: -47,
                 long: 23
@@ -40,7 +42,8 @@ export const startRallying = (interest, prompt) => async (dispatch) => {
             type: START_RALLYING,
             payload: {
                 rally: interest,
-                prompt: prompt
+                prompt: prompt,
+                type: type
             }
         })
     } catch (error) {
@@ -57,6 +60,7 @@ export const stopRallying = () => async (dispatch) => {
             status: "Browsing",
             rally: "None", 
             prompt: "",
+            type: "All friends", 
             coord: {
                 lat: -47,
                 long: 23

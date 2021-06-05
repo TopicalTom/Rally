@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Icon, Button } from 'react-native-elements';
-import { useNavigation, useTheme } from '@react-navigation/native';
+import { Icon } from 'react-native-elements';
+import { useTheme } from '@react-navigation/native';
 
 // Store
 import { connect } from 'react-redux';
@@ -18,7 +18,6 @@ import ChatsScreen from '../screens/ChatsScreen';
 const Tab = createBottomTabNavigator();
 
 const TabRouter = () => {
-    const navigation = useNavigation();
     const { colors } = useTheme();
     return (
         <Tab.Navigator 

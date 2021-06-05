@@ -132,7 +132,7 @@ const SearchScreen = ({ status, interest, accent }) => {
             </AnimatedHeader>
             <StickyHeader offset={offset} scrollDistance={70} height={150}>
                 <TouchableOpacity 
-                    style={[styles.searchbarStyle, {backgroundColor: colors.card}]} 
+                    style={[styles.searchbarStyle, {backgroundColor: '#FFF'}]} 
                     onPress={() => navigation.navigate('Find')}>
                     <Icon
                         name="search"
@@ -143,7 +143,7 @@ const SearchScreen = ({ status, interest, accent }) => {
                     />
                     <Text 
                         style={{color: "#6D6D6D", fontSize: 17, fontWeight: '400', paddingLeft: 4}}>
-                        Find bars...
+                        Find places...
                     </Text>
                 </TouchableOpacity>
             </StickyHeader>
@@ -168,8 +168,8 @@ const SearchScreen = ({ status, interest, accent }) => {
                             <Image 
                                 source={{ uri: item.preview}}
                                 style={[styles.previewStyle, {                
-                                    borderColor: colors.border,
-                                    backgroundColor: colors.card,
+                                    borderColor: colors.overlay,
+                                    backgroundColor: colors.overlay,
                                     borderWidth: 1}]}
                                 />
                             <Text style={styles.categoryLabelStyle}>{item.name}</Text>
@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
     },
     previewStyle: {
         borderRadius: 8,
-        height: 190,
+        height: 100,
     },
     buttonStyle: {
         height: 52,

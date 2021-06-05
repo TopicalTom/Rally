@@ -16,7 +16,7 @@ const RallyButton = ({ text, secondaryText, action, interest, accent }) => {
                 borderColor: colors.card }]} 
                 onPress={action}>
             <Text 
-                style={styles.titleStyle}>
+                style={[styles.titleStyle, {color: colors.grey}]}>
                 {text}
             </Text>
             <View style={styles.contextStyle}>
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     titleStyle: {
         fontSize: 17,
         fontWeight: '400',
-        color: "#6D6D6D"
+        //color: "#6D6D6D"
     },
     subtitleStyle: {
         fontSize: 17,
@@ -57,7 +57,8 @@ const styles = StyleSheet.create({
         height: 48,
         justifyContent: 'space-between',
         flexDirection: 'row',
-        paddingHorizontal: 12
+        paddingLeft: 12,
+        paddingRight: 8
     }
 });
 

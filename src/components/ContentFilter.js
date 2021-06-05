@@ -15,7 +15,7 @@ const ContentFilter = ({ label }) => {
                     {label}
                 </Text>
                 <Text 
-                    style={[styles.filterStyle, {color: '#6D6D6D'}]}>
+                    style={[styles.filterStyle, {color: colors.grey}]}>
                     ({filter})
                 </Text>
             </View>
@@ -23,7 +23,7 @@ const ContentFilter = ({ label }) => {
                 name="sort"
                 type="materialicons"
                 size={24}
-                color="#6D6D6D"
+                color={colors.grey}
                 paddingLeft={8}
             />
         </View>

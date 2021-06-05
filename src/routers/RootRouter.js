@@ -10,7 +10,15 @@ import { DarkTheme, LightTheme } from '../themes';
 
 // Store
 import { connect } from 'react-redux';
-import { checkForAccount, loginFailed, loginSuccess } from '../actions';
+import { 
+    checkForAccount, 
+    loginFailed, 
+    loginSuccess,
+    retrieveCurrentRally,
+    retrieveSocialCircle, 
+    retrieveFriendsList, 
+    retrieveSquads  
+} from '../actions';
 
 // Router
 import MainRouter from './MainRouter';
@@ -22,38 +30,38 @@ import SplashScreen from '../screens/SplashScreen';
 
 const Root = createStackNavigator();
 
-const RootRouter = ({loginSuccess}) => {
+const RootRouter = ({ loginSuccess, retrieveSocialCircle, retrieveFriendsList, retrieveCurrentRally, retrieveSquads }) => {
     const scheme = useColorScheme();
-
-    //const [ initializing, setInitializing ] = useState(true);
+    const [ initializing, setInitializing ] = useState(true);
     const [ currentUser, setCurrentUser ] = useState(null);
   
     // Handle user state changes
     const onAuthStateChanged = async userDetails => {
-
         if (userDetails) {
-            checkForAccount(userDetails);
+            await checkForAccount(userDetails);
             loginSuccess(userDetails.uid)
         }
-
-        setCurrentUser(userDetails)
+        setCurrentUser(userDetails);
+        await Promise.all([
+            retrieveCurrentRally(),
+            retrieveSocialCircle(),
+            retrieveFriendsList(),
+            retrieveSquads()
+        ]);
+        //setTimeout(() => { RNBootSplash.hide({ fade: true })}, 15000);
         //if (initializing) setInitializing(false);
+        if (initializing) setTimeout(() => { setInitializing(false) }, 8000);
     };
-
-    useEffect(() => {
-        setTimeout(() => { RNBootSplash.hide({ fade: true })}, 1000);
-        //await RNBootSplash.hide({ fade: true });
-    }, [currentUser]);
   
     useEffect(() => {
         const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
         return subscriber; // unsubscribe on unmount
     }, []);
   
-    //if (initializing) return <SplashScreen />;
+    if (initializing) return <SplashScreen />;
 
     return (
-        <NavigationContainer theme={scheme === 'dark' ? DarkTheme : LightTheme}>
+        <NavigationContainer theme={scheme === 'dark' ? DarkTheme : LightTheme} onReady={() => RNBootSplash.hide({ fade: true })}>
             <Root.Navigator
                 mode='modal'
                 screenOptions={() => {
@@ -64,7 +72,8 @@ const RootRouter = ({loginSuccess}) => {
                     }
                 }}
             >
-                {!currentUser ? (
+                {!currentUser && initializing ? 
+                (
                     <>
                         <Root.Screen 
                             name="Welcome" 
@@ -104,4 +113,12 @@ const mapStateToProps = ({ authentication }) => {
     };
 }
 
-export default connect(mapStateToProps, { checkForAccount, loginFailed, loginSuccess })(RootRouter);
+export default connect(mapStateToProps, { 
+    checkForAccount, 
+    loginFailed, 
+    loginSuccess,
+    retrieveSocialCircle, 
+    retrieveFriendsList, 
+    retrieveSquads, 
+    retrieveCurrentRally 
+})(RootRouter);
