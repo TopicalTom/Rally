@@ -7,7 +7,7 @@ import { useTheme } from '@react-navigation/native';
 // Store
 import { connect } from 'react-redux';
 
-const ConnectScreen = ({ interest, accent}) => {
+const ChatScreen = ({ interest, accent}) => {
     const { colors } = useTheme();
 
     return (
@@ -60,4 +60,4 @@ const mapStateToProps = ({ rally }) => {
     };
 }
 
-export default connect(mapStateToProps)(ConnectScreen);
+export default connect(mapStateToProps)(ChatScreen);

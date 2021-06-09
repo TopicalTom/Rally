@@ -1,23 +1,23 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native';
 import { Text, Divider, Icon } from 'react-native-elements';
-import { useTheme } from '@react-navigation/native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useTheme } from '@react-navigation/native';
 
 // Components
 import ActionButton from '../components/ActionButton';
+import DiscoveryList from '../components/DiscoveryList';
 import Input from '../components/Input';
 
 // Store
 import { connect } from 'react-redux';
-import { broadcastRally, startRallying } from '../actions';
-import DiscoveryList from '../components/DiscoveryList';
+import { broadcastRally, generateAudienceKeys, startRallying } from '../actions';
 
-const PreferencesScreen = ({ route, friendsList, startRallying }) => {
-    const { accent, interest, squad } = route.params;
+const PreferencesScreen = ({ route, friendsList, startRallying, generateAudienceKeys }) => {
+    const { accent, interest, prompt, squad } = route.params;
     const { colors } = useTheme();
     const promptInput = useRef();
     const navigation = useNavigation();
+
     const [ preferences, setPreferences ] = useState({
         interest,
         prompt: '',
@@ -35,13 +35,35 @@ const PreferencesScreen = ({ route, friendsList, startRallying }) => {
         promptInput.current.focus();
     };
 
-    const handleDiscoverySelection = (selection) => {
-        setPreferences({...preferences, type: selection});
+    const updatePreferences = (type, audience) => {
+        console.log(type)
+        console.log(audience)
+        setPreferences({...preferences, type: type, keys: audience});
+    };
+
+    const handleGeneralSelection = (type, audience) => {
+        generateAudienceKeys(type, audience, updatePreferences)
+    };
+
+    const handleCustomSelection = (type, audience) => {
+        navigation.navigate('Rally', { 
+            screen: 'Audience', 
+            params: { 
+                interest, 
+                accent, 
+                prompt, 
+                type, 
+                audience
+            }
+        })
     };
 
     const handleRally = () => {
-        startRallying(interest, preferences.prompt, preferences.type);
-        navigation.navigate('Tab');
+        const { prompt, type, keys} = preferences;
+        startRallying(interest, prompt, type, keys);
+        setTimeout(() => {
+            navigation.navigate('Tab');
+        }, 500);
     };
 
     return (
@@ -74,22 +96,12 @@ const PreferencesScreen = ({ route, friendsList, startRallying }) => {
                     accent={accent} 
                     friendsList={friendsList} 
                     squad={squad}
+                    customList={preferences.keys}
                     value={preferences.type}
-                    callback={handleDiscoverySelection} 
+                    generalCallback={handleGeneralSelection} 
+                    customCallback={handleCustomSelection} 
                 />
             </View>
-            {preferences.type === "Custom" &&
-                <View style={{marginBottom: 64, paddingHorizontal: 16}}>
-                    <Text 
-                        h4 style={[styles.titleStyle, {color: colors.text}]}>
-                        Audience
-                    </Text>
-                    <Text 
-                        style={[styles.captionStyle, {color: colors.altText}]}>
-                        Select who you would like to see your rally. This can be changed at any time.
-                    </Text>
-                </View>
-            }
             <View style={{marginBottom: 120, paddingHorizontal: 16}}>
                 <ActionButton 
                     text={`Start rallying`}
@@ -125,7 +137,8 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         marginBottom: 24,
         lineHeight: 21,
-        width: '90%'
+        width: '90%',
+        fontSize: 15
     },
 });
 
@@ -140,10 +153,23 @@ const mapStateToProps = ({ rally, authentication, friends }) => {
     };
 ;}
 
-export default connect(mapStateToProps, { startRallying, broadcastRally })(PreferencesScreen);
+export default connect(mapStateToProps, { startRallying, broadcastRally, generateAudienceKeys })(PreferencesScreen);
 
 
 /*
+
+            {preferences.type === "Custom" &&
+                <View style={{marginBottom: 64, paddingHorizontal: 16}}>
+                    <Text 
+                        h4 style={[styles.titleStyle, {color: colors.text}]}>
+                        Audience
+                    </Text>
+                    <Text 
+                        style={[styles.captionStyle, {color: colors.altText}]}>
+                        Select who you would like to see your rally. This can be changed at any time.
+                    </Text>
+                </View>
+            }
 import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, View, ScrollView, SectionList, Switch, TouchableOpacity } from 'react-native';
 import { Text, Input, Divider, Icon } from 'react-native-elements';

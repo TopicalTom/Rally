@@ -32,7 +32,7 @@ const InterestIndicator = ({ activity, selected, accent }) => {
                     />
                 </View>
             }
-            <Text style={{color: selected ? '#FFF' : '#717273'}}>
+            <Text style={{color: selected ? '#FFF' : '#717273', fontSize: 13}}>
                 {activity.length > 1
                     ?   `${activity[0].name} and ${activity.length} other${activity.length > 1 ? "s" : ""}`
                     :   `${activity[0].name}`

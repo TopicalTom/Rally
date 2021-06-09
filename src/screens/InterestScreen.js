@@ -10,13 +10,15 @@ import RallyCard from '../components/RallyCard';
 import { connect } from 'react-redux';
 import { stopRallying } from '../actions';
 
-const InterestScreen = ({ interest, user, squads, stopRallying }) => {
+const InterestScreen = ({ interest, prompt, status, user, squads, stopRallying }) => {
     const { colors } = useTheme();
     const navigation = useNavigation();
 
     const handleRally = () => {
         stopRallying();
-        navigation.navigate('Tab');
+        setTimeout(() => {
+            navigation.navigate('Tab');
+        }, 500);
     };
 
     const RALLY_TYPES = [
@@ -75,7 +77,7 @@ const InterestScreen = ({ interest, user, squads, stopRallying }) => {
     return (
         <ScrollView style={[styles.container, {backgroundColor: colors.background}]}>
             <Text 
-                h2 style={[styles.titleStyle, {color: colors.text}]}>
+                style={[styles.titleStyle, {color: colors.text}]}>
                 {interest ? 'My rally' : 'Select rally'}
             </Text>
             <Text 
@@ -101,7 +103,8 @@ const InterestScreen = ({ interest, user, squads, stopRallying }) => {
                                     accent: item.accent,
                                     accentBorder: item.accentBorder,
                                     accentTint: item.accentTint,
-                                    squad: item.squad
+                                    squad: item.squad,
+                                    prompt: status === "Rallying" ? prompt : ""
                                 })} 
                             />
                             {interest && 
@@ -157,7 +160,7 @@ const styles = StyleSheet.create({
         marginTop: 32,
         marginBottom: 16,
         color: "#B6B6B6",
-        fontSize: 16,
+        fontSize: 17,
         fontWeight: 'bold',
     },
     titleStyle: {
@@ -165,6 +168,7 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         fontWeight: 'bold',
         marginBottom: 10,
+        fontSize: 34,
         alignSelf: 'stretch',
     },
     subtitleStyle: {
@@ -188,6 +192,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = ({ rally, authentication, squads }) => {
     return { 
         interest: rally.interest,
+        status: rally.status,
+        prompt: rally.prompt,
         user: authentication.user,
         squads: squads
     };

@@ -37,11 +37,11 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         marginBottom: 8,
         lineHeight: 21,
-        fontSize: 16,
+        fontSize: 17,
         fontWeight: 'bold',
     },
     filterContainerStyle: {
-        marginTop: 25,
+        marginTop: 40,
         flexDirection: 'row',
         alignItems: 'stretch',
         justifyContent: 'space-between',
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     filterStyle: {
         textAlign: 'left',
         alignSelf: 'stretch',
-        fontSize: 16,
+        fontSize: 17,
         lineHeight: 21,
         fontWeight: '400',
         paddingLeft: 4

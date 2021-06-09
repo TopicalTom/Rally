@@ -23,10 +23,10 @@ const RallyCard = ({ title, caption, interest, accent, onPress, socialCircle }) 
             }]}
         >
             <View style={styles.contentStyle}>
-                <Text h4 style={[styles.titleStyle, { color: colors.text}]}>
+                <Text style={[styles.titleStyle, { color: colors.text}]}>
                     {title}
                 </Text>
-                <Text h5 style={[styles.captionStyle, { color: colors.text, opacity: 0.8}]}>
+                <Text style={[styles.captionStyle, { color: colors.text, opacity: 0.8}]}>
                     {caption}
                 </Text>
                 <Interest activity={activity} selected={interest === title ? true : false} accent={accent} />
@@ -56,8 +56,8 @@ const styles = StyleSheet.create({
     },
     titleStyle: {
         textAlign: 'left',
-        fontWeight: 'bold',
-        //fontSize: 18,
+        fontWeight: '500',
+        fontSize: 22,
         marginBottom: 4,
         alignSelf: 'stretch',
     },
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
         color: "#717273",
         alignSelf: 'stretch',
         lineHeight: 21,
-        //fontSize: 15,
+        fontSize: 15,
         marginBottom: 16
     },
     activityStyle: {

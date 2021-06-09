@@ -3,17 +3,14 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Icon } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 
-// Store
-import { connect } from 'react-redux';
-
 // Routers
-import RallyRouter from '../routers/RallyRouter';
 import PlacesRouter from '../routers/PlacesRouter';
+import InboxRouter from '../routers/InboxRouter';
 
 // Screens
-//import SocialScreen from '../screens/SocialScreen';
+import SocialScreen from '../screens/SocialScreen';
 import SearchScreen from '../screens/SearchScreen';
-import ChatsScreen from '../screens/ChatsScreen';
+import MessagesScreen from '../screens/MessagesScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -21,7 +18,7 @@ const TabRouter = () => {
     const { colors } = useTheme();
     return (
         <Tab.Navigator 
-            initialRouteName="Rally"
+            initialRouteName="Social"
             tabBarOptions={{
                 showLabel: false,
                 style: {
@@ -30,12 +27,12 @@ const TabRouter = () => {
                 }
               }}>
             <Tab.Screen 
-                name="Rally" 
-                component={RallyRouter} 
+                name="Social" 
+                component={SocialScreen} 
                 options={() => ({ 
                     tabBarIcon: () => (
                         <Icon 
-                            name="home" 
+                            name="users" 
                             type="feather"
                             color={colors.text}
                             size={30} 
@@ -43,6 +40,27 @@ const TabRouter = () => {
                     ),
                 })}
             />
+            <Tab.Screen 
+                name="Inbox" 
+                component={InboxRouter} 
+                options={() => ({ 
+                    tabBarIcon: () => (
+                        <Icon 
+                            name="message-circle" 
+                            type="feather"
+                            color={colors.text}
+                            size={30} 
+                        />
+                    ),
+                })}
+            />
+        </Tab.Navigator>
+    );
+};
+
+export default TabRouter;
+
+/*
             <Tab.Screen 
                 name="Search" 
                 component={SearchScreen} 
@@ -71,22 +89,5 @@ const TabRouter = () => {
                     ),
                 })}
             />
-            <Tab.Screen 
-                name="Chats" 
-                component={ChatsScreen} 
-                options={() => ({ 
-                    tabBarIcon: () => (
-                        <Icon 
-                            name="message-circle" 
-                            type="feather"
-                            color={colors.text}
-                            size={30} 
-                        />
-                    ),
-                })}
-            />
-        </Tab.Navigator>
-    );
-};
 
-export default TabRouter;
+*/

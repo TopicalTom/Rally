@@ -6,11 +6,11 @@ import { useNavigation, useTheme } from '@react-navigation/native';
 
 // Router
 import ScreenRouter from './ScreenRouter';
+import AccountRouter from './AccountRouter';
+import RallyRouter from './RallyRouter';
 
 // Modals
-import ProfileModal from '../modals/ProfileModal';
 import CreateModal from '../modals/CreateModal';
-import ModeModal from '../modals/RallyModal';
 import LocationModal from '../modals/LocationModal';
 import SearchModal from '../modals/SearchModal';
 
@@ -43,34 +43,18 @@ const MainRouter = () => {
                 })}
             />
             <Stack.Screen 
-                name="Mode" 
-                component={ModeModal} 
+                name="Rally" 
+                component={RallyRouter} 
                 options={() => ({ 
                     headerShown: false,
                     ...TransitionPresets.ModalPresentationIOS
                 })}
             />
             <Stack.Screen 
-                name="Profile" 
-                component={ProfileModal} 
+                name="Account" 
+                component={AccountRouter} 
                 options={() => ({ 
-                    headerShown: true,
-                    headerTitle: null,
-                    headerLeft: null,
-                    headerStyle: {
-                        height: 60,
-                        backgroundColor: colors.background,
-                        shadowColor: 'transparent',
-                    },
-                    headerTitleStyle: {
-                        height: 60,
-                        color: '#FFF'
-                    },
-                    headerLeftContainerStyle: {
-                        top: -42,
-                        paddingLeft: 8,
-                        height: 60,
-                    },
+                    headerShown: false,
                     ...TransitionPresets.ModalPresentationIOS
                 })}
             />
@@ -112,6 +96,26 @@ const styles = StyleSheet.create({
 });
 
 export default MainRouter;
+
+/*
+                    headerTitle: null,
+                    headerLeft: null,
+                    headerStyle: {
+                        height: 60,
+                        backgroundColor: colors.background,
+                        shadowColor: 'transparent',
+                    },
+                    headerTitleStyle: {
+                        height: 60,
+                        color: '#FFF'
+                    },
+                    headerLeftContainerStyle: {
+                        top: -42,
+                        paddingLeft: 8,
+                        height: 60,
+                    },
+
+*/
 
 /*
                             <Button

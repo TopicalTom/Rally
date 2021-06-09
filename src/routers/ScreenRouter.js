@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import TabRouter from './TabRouter';
 
 // Screens
-import ConnectScreen from '../screens/ConnectScreen';
+import ChatScreen from '../screens/ChatScreen';
 import MapScreen from '../screens/MapScreen';
 
 // Components
@@ -33,6 +33,11 @@ const ScreenRouter = ({ user, interest, accent}) => {
                 options={() => ({ 
                     headerShown: true,
                     headerTransparent: true,
+                    headerStyle: {                      
+                        height: 100,
+                        //backgroundColor: colors.background,
+                        shadowColor: 'transparent'
+                    },
                     headerTitle: false,
                     headerRight: () => (
                         <View style={styles.headerContainer}>
@@ -50,7 +55,7 @@ const ScreenRouter = ({ user, interest, accent}) => {
                             />
                             <Profile 
                                 profile={user.profile}
-                                onPress={() => navigation.navigate('Profile')}
+                                onPress={() => navigation.navigate('Account')}
                                 onLongPress={() => navigation.navigate('Mode')}
                             />
                         </View>
@@ -58,13 +63,12 @@ const ScreenRouter = ({ user, interest, accent}) => {
                 })}
             />
             <Stack.Screen 
-                name="Connect" 
-                component={ConnectScreen} 
+                name="Chat" 
+                component={ChatScreen} 
                 options={({route}) => ({ 
                     headerTintColor: 'white',
                     headerTitle: null,
                     headerStyle: {backgroundColor: colors.background},
-                    headerTransparent: false,
                     headerLeft: () => (
                         <View style={styles.chatHeaderContainer}>
                             <HeaderBackButton 

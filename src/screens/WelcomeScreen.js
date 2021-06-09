@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Text, Button } from 'react-native-elements';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 // Components
 import AuthButton from '../components/AuthButton';
@@ -16,8 +16,7 @@ const WelcomeScreen = ({accent, accentBorder}) => {
     const { colors } = useTheme();
     
     return (
-        <LinearGradient 
-            colors={['#FD2D55', '#ED506F']} 
+        <SafeAreaView
             style={styles.screen}>
             <View style={styles.logoStyle}>
                 <Logo />
@@ -50,7 +49,7 @@ const WelcomeScreen = ({accent, accentBorder}) => {
                     </Text>
                 </TouchableOpacity>
             </View>
-        </LinearGradient>
+        </SafeAreaView>
     );
 };
 
@@ -59,7 +58,8 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-end',
         paddingHorizontal: 32,
-        paddingVertical: 48
+        paddingVertical: 16,
+        backgroundColor: 'rgba(253,45,85,1)'
     },
     authContainerStyle: {
         marginBottom: 30

@@ -13,14 +13,14 @@ const DiscoveryListing = ({ title, subtitle, audience, type, selected, accent, o
         <>
             <ListItem 
                 containerStyle={[styles.listingContainerStyle, {backgroundColor: colors.background}]}
-                onPress={() => onSelect(type)}>   
+                onPress={() => onSelect(type, audience)}>   
                 <ListItem.Content style={styles.contentStyle}>
                     <ListItem.Title 
                         style={[styles.titleStyle, {color: colors.text}]}>
                         {title}
                     </ListItem.Title>
                     <ListItem.Subtitle
-                        style={[styles.subtitleStyle, {color: colors.secondaryText}]}>
+                        style={[styles.subtitleStyle, {color: colors.altText}]}>
                         {subtitle}
                     </ListItem.Subtitle>
                     {audience && <AudienceIndicator audience={audience} />}
@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         //color: "#717273",
         alignSelf: 'stretch',
+        fontSize: 13,
         lineHeight: 21,
         width: '75%'
     },

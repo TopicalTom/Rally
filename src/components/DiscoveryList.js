@@ -6,7 +6,7 @@ import { useTheme } from '@react-navigation/native';
 // Components
 import DiscoveryListing from './DiscoveryListing';
 
-const DiscoveryList = ({ interest, accent, friendsList, squad, value, callback }) => {
+const DiscoveryList = ({ interest, accent, friendsList, squad, custonList, value, generalCallback, customCallback }) => {
     const { colors } = useTheme();
     return (
         <>
@@ -18,7 +18,7 @@ const DiscoveryList = ({ interest, accent, friendsList, squad, value, callback }
                 type="All friends"
                 selected={value === "All friends" ? true : false}
                 accent={accent}
-                onSelect={callback}
+                onSelect={generalCallback}
             />
             {squad.length > 0 &&
                 <DiscoveryListing 
@@ -28,16 +28,17 @@ const DiscoveryList = ({ interest, accent, friendsList, squad, value, callback }
                     type="Squad"
                     selected={value === "Squad" ? true : false}
                     accent={accent}
-                    onSelect={callback}
+                    onSelect={generalCallback}
                 />
             }
             <DiscoveryListing 
                 title="Custom"
-                subtitle="Limit your reach to only those you select (below)."
+                subtitle="Limit your reach to only those you select."
+                audience={custonList}
                 type="Custom"
                 selected={value === "Custom" ? true : false}
                 accent={accent}
-                onSelect={callback}
+                onSelect={customCallback}
             />
         </>
     );

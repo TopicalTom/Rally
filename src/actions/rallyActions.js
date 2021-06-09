@@ -14,7 +14,8 @@ export const retrieveCurrentRally = () => async (dispatch) => {
             payload: {
                 rally: data.rally,
                 prompt: data.prompt,
-                type: data.type
+                type: data.type,
+                discoverable: data.discoverable
             }
         })
     } catch (err) {
@@ -22,7 +23,7 @@ export const retrieveCurrentRally = () => async (dispatch) => {
     }
 };
 
-export const startRallying = (interest, prompt, type) => async (dispatch) => {
+export const startRallying = (interest, prompt, type, keys) => async (dispatch) => {
     try {
         const socialRef = firestore().collection('social').doc('iOEaqDpLSbelERq4rZdjVyWq8PV2');
         await socialRef.set({
@@ -36,14 +37,15 @@ export const startRallying = (interest, prompt, type) => async (dispatch) => {
                 lat: -47,
                 long: 23
             },
-            discoverable: ["Yx6JoIWFBoGY82GoDwVm", 'iOEaqDpLSbelERq4rZdjVyWq8PV2']
+            discoverable: keys
         });
         dispatch({
             type: START_RALLYING,
             payload: {
                 rally: interest,
                 prompt: prompt,
-                type: type
+                type: type, 
+                discoverable: keys
             }
         })
     } catch (error) {
@@ -65,63 +67,10 @@ export const stopRallying = () => async (dispatch) => {
                 lat: -47,
                 long: 23
             },
-            discoverable: ["Yx6JoIWFBoGY82GoDwVm", 'iOEaqDpLSbelERq4rZdjVyWq8PV2']
+            discoverable: []
         });
         dispatch({ type: STOP_RALLYING })
     } catch (error) {
         console.log('error broadcasting ', error.message)
     }
 };
-
-/*
-export const broadcastRally = async (profile, displayName, interest) => {
-    const socialRef = firestore().collection('social').doc('iOEaqDpLSbelERq4rZdjVyWq8PV2');
-    try {
-        await socialRef.set({
-            name: displayName,
-            profile,
-            status: "Rallying",
-            rally: interest, 
-            prompt: "I'm interested in all of this...",
-            coord: {
-                lat: -47,
-                long: 23
-            },
-            discoverable: ["Yx6JoIWFBoGY82GoDwVm"]
-        });
-    } catch (error) {
-        console.log('error broadcasting ', error.message)
-    }
-};
-
-export const endRally = async (profile, displayName) => {
-    const socialRef = firestore().collection('social').doc('iOEaqDpLSbelERq4rZdjVyWq8PV2');
-    try {
-        await socialRef.set({
-            name: displayName,
-            profile,
-            status: "Browsing",
-            rally: "None", 
-            prompt: "",
-            coords: {
-                lat: -47,
-                long: 23
-            },
-            discoverable: ["Yx6JoIWFBoGY82GoDwVm"]
-        });
-    } catch (error) {
-        console.log('error broadcasting ', error.message)
-    }
-};
-
-export const startRallying = (interest) => dispatch => {
-    dispatch({
-        type: START_RALLYING,
-        payload: interest
-    })
-};
-
-export const stopRallying = () => dispatch => {
-    dispatch({ type: STOP_RALLYING })
-};
-*/
