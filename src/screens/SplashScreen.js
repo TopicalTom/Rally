@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         position: 'relative',
-        backgroundColor: '#131313'
+        backgroundColor: '#0B0B0D'
     },
     logoStyle: {
         position: 'absolute',

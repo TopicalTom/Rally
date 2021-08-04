@@ -3,6 +3,69 @@ import {
     RETRIEVE_SQUADS
 } from '../actions/types';
 
+
+export default squadReducer = createReducer(
+    initialState = {
+        squadList: [
+            {
+                type: 'Hangout',
+                members: []
+            },
+            {
+                type: 'Drinks',
+                members: []
+            },
+            {
+                type: 'Food',
+                members: []
+            },
+            {
+                type: 'Fitness',
+                members: []
+            },
+            {
+                type: 'Entertainment',
+                members: []
+            },
+            {
+                type: 'Nightlife',
+                members: []
+            },
+        ]
+    }, {
+    [RETRIEVE_SQUADS]: (state, action) => {
+        return { 
+            squadList: [
+                {
+                    type: 'Hangout',
+                    members: action.payload.hangout
+                },
+                {
+                    type: 'Drinks',
+                    members: action.payload.drinks
+                },
+                {
+                    type: 'Food',
+                    members: action.payload.food
+                },
+                {
+                    type: 'Fitness',
+                    members: action.payload.fitness
+                },
+                {
+                    type: 'Entertainment',
+                    members: action.payload.entertainment
+                },
+                {
+                    type: 'Nightlife',
+                    members: action.payload.nightlife
+                },
+            ]
+        };
+    }}
+);
+
+/*
 export default squadReducer = createReducer(
     initialState = { 
         hangout: [],
@@ -23,3 +86,4 @@ export default squadReducer = createReducer(
         };
     }}
 );
+*/

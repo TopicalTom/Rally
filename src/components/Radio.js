@@ -4,7 +4,7 @@ import { useTheme } from '@react-navigation/native';
 
 const RadioButton = ({ selected, accent }) => {
     const { colors } = useTheme();
-    return (selected 
+    return (selected === true 
         ?
         <View style={[styles.radioOuter, {
             borderColor: accent, 

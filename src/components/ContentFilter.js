@@ -8,7 +8,7 @@ const ContentFilter = ({ label }) => {
     const { colors } = useTheme();
 
     return (
-        <View style={styles.filterContainerStyle}>
+        <View style={[styles.filterContainerStyle, {borderTopColor: colors.background}]}>
             <View style={styles.filterLabelStyle}>
                 <Text 
                     style={[styles.sectionStyle, {color: colors.text}]}>
@@ -35,27 +35,26 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         color: "#717273",
         alignSelf: 'stretch',
-        marginBottom: 8,
-        lineHeight: 21,
         fontSize: 17,
         fontWeight: 'bold',
     },
     filterContainerStyle: {
-        marginTop: 40,
+        marginTop: 32,
         flexDirection: 'row',
-        alignItems: 'stretch',
+        alignItems: 'center',
         justifyContent: 'space-between',
-        marginBottom: 8,
+        paddingVertical: 16,
+        borderTopWidth: 0.5
     },
     filterLabelStyle: {
         flexDirection: 'row',
-        alignItems: 'flex-start',
+        alignItems: 'center',
     },
     filterStyle: {
         textAlign: 'left',
         alignSelf: 'stretch',
         fontSize: 17,
-        lineHeight: 21,
+        //lineHeight: 21,
         fontWeight: '400',
         paddingLeft: 4
     },

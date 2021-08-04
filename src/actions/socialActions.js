@@ -7,10 +7,11 @@ export const retrieveSocialCircle = (interest) => async (dispatch) => {
         const mySocialCircle = socialCircleRef.where("status", "==", 'Rallying').where("discoverable", "array-contains", 'iOEaqDpLSbelERq4rZdjVyWq8PV2');
         const querySnapshot = await mySocialCircle.get();
         let data = querySnapshot.docs.map(doc => ({
+            uid: doc._data.uid,
             name: doc._data.name,
             profile: doc._data.profile,
             prompt: doc._data.prompt,
-            rally: doc._data.rally
+            rally: doc._data.rally,
         }));
         if (interest) {
             const sortedData = data.sort(item => item.rally === interest).reverse();
@@ -35,6 +36,7 @@ export const updateSocialCircle = (interest) => async (dispatch) => {
         const mySocialCircle = socialCircleRef.where("status", "==", 'Rallying').where("discoverable", "array-contains", 'iOEaqDpLSbelERq4rZdjVyWq8PV2');
         mySocialCircle.onSnapshot((querySnapshot) => {
             const data = querySnapshot.docs.map(doc => ({
+                uid: doc._data.uid,
                 name: doc._data.name,
                 profile: doc._data.profile,
                 prompt: doc._data.prompt,

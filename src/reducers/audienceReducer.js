@@ -1,28 +1,44 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { 
-    GENERATE_AUDIENCE_KEYS,
-    CREATE_AUDIENCE,
-    CLEAR_AUDIENCE
+    GENERATE_FRIEND_KEYS,
+    GENERATE_SQUAD_KEYS,
+    CLEAR_CUSTOM_LIST,
+    REMOVE_MEMBER,
+    ADD_MEMBER
 } from '../actions/types';
 
 export default audienceReducer = createReducer(
     initialState = { 
-        generalKeys: [],
+        friendsKeys: [],
+        squadKeys: [],
         customKeys: []
     }, {
-    [GENERATE_AUDIENCE_KEYS]: (state, action) => {
+    [GENERATE_FRIEND_KEYS]: (state, action) => {
         return { 
             ...state,
-            generalKeys: action.payload
+            friendKeys: action.payload
         };
     },
-    [CREATE_AUDIENCE]: (state, action) => {
+    [GENERATE_SQUAD_KEYS]: (state, action) => {
         return { 
             ...state,
-            customKeys: action.payload
+            squadKeys: action.payload
         };
     },
-    [CLEAR_AUDIENCE]: (state) => {
+    [ADD_MEMBER]: (state, action) => {
+        return { 
+            ...state,
+            customKeys: [...state.customKeys, action.payload]
+        };
+    },
+    [REMOVE_MEMBER]: (state, action) => {
+        const newList = state.customKeys.filter(item => item !== action.payload);
+        return { 
+            ...state,
+            customKeys: newList
+        };
+    },
+    [CLEAR_CUSTOM_LIST]: (state) => {
         return { 
             ...state,
             customKeys: []

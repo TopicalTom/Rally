@@ -3,20 +3,24 @@ import { Button } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation, useTheme } from '@react-navigation/native';
 
+// Store
+import { connect } from 'react-redux';
+
 // Screens
 import InterestScreen from '../screens/InterestScreen';
 import PreferencesScreen from '../screens/PreferencesScreen';
 import AudienceScreen from '../screens/AudienceScreen';
+import ManageScreen from '../screens/ManageScreen';
 
 const Stack = createStackNavigator();
 
-const RallyModal = () => {
+const RallyRouter = ({status}) => {
     const navigation = useNavigation();
     const { colors } = useTheme();
     
     return (
         <Stack.Navigator 
-            initialRouteName="Interest"
+            initialRouteName={status !== "Rallying" ? "Interest" : "Manage"}
             headerMode='screen'
             screenOptions={() => {
                 return {
@@ -28,7 +32,8 @@ const RallyModal = () => {
                     },
                     headerTitleStyle: {
                         height: 60,
-                        color: '#FFF'
+                        color: '#FFF',
+                        fontSize: 17
                     },
                     headerLeftContainerStyle: {
                         top: -42,
@@ -41,9 +46,14 @@ const RallyModal = () => {
                 name="Interest" 
                 component={InterestScreen} 
                 options={() => ({ 
-                    headerTitle: null,
-                    headerLeft: null,
-                    headerBackTitleVisible: false,
+                    headerShown: false,
+                })}
+            />
+            <Stack.Screen 
+                name="Manage" 
+                component={ManageScreen} 
+                options={() => ({ 
+                    headerShown: false,
                 })}
             />
             <Stack.Screen 
@@ -52,23 +62,28 @@ const RallyModal = () => {
                 options={({ route }) => ({ 
                     headerBackTitleVisible: false,
                     headerTitle: route.params.interest,
-                    headerTintColor: route.params.accent,
+                    headerTintColor: '#FFF',
                 })}
             />
             <Stack.Screen 
                 name="Audience" 
                 component={AudienceScreen} 
                 options={() => ({ 
-                    headerBackTitleVisible: false,
-                    headerTitle: 'Select friends',
-                    headerTintColor: '#FFF',
+                    headerShown: false,
                 })}
             />
         </Stack.Navigator>
     );
 };
 
-export default RallyModal;
+const mapStateToProps = ({ rally }) => {
+    return { 
+        interest: rally.interest,
+        status: rally.status,
+    };
+}
+
+export default connect(mapStateToProps)(RallyRouter);
 
 /*
 import React, { useState } from 'react';

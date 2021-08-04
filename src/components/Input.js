@@ -1,21 +1,21 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Input, Icon } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 
-const StyledInput = ({ ref, placeholder, accent, onChange, value, onClear }) => {
+const StyledInput = forwardRef(({ placeholder, accent, onChange, value, onClear, }, ref) => {
     const { colors } = useTheme();
     return (
         <Input 
             ref={ref}
             containerStyle={styles.containerStyle}
             inputContainerStyle={[styles.inputContainerStyle, {
-                backgroundColor: colors.background, 
-                borderBottomColor: colors.card
+                backgroundColor: 'transparent', 
+                borderBottomColor: 'transparent'
             }]}
             placeholder={placeholder}
             placeholderTextColor={colors.grey}
-            inputStyle={{color: colors.text}}
+            inputStyle={{color: colors.text, fontWeight: '400', fontSize: 17}}
             selectionColor={accent}
             onChangeText={onChange}
             rightIcon={() => {
@@ -35,7 +35,7 @@ const StyledInput = ({ ref, placeholder, accent, onChange, value, onClear }) => 
             }}
         />
     );
-};
+});
 
 const styles = StyleSheet.create({
     containerStyle: {

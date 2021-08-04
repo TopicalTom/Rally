@@ -1,16 +1,17 @@
 import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Icon } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
+
+import { HomeIcon } from '../assets/icons/HomeIcon';
+import { SearchIcon } from '../assets/icons/SearchIcon';
+import { NearbyIcon } from '../assets/icons/NearbyIcon';
 
 // Routers
 import PlacesRouter from '../routers/PlacesRouter';
-import InboxRouter from '../routers/InboxRouter';
 
 // Screens
 import SocialScreen from '../screens/SocialScreen';
 import SearchScreen from '../screens/SearchScreen';
-import MessagesScreen from '../screens/MessagesScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -23,23 +24,43 @@ const TabRouter = () => {
                 showLabel: false,
                 style: {
                     backgroundColor: colors.background,
-                    borderTopColor: colors.border
+                    borderTopColor: colors.overlay
                 }
               }}>
             <Tab.Screen 
                 name="Social" 
                 component={SocialScreen} 
                 options={() => ({ 
-                    tabBarIcon: () => (
-                        <Icon 
-                            name="users" 
-                            type="feather"
-                            color={colors.text}
-                            size={30} 
-                        />
-                    ),
+                    tabBarIcon: ({ focused }) => {
+                        return <HomeIcon focused={focused} />;
+                    },
                 })}
             />
+            <Tab.Screen 
+                name="Search" 
+                component={SearchScreen} 
+                options={() => ({ 
+                    tabBarIcon: ({ focused }) => {
+                        return <SearchIcon focused={focused} />;
+                    },
+                })}
+            />
+            <Tab.Screen 
+                name="Places" 
+                component={PlacesRouter} 
+                options={() => ({ 
+                    tabBarIcon: ({ focused }) => {
+                        return <NearbyIcon focused={focused} />;
+                    },
+                })}
+            />
+        </Tab.Navigator>
+    );
+};
+
+export default TabRouter;
+
+/*
             <Tab.Screen 
                 name="Inbox" 
                 component={InboxRouter} 
@@ -54,13 +75,6 @@ const TabRouter = () => {
                     ),
                 })}
             />
-        </Tab.Navigator>
-    );
-};
-
-export default TabRouter;
-
-/*
             <Tab.Screen 
                 name="Search" 
                 component={SearchScreen} 

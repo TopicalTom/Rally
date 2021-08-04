@@ -12,8 +12,8 @@ const RallyButton = ({ text, secondaryText, action, interest, accent }) => {
         <TouchableOpacity 
             style={[
                 styles.buttonStyle, {
-                backgroundColor: colors.card, 
-                borderColor: colors.card }]} 
+                backgroundColor: colors.overlay, 
+                borderColor: colors.overlay }]} 
                 onPress={action}>
             <Text 
                 style={[styles.titleStyle, {color: colors.grey}]}>
@@ -52,9 +52,9 @@ const styles = StyleSheet.create({
     buttonStyle: {
         borderRadius: 8,
         borderWidth: 1,
-        marginBottom: 10,
+        //marginBottom: 10,
         alignItems: 'center',
-        height: 48,
+        height: 52,
         justifyContent: 'space-between',
         flexDirection: 'row',
         paddingLeft: 12,

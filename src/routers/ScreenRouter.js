@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { HeaderBackButton, createStackNavigator, TransitionPresets } from '@react-navigation/stack';
-import { Text, Button, Icon } from 'react-native-elements';
+import { Text, Button, Icon, Avatar } from 'react-native-elements';
 import { useNavigation, useTheme } from '@react-navigation/native';
 
 // Store
@@ -12,10 +12,13 @@ import TabRouter from './TabRouter';
 
 // Screens
 import ChatScreen from '../screens/ChatScreen';
-import MapScreen from '../screens/MapScreen';
+import ChatsScreen from '../screens/ChatsScreen';
+
+import { ChatsIcon } from '../assets/icons/ChatsIcon';
 
 // Components
 import Profile from '../components/Profile';
+import InboxRouter from './InboxRouter';
 
 const Stack = createStackNavigator();
 
@@ -35,15 +38,58 @@ const ScreenRouter = ({ user, interest, accent}) => {
                     headerTransparent: true,
                     headerStyle: {                      
                         height: 100,
-                        //backgroundColor: colors.background,
                         shadowColor: 'transparent'
                     },
                     headerTitle: false,
                     headerRight: () => (
                         <View style={styles.headerContainer}>
                             <Button
-                                onPress={() => navigation.navigate('Search')}
+                                onPress={() => navigation.navigate('Chats')}
                                 buttonStyle={styles.searchButtonStyle}
+                                icon={() => {
+                                    return <ChatsIcon />
+                                }} 
+                            />
+                            <Profile 
+                                profile={user.profile}
+                                onPress={() => navigation.navigate('Account')}
+                                onLongPress={() => navigation.navigate('Rally')}
+                            />
+                        </View>
+                    ),
+                })}
+            />
+            <Stack.Screen 
+                name="Chats" 
+                component={ChatsScreen} 
+                options={() => ({ 
+                    headerTintColor: 'white',
+                    headerTitle: null,
+                    headerStyle: {
+                        backgroundColor: colors.background, 
+                        height: 100, 
+                        shadowColor: 'transparent',
+                    },
+                    headerLeftContainerStyle: {
+                        paddingLeft: 8,
+                    },
+                    headerLeft: () => (
+                        <View style={styles.chatHeaderContainer}>
+                            <HeaderBackButton 
+                                labelVisible={false}
+                                tintColor={'white'}
+                                onPress={() => navigation.goBack()}
+                            />
+                            <Text 
+                                style={[styles.titleStyle, { color: colors.text}]}>
+                                Chats
+                            </Text>
+                        </View>
+                    ),
+                    headerRight: () => (
+                            <Button
+                                onPress={() => navigation.navigate('Create')}
+                                buttonStyle={[styles.searchButtonStyle, { marginRight: 8}]}
                                 icon={() => (
                                     <Icon 
                                         name="edit" 
@@ -53,13 +99,10 @@ const ScreenRouter = ({ user, interest, accent}) => {
                                     />
                                 )} 
                             />
-                            <Profile 
-                                profile={user.profile}
-                                onPress={() => navigation.navigate('Account')}
-                                onLongPress={() => navigation.navigate('Mode')}
-                            />
-                        </View>
                     ),
+                    headerBackTitleVisible: false,
+                    gestureEnabled: true,
+                    cardOverlayEnabled: true,
                 })}
             />
             <Stack.Screen 
@@ -68,7 +111,14 @@ const ScreenRouter = ({ user, interest, accent}) => {
                 options={({route}) => ({ 
                     headerTintColor: 'white',
                     headerTitle: null,
-                    headerStyle: {backgroundColor: colors.background},
+                    headerStyle: {
+                        backgroundColor: colors.background, 
+                        height: 100, 
+                        shadowColor: 'transparent'
+                    },
+                    headerLeftContainerStyle: {
+                        paddingLeft: 8,
+                    },
                     headerLeft: () => (
                         <View style={styles.chatHeaderContainer}>
                             <HeaderBackButton 
@@ -76,18 +126,20 @@ const ScreenRouter = ({ user, interest, accent}) => {
                                 tintColor={'white'}
                                 onPress={() => navigation.goBack()}
                             />
-                            <Profile 
-                                profile={route.params.profile}
-                                onPress={() => navigation.navigate('Profile')}
+                            <Avatar
+                                rounded
+                                source={{ uri: route.params.profile }}
+                                size={36}
+                                containerStyle={{borderColor: colors.overlay}}
                             />
                             <View>
                                 <Text 
-                                    h4 style={[styles.nameStyle, { color: colors.text}]}>
+                                    style={[styles.nameStyle, { color: colors.text}]}>
                                     {route.params.name}
                                 </Text>
                                 <Text 
-                                    h5 style={[styles.statusStyle, { color: route.params.rally === interest ? accent : colors.grey}]}>
-                                    Rallying • {route.params.rally}
+                                    style={[styles.statusStyle, { color: route.params.rally === interest ? accent : colors.grey}]}>
+                                    Inactive
                                 </Text>
                             </View>
                         </View>
@@ -111,36 +163,6 @@ const ScreenRouter = ({ user, interest, accent}) => {
                     cardOverlayEnabled: true,
                 })}
             />
-            <Stack.Screen 
-                name="Map" 
-                component={MapScreen} 
-                options={({route}) => ({ 
-                    headerTintColor: 'white',
-                    headerTitle: null,
-                    headerTransparent: true,
-                    headerLeft: () => (
-                        <View style={styles.mapHeaderContainer}>
-                            <HeaderBackButton 
-                                labelVisible={false}
-                                tintColor={'white'}
-                                onPress={() => navigation.goBack()}
-                            />
-                        </View>
-                    ),
-                    headerRight: () => (
-                        <View style={styles.headerContainer}>
-                            <Profile 
-                                profile={user.profile}
-                                onPress={() => navigation.navigate('Profile')}
-                                onLongPress={() => navigation.navigate('Mode')}
-                            />
-                        </View>
-                    ),
-                    headerBackTitleVisible: false,
-                    gestureEnabled: false,
-                    cardOverlayEnabled: true,
-                })}
-            />
         </Stack.Navigator>
     );
 };
@@ -157,9 +179,20 @@ const styles = StyleSheet.create({
     },
     nameStyle: {
         fontWeight: 'bold',
+        fontSize: 17,
         //fontSize: 21
     },
+    titleStyle: {
+        textAlign: 'left',
+        paddingTop: 6,
+        fontWeight: 'bold',
+        //marginBottom: 10,
+        alignSelf: 'stretch',
+        fontSize: 28,
+        zIndex: 1000
+    },
     statusStyle: {
+        fontSize: 15
         //fontSize: 14,
     },
     searchButtonStyle: {

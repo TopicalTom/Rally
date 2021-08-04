@@ -144,7 +144,7 @@ const PlacesScreen = ({ interest, accent, accentBorder, accentTint}) => {
                         title="Coordinate with friends"
                         onPress={() => navigation.navigate('Location')}
                         titleStyle={{ color: colors.text}}
-                        buttonStyle={[styles.buttonStyle, { borderColor: colors.border, backgroundColor: colors.background}]}
+                        buttonStyle={[styles.buttonStyle, { borderColor: colors.border, backgroundColor: colors.card}]}
                     /> 
                 </AnimatedHeader>
                 <StickyHeader offset={offset} scrollDistance={200}>

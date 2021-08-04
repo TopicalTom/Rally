@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { ListItem, Image, Icon } from 'react-native-elements';
+import { ListItem, Avatar, Image, Icon } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 
 // Store
@@ -13,9 +13,11 @@ const SocialListing = ({ profile, name, prompt, rally, onPress, interest, accent
         <ListItem 
             containerStyle={[styles.listingContainerStyle, {backgroundColor: colors.background}]}
             onPress={onPress}>   
-            <Image 
+            <Avatar
+                rounded
                 source={{ uri: profile}}
-                style={[styles.profileStyle, {borderColor: colors.overlay}]}
+                size={64}
+                containerStyle={{borderColor: colors.overlay}}
             />
             <ListItem.Content style={[styles.contentStyle, {backgroundColor: colors.background}]}>
                 <ListItem.Title 
@@ -30,10 +32,11 @@ const SocialListing = ({ profile, name, prompt, rally, onPress, interest, accent
                     <Icon
                         name="arrow-right-circle"
                         type="feather"
-                        size={14}
+                        size={13}
                         color={interest === rally ? accent : colors.grey}
                     />
                     <ListItem.Subtitle
+                        ellipsizeMode='tail' numberOfLines={1}
                         style={[styles.rallyStyle, {color: interest === rally ? accent : colors.grey}]}>
                         {rally}
                     </ListItem.Subtitle>
@@ -51,18 +54,11 @@ const styles = StyleSheet.create({
         height: 86,
         paddingHorizontal: 16
     },
-    profileStyle: {
-        borderRadius: 40,
-        alignItems: 'center',
-        width: 70,
-        height: 70,
-        justifyContent: 'center',
-    },
     contentStyle: {
         alignSelf: 'stretch',
         alignItems: 'stretch',
         justifyContent: 'center',
-        paddingLeft: 8,
+        paddingLeft: 4,
         paddingBottom: 2
     },
     nameStyle: {
@@ -74,6 +70,7 @@ const styles = StyleSheet.create({
     },
     subtitleStyle: {
         textAlign: 'left',
+        fontWeight: '400',
         alignSelf: 'stretch',
         marginBottom: 3,
         lineHeight: 21,

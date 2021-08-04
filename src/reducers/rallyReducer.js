@@ -25,9 +25,10 @@ export default rallyReducer = createReducer(
                     prompt: action.payload.prompt,
                     type: action.payload.type,
                     keys: [],
-                    accent: "rgba(253,45,85,1)",
-                    accentBorder: "rgba(253,45,85,.5)",
-                    accentTint: "rgba(253,45,85,.1)",
+                    //accent: "rgba(253,45,85,1)",
+                    accent: "rgba(236,57,75,1)",
+                    accentBorder: "rgba(236,57,75,.5)",
+                    accentTint: "rgba(236,57,75,.1)",
                 };
             }
             case 'Drinks': {
@@ -37,7 +38,8 @@ export default rallyReducer = createReducer(
                     prompt: action.payload.prompt,
                     type: action.payload.type,
                     keys: [],
-                    accent: "rgba(239,135,69,1)",
+                    //accent: "rgba(239,135,69,1)",
+                    accent: "rgba(237,117,70,1)",
                     accentBorder: "rgba(239,135,69,.5)",
                     accentTint: "rgba(239,135,69,.1)",
                 };
@@ -61,7 +63,8 @@ export default rallyReducer = createReducer(
                     prompt: action.payload.prompt,
                     type: action.payload.type,
                     keys: [],
-                    accent: "rgba(94, 203, 132, 1);",
+                    //accent: "rgba(94, 203, 132, 1);",
+                    accent: "rgba(59, 209, 111, 1);",
                     accentBorder: "rgba(94, 203, 132, .5)",
                     accentTint: "rgba(94, 203, 132, .1)",
                 };
@@ -73,7 +76,8 @@ export default rallyReducer = createReducer(
                     prompt: action.payload.prompt,
                     type: action.payload.type,
                     keys: [],
-                    accent: "rgba(68,147,239,1)",
+                    //accent: "rgba(68,147,239,1)",
+                    accent: "rgba(72,159,234,1)",
                     accentBorder: "rgba(68,147,239,.5)",
                     accentTint: "rgba(68,147,239,.1)",
                 };

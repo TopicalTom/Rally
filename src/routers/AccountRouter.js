@@ -46,9 +46,7 @@ const AccountRouter = ({}) => {
                 name="Profile" 
                 component={ProfileScreen} 
                 options={() => ({ 
-                    headerTitle: null,
-                    headerLeft: null,
-                    headerBackTitleVisible: false,
+                    headerShown: false,
                 })}
             />
             <Stack.Screen 

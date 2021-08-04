@@ -4,3 +4,4 @@ export * from './socialActions';
 export * from './friendsActions';
 export * from './squadActions';
 export * from './audienceActions';
+export * from './chatsActions';

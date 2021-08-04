@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
-import { Button, Icon } from 'react-native-elements';
+import { Animated, StyleSheet, View } from 'react-native';
+import { createStackNavigator, TransitionPresets, CardStyleInterpolators } from '@react-navigation/stack';
 import { useNavigation, useTheme } from '@react-navigation/native';
 
 // Router
@@ -9,13 +8,8 @@ import ScreenRouter from './ScreenRouter';
 import AccountRouter from './AccountRouter';
 import RallyRouter from './RallyRouter';
 
-// Modals
-import CreateModal from '../modals/CreateModal';
-import LocationModal from '../modals/LocationModal';
-import SearchModal from '../modals/SearchModal';
-
-// Components
-import Profile from '../components/Profile';
+// Screens
+import CreateScreen from '../screens/CreateScreen';
 
 const Stack = createStackNavigator();
 
@@ -29,9 +23,10 @@ const MainRouter = () => {
             mode='modal'
             screenOptions={() => {
                 return {
-                    //gestureEnabled: true,
                     cardOverlayEnabled: true,
-                    //...TransitionPresets.ModalPresentationIOS
+                    cardOverlay: () => {
+                        return <Animated.View style={{ flex: 1, backgroundColor: 'rgba(255,255,255,0.05)' }} />
+                    },
                 }
             }}
         >
@@ -60,23 +55,7 @@ const MainRouter = () => {
             />
             <Stack.Screen 
                 name="Create" 
-                component={CreateModal} 
-                options={() => ({ 
-                    headerShown: false,
-                    ...TransitionPresets.ModalPresentationIOS
-                })}
-            />
-            <Stack.Screen 
-                name="Find" 
-                component={SearchModal} 
-                options={() => ({ 
-                    headerShown: false,
-                    gestureEnabled: false,
-                })}
-            />
-            <Stack.Screen 
-                name="Location" 
-                component={LocationModal} 
+                component={CreateScreen} 
                 options={() => ({ 
                     headerShown: false,
                     ...TransitionPresets.ModalPresentationIOS
@@ -96,39 +75,3 @@ const styles = StyleSheet.create({
 });
 
 export default MainRouter;
-
-/*
-                    headerTitle: null,
-                    headerLeft: null,
-                    headerStyle: {
-                        height: 60,
-                        backgroundColor: colors.background,
-                        shadowColor: 'transparent',
-                    },
-                    headerTitleStyle: {
-                        height: 60,
-                        color: '#FFF'
-                    },
-                    headerLeftContainerStyle: {
-                        top: -42,
-                        paddingLeft: 8,
-                        height: 60,
-                    },
-
-*/
-
-/*
-                            <Button
-                                onPress={() => navigation.navigate('Profile')}
-                                buttonStyle={styles.searchButtonStyle}
-                                icon={() => (
-                                    <Icon 
-                                        name="user" 
-                                        type="feather"
-                                        color={colors.text}
-                                        size={24} 
-                                    />
-                                )} 
-                            />
-
-*/

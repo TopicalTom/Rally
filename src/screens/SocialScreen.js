@@ -16,16 +16,21 @@ import ContentFilter from '../components/ContentFilter';
 import RallyButton from '../components/RallyButton';
 import SocialListing from '../components/SocialListing';
 
-const SocialScreen = ({ status, interest, accent, prompt, type, socialCircle, updateSocialCircle }) => {
+const SocialScreen = ({ status, interest, accent, prompt, type, squad, socialCircle, updateSocialCircle }) => {
     const { colors } = useTheme();
     const navigation = useNavigation();
     const offset = useRef(new Animated.Value(0)).current;
-    //socialCircle.sort(item => item.rally === interest).reverse()
-    const scrollDistance = status === "Rallying" ? 280 : 215;
+    const scrollDistance = status === "Rallying" ? 339 : 215;
 
     const animatedHeight = offset.interpolate({
+        inputRange: [ 0, scrollDistance ],
+        outputRange: [ 0 + 135, -scrollDistance + 135 ],
+        extrapolate: 'clamp'
+    });
+
+    const animatedBorder = offset.interpolate({
         inputRange: [ 0, scrollDistance],
-        outputRange: [ 0 + 135, -scrollDistance + 135],
+        outputRange: [ 0, 1 ],
         extrapolate: 'clamp'
     });
 
@@ -42,26 +47,30 @@ const SocialScreen = ({ status, interest, accent, prompt, type, socialCircle, up
                 transform: [{translateY: animatedHeight}],
                 left: 0,
                 right: 0,
-                zIndex: 10,
+                zIndex: 1,
                 marginHorizontal: 16,
                 backgroundColor: colors.background,
+                borderBottomColor: colors.background,
+                borderBottomWidth: 0.5
             }}>
                 <Text 
                     style={[styles.titleStyle, {color: colors.text}]}>
                     {status}
                 </Text>
+                <Text 
+                    h5 style={[styles.subtitleStyle, {marginBottom: 24}]}>
+                    {status !== "Browsing"
+                        ?   'Broadcasting your social interests.'
+                        :   'What your social circle is interested in.'
+                    }
+                </Text>
                 {status !== "Browsing"
-                    ?   <>
+                    ?   <View style={{display: 'flex', flexDirection: 'column', height: 176, justifyContent: 'space-between'}}>
                             <RallyButton 
-                                text="My Interest"
+                                text="Your interest"
                                 secondaryText={interest || "None"}
-                                action={() => navigation.navigate('Rally')}
-                            />
-                            <RallyButton 
-                                text="Prompt"
-                                secondaryText={prompt || "None"}
                                 action={() => navigation.navigate('Rally', { 
-                                    screen: 'Preferences', 
+                                    screen: 'Manage', 
                                     params: { 
                                         interest, 
                                         accent, 
@@ -71,28 +80,42 @@ const SocialScreen = ({ status, interest, accent, prompt, type, socialCircle, up
                                 })}
                             />
                             <RallyButton 
-                                text="Discoverable"
+                                text="Visible to"
                                 secondaryText={type || "All friends"}
                                 action={() => navigation.navigate('Rally', { 
-                                    screen: 'Preferences', 
+                                    screen: 'Audience', 
                                     params: { 
                                         interest, 
                                         accent, 
                                         prompt, 
-                                        type 
-                                    }})}
+                                        type, 
+                                        squad: squad.filter(item => item.type === interest)[0]
+                                    }
+                                })}
                             />
-                        </>
+                            <RallyButton 
+                                text="Prompt"
+                                secondaryText={prompt || "None"}
+                                action={() => navigation.navigate('Rally', { 
+                                    screen: 'Audience', 
+                                    params: { 
+                                        interest, 
+                                        accent, 
+                                        prompt, 
+                                        type,
+                                        squad: squad.filter(item => item.type === interest)[0] 
+                                    }
+                                })}
+                            />
+                        </View>
                     :   <>
-                            <Text 
-                                h5 style={styles.subtitleStyle}>
-                                What your social circle is interested in.
-                            </Text>
                             <Button 
-                                title="Join a Rally"
-                                onPress={() => navigation.navigate('Rally')}
+                                title="Share your interests"
+                                onPress={() => navigation.navigate('Rally', { 
+                                    screen: 'Interest'
+                                })}
                                 titleStyle={{ color: colors.text}}
-                                buttonStyle={[styles.buttonStyle, { borderColor: colors.border, backgroundColor: colors.background}]}
+                                buttonStyle={[styles.buttonStyle, { borderColor: colors.border, backgroundColor: colors.card}]}
                             /> 
                         </>
                 }
@@ -101,10 +124,10 @@ const SocialScreen = ({ status, interest, accent, prompt, type, socialCircle, up
             <Animated.FlatList
                 data={socialCircle}
                 keyExtractor={(item, index) => item + index}
-                contentContainerStyle={{paddingTop: status === "Rallying" ? 335 : 265, paddingBottom: status === "Rallying" ? 80 : 120}}
+                contentContainerStyle={{paddingTop: status === "Rallying" ? 392 : 268, paddingBottom: status === "Rallying" ? 90 : 120}}
                 scrollEnabled={true}
                 decelerationRate="fast"
-                snapToOffsets={status === "Rallying" ? [0, 280] : [0, 215]}
+                snapToOffsets={status === "Rallying" ? [0, 339] : [0, 215]}
                 scrollEventThrottle={16}
                 renderItem={({item, index}) => {
                     return (
@@ -117,7 +140,8 @@ const SocialScreen = ({ status, interest, accent, prompt, type, socialCircle, up
                 }}
                 onScroll={Animated.event(
                     [{ nativeEvent: { contentOffset: { y: offset } } }],
-                    { useNativeDriver: true }
+                    { useNativeDriver: true },
+                    {listener: (event) => console.log(event)}
                 )}
             />
         </Screen>
@@ -176,7 +200,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         justifyContent: 'space-around',
         borderWidth: 1,
-        marginTop: 20
+        //marginTop: 20
     },
     floatingButtonStyle: {
         position: "absolute",
@@ -225,7 +249,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const mapStateToProps = ({ rally, authentication, social }) => {
+const mapStateToProps = ({ rally, authentication, social, squads }) => {
     return { 
         status: rally.status,
         interest: rally.interest, 
@@ -236,10 +260,56 @@ const mapStateToProps = ({ rally, authentication, social }) => {
         accentTint: rally.accentTint  ,
         user: authentication.user,
         socialCircle: social.socialCircle,
+        squad: squads.squadList
     };
 }
 
 export default connect(mapStateToProps, { updateSocialCircle })(SocialScreen);
+
+/*
+                            <RallyButton 
+                                text="My Interest"
+                                secondaryText={interest || "None"}
+                                action={() => navigation.navigate('Rally', { 
+                                    screen: 'Manage', 
+                                    params: { 
+                                        interest, 
+                                        accent, 
+                                        prompt, 
+                                        type 
+                                    }
+                                })}
+                            />
+                            <RallyButton 
+                                text="Prompt"
+                                secondaryText={prompt || "None"}
+                                action={() => navigation.navigate('Rally', { 
+                                    screen: 'Audience', 
+                                    params: { 
+                                        interest, 
+                                        accent, 
+                                        prompt, 
+                                        type,
+                                        squad: squad.filter(item => item.type === interest)[0] 
+                                    }
+                                })}
+                            />
+                            <RallyButton 
+                                text="Discoverable"
+                                secondaryText={type || "All friends"}
+                                action={() => navigation.navigate('Rally', { 
+                                    screen: 'Audience', 
+                                    params: { 
+                                        interest, 
+                                        accent, 
+                                        prompt, 
+                                        type, 
+                                        squad: squad.filter(item => item.type === interest)[0]
+                                    }
+                                })}
+                            />
+
+*/
 
 /*
 import React, { useState, useEffect, useRef } from 'react';

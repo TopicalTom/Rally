@@ -2,7 +2,7 @@ import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 // Screens
-import MessagesScreen from '../screens/MessagesScreen';
+import MessagesScreen from '../screens/ChatsScreen';
 import UpdatesScreen from '../screens/UpdatesScreen';
 
 const Tab = createBottomTabNavigator();
@@ -13,7 +13,8 @@ const InboxRouter = () => {
             initialRouteName="Messages"
             tabBarOptions={{
                 showLabel: false,
-                tabBarVisible: false
+                tabBarVisible: false,
+                headerShown: true,
               }}>
             <Tab.Screen 
                 name="Messages" 

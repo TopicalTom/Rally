@@ -5,7 +5,7 @@ export const LightTheme = {
         background: '#FFFFFF',
         card: '#F2F2F2',
         overlay: '#151515',
-        text: '#131313',
+        text: '#0B0B0D',
         altText: 'rgba(255,255,255,0.8)',
         secondaryText: '#999999',
         border: '#E1E1E1',

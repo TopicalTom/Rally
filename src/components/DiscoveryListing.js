@@ -5,7 +5,7 @@ import { useTheme } from '@react-navigation/native';
 
 // Components
 import AudienceIndicator from './AudienceIndicator';
-import RadioButton from './RadioButton';
+import Radio from './Radio';
 
 const DiscoveryListing = ({ title, subtitle, audience, type, selected, accent, onSelect }) => {
     const { colors } = useTheme();
@@ -25,7 +25,7 @@ const DiscoveryListing = ({ title, subtitle, audience, type, selected, accent, o
                     </ListItem.Subtitle>
                     {audience && <AudienceIndicator audience={audience} />}
                 </ListItem.Content> 
-                <RadioButton selected={selected} accent={accent} />
+                <Radio selected={selected} accent={accent} />
             </ListItem>
             <Divider style={{ backgroundColor: colors.card, marginHorizontal: 16 }} />
         </>

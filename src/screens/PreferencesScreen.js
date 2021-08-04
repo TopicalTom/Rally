@@ -66,6 +66,10 @@ const PreferencesScreen = ({ route, friendsList, startRallying, generateAudience
         }, 500);
     };
 
+    useEffect(() => {
+        handleGeneralSelection('All friends', friendsList);
+    }, []);
+
     return (
         <ScrollView style={[styles.container, {backgroundColor: colors.background}]}>
             <View style={{marginBottom: 64, paddingHorizontal: 16}}>

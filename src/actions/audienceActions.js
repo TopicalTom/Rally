@@ -1,30 +1,32 @@
 import { 
     REMOVE_MEMBER,
     ADD_MEMBER,
-    GENERATE_AUDIENCE_KEYS,
-    CREATE_AUDIENCE,
-    CLEAR_AUDIENCE
+    GENERATE_FRIEND_KEYS,
+    GENERATE_SQUAD_KEYS,
+    CLEAR_CUSTOM_LIST
 } from './types';
 
-export const generateAudienceKeys = (type, audience, callback) => (dispatch) => {
+export const generateFriendKeys = (audience) => (dispatch) => {
     const audienceKeys = audience.map(item => item.uid);
     dispatch({
-        type: GENERATE_AUDIENCE_KEYS,
+        type: GENERATE_FRIEND_KEYS,
         payload: audienceKeys
     })
-    callback(type, audienceKeys);
+    //callback(type, audienceKeys);
 };
 
-export const createAudience = (audience) => (dispatch) => {
+export const generateSquadKeys = (audience) => (dispatch) => {
+    const audienceKeys = audience.map(item => item.uid);
     dispatch({
-        type: CREATE_AUDIENCE,
-        payload: audience
+        type: GENERATE_SQUAD_KEYS,
+        payload: audienceKeys
     })
+    //callback(type, audienceKeys);
 };
 
-export const clearAudience = () => (dispatch) => {
+export const clearCustomList = () => (dispatch) => {
     dispatch({
-        type: CLEAR_AUDIENCE
+        type: CLEAR_CUSTOM_LIST
     })
 };
 
@@ -41,3 +43,13 @@ export const addMember = (uniqueId) => (dispatch) => {
         payload: uniqueId
     })
 };
+
+/*
+export const createAudience = (audience) => (dispatch) => {
+    dispatch({
+        type: CREATE_AUDIENCE,
+        payload: audience
+    })
+};
+
+*/

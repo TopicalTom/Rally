@@ -49,7 +49,7 @@ export const startRallying = (interest, prompt, type, keys) => async (dispatch) 
             }
         })
     } catch (error) {
-        console.log('error broadcasting ', error.message)
+        console.log('Unable to Rally ', error.message)
     }
 };
 
@@ -71,6 +71,6 @@ export const stopRallying = () => async (dispatch) => {
         });
         dispatch({ type: STOP_RALLYING })
     } catch (error) {
-        console.log('error broadcasting ', error.message)
+        console.log('Unable to end Rally ', error.message)
     }
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Pressable } from 'react-native';
 import { Text, Icon } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 
@@ -13,13 +13,18 @@ const RallyCard = ({ title, caption, interest, accent, onPress, socialCircle }) 
     const { colors } = useTheme();
     const activity = socialCircle.filter(item => item.rally === title);
 
+    const desiredColor = (color) => title === interest ? accent : color;
+
     return (
-        <TouchableOpacity
+        <Pressable
             onPress={onPress}
-            style={[
-                styles.cardStyle, { 
-                backgroundColor: title === interest ? accent : colors.card,
-                borderColor: title === interest ? accent : colors.card
+            style={({ pressed }) => [styles.cardStyle, { 
+                backgroundColor: pressed
+                    ?   title === interest ? accent : colors.overlay
+                    :   title === interest ? accent : colors.overlay,
+                borderColor: pressed
+                    ?   title === interest ? accent : colors.overlay
+                    :   title === interest ? accent : colors.overlay
             }]}
         >
             <View style={styles.contentStyle}>
@@ -31,15 +36,8 @@ const RallyCard = ({ title, caption, interest, accent, onPress, socialCircle }) 
                 </Text>
                 <Interest activity={activity} selected={interest === title ? true : false} accent={accent} />
             </View>
-            <View style={styles.chevronStyle}>
-                <Icon 
-                    name="chevron-right"
-                    type="entypo"
-                    size={24}
-                    color={`#FFF`}
-                />
-            </View>
-        </TouchableOpacity>
+
+        </Pressable>
 
     );
 };
